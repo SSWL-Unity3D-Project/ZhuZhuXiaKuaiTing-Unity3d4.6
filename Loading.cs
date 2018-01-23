@@ -63,7 +63,7 @@ public class Loading : MonoBehaviour
 		}
 		//Invoke("OnClickBeginBt", UnityEngine.Random.Range(1f, 5f)); //test
 		m_Loading.SetActive(false);
-		pcvr.ShaCheBtLight = StartLightState.Mie;
+		//pcvr.ShaCheBtLight = StartLightState.Mie;
 
 		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
 		InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
@@ -166,11 +166,11 @@ public class Loading : MonoBehaviour
 			{
 				m_PressTimmer = 0.0f;
 			}
-			pcvr.StartBtLight = StartLightState.Shan;
+			//pcvr.StartBtLight = StartLightState.Shan;
 		}
 		else
 		{
-			pcvr.StartBtLight = StartLightState.Mie;
+			//pcvr.StartBtLight = StartLightState.Mie;
 			m_InserTimmer+=(Time.deltaTime / Time.timeScale);
 			m_IsBeginOk = false;
 			m_InsertTex.enabled = true;

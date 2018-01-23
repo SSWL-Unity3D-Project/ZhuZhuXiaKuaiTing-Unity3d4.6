@@ -402,7 +402,7 @@ public class PlayerController : MonoBehaviour
         m_StartForEfferct = m_ParameterForEfferct;
         PlayerMinSpeedVal = (float)ReadGameInfo.GetInstance().ReadPlayerMinSpeedVal();
 		Loading.m_HasBegin = false;
-		pcvr.ShaCheBtLight = StartLightState.Liang;
+		//pcvr.ShaCheBtLight = StartLightState.Liang;
 		pcvr.IsSlowLoopCom = false;
 		pcvr.CountFXZD = 0;
 		pcvr.CountQNZD = 0;
@@ -598,21 +598,21 @@ public class PlayerController : MonoBehaviour
 			if(SpeedObj > 105f && !m_IsFinished)
 			{
 				if (!m_IsHitshake) {
-					if (pcvr.m_IsOpneLeftQinang || pcvr.m_IsOpneRightQinang) {
-						pcvr.m_IsOpneForwardQinang = false;
-						pcvr.m_IsOpneBehindQinang = false;
-					}
-					else {
-						pcvr.m_IsOpneForwardQinang = true;
-						pcvr.m_IsOpneBehindQinang = false;
-					}
+					//if (pcvr.m_IsOpneLeftQinang || pcvr.m_IsOpneRightQinang) {
+					//	pcvr.m_IsOpneForwardQinang = false;
+					//	pcvr.m_IsOpneBehindQinang = false;
+					//}
+					//else {
+						//pcvr.m_IsOpneForwardQinang = true;
+						//pcvr.m_IsOpneBehindQinang = false;
+					//}
 				}
 			}
 			else
 			{
 				if (!m_IsHitshake) {
-					pcvr.m_IsOpneForwardQinang = false;
-					pcvr.m_IsOpneBehindQinang = false;
+					//pcvr.m_IsOpneForwardQinang = false;
+					//pcvr.m_IsOpneBehindQinang = false;
 				}
 			}
 			if(!m_BeijingAudio.isPlaying)
@@ -740,7 +740,7 @@ public class PlayerController : MonoBehaviour
 				m_PlayerAnimator.SetBool("IsTurnleft",true);
 			}
 			if (SpeedObj > 15f && !m_IsHitshake) {
-				pcvr.m_IsOpneRightQinang = true;
+				//pcvr.m_IsOpneRightQinang = true;
 			}
 		}
 		else
@@ -750,7 +750,7 @@ public class PlayerController : MonoBehaviour
 				m_PlayerAnimator.SetBool("IsTurnleft",false);
 			}
 			if (!m_IsHitshake) {
-				pcvr.m_IsOpneRightQinang = false;
+				//pcvr.m_IsOpneRightQinang = false;
 			}
 		}
 
@@ -761,7 +761,7 @@ public class PlayerController : MonoBehaviour
 				m_PlayerAnimator.SetBool("IsTurnRight",true);
 			}
 			if (SpeedObj > 15f && !m_IsHitshake) {
-				pcvr.m_IsOpneLeftQinang = true;
+				//pcvr.m_IsOpneLeftQinang = true;
 			}
 		}
 		else
@@ -771,7 +771,7 @@ public class PlayerController : MonoBehaviour
 				m_PlayerAnimator.SetBool("IsTurnRight",false);
 			}
 			if (!m_IsHitshake) {
-				pcvr.m_IsOpneLeftQinang = false;
+				//pcvr.m_IsOpneLeftQinang = false;
 			}
 		}
 		//if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
@@ -1029,8 +1029,8 @@ public class PlayerController : MonoBehaviour
 
 			//gzknu
 			if (!m_IsHitshake) {
-				pcvr.m_IsOpneForwardQinang = true;
-				pcvr.m_IsOpneBehindQinang = false;
+				//pcvr.m_IsOpneForwardQinang = true;
+				//pcvr.m_IsOpneBehindQinang = false;
 			}
 		}
 		OnNpcHitPlayer ();
@@ -1402,32 +1402,32 @@ public class PlayerController : MonoBehaviour
 				m_HitshakeTimmer+=Time.deltaTime;
 				if(m_HitshakeTimmer<m_HitshakeTimmerSet*0.25f || (m_HitshakeTimmer>=m_HitshakeTimmerSet*0.5f && m_HitshakeTimmer<m_HitshakeTimmerSet*0.75f))
 				{
-					pcvr.m_IsOpneForwardQinang = IsHitRock;
-					pcvr.m_IsOpneBehindQinang = IsHitRock;
-					pcvr.m_IsOpneLeftQinang = false;
-					pcvr.m_IsOpneRightQinang = true;
+					//pcvr.m_IsOpneForwardQinang = IsHitRock;
+					//pcvr.m_IsOpneBehindQinang = IsHitRock;
+					//pcvr.m_IsOpneLeftQinang = false;
+					//pcvr.m_IsOpneRightQinang = true;
 				}
 				else if((m_HitshakeTimmer>=m_HitshakeTimmerSet*0.25f &&m_HitshakeTimmer<m_HitshakeTimmerSet*0.5f) || m_HitshakeTimmer>=m_HitshakeTimmerSet*0.75f)
 				{
-					pcvr.m_IsOpneForwardQinang = IsHitRock;
-					pcvr.m_IsOpneBehindQinang = IsHitRock;
-					pcvr.m_IsOpneLeftQinang = true;
-					pcvr.m_IsOpneRightQinang = false;
+					//pcvr.m_IsOpneForwardQinang = IsHitRock;
+					//pcvr.m_IsOpneBehindQinang = IsHitRock;
+					//pcvr.m_IsOpneLeftQinang = true;
+					//pcvr.m_IsOpneRightQinang = false;
 				}
 			}
 			else
 			{
 				TimeHitRock+=Time.deltaTime;
-				pcvr.m_IsOpneLeftQinang = false;
-				pcvr.m_IsOpneRightQinang = false;
+				//pcvr.m_IsOpneLeftQinang = false;
+				//pcvr.m_IsOpneRightQinang = false;
 				if (TimeHitRock >= 2f) {
 					pcvr.CountQNZD++;
 					TimeHitRock = 0f;
 					m_HitshakeTimmer = 0.0f;
 					m_IsHitshake = false;
 					IsHitRock = false;
-					pcvr.m_IsOpneForwardQinang = false;
-					pcvr.m_IsOpneBehindQinang = false;
+					//pcvr.m_IsOpneForwardQinang = false;
+					//pcvr.m_IsOpneBehindQinang = false;
 //					pcvr.m_IsOpneLeftQinang = false;
 //					pcvr.m_IsOpneRightQinang = false;
 				}

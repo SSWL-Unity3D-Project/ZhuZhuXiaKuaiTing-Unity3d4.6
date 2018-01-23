@@ -36,8 +36,8 @@ public class HardWareTest : MonoBehaviour
 	void Update () 
 	{
 		TouBiLabel.text = GlobalData.CoinCur.ToString();
-		ShaCheLabel.text = pcvr.ShaCheCurPcvr.ToString();
-		YouMenLabel.text = pcvr.BikePowerCurPcvr.ToString();
+		//ShaCheLabel.text = pcvr.ShaCheCurPcvr.ToString();
+		//YouMenLabel.text = pcvr.BikePowerCurPcvr.ToString();
 		BeiYongYouMenLabel.text = pcvr.BikeBeiYongPowerCurPcvr.ToString();
 		FangXiangLabel.text = pcvr.SteerValCur.ToString();
 
@@ -93,55 +93,55 @@ public class HardWareTest : MonoBehaviour
 	}
 	public void OnClickForwardBt()
 	{
-		if(pcvr.m_IsOpneQinang3)
-		{
-			pcvr.m_IsOpneQinang3 = false;
-			m_Label[0].text = "OffQN3";
-		}
-		else
-		{
-			pcvr.m_IsOpneQinang3 = true;
-			m_Label[0].text = "OpenQN3";
-		}
+		//if(pcvr.m_IsOpneQinang3)
+		//{
+		//	pcvr.m_IsOpneQinang3 = false;
+		//	m_Label[0].text = "OffQN3";
+		//}
+		//else
+		//{
+		//	pcvr.m_IsOpneQinang3 = true;
+		//	m_Label[0].text = "OpenQN3";
+		//}
 	}
 	public void OnClickBehindBt()
 	{
-		if(pcvr.m_IsOpneQinang4)
-		{
-			pcvr.m_IsOpneQinang4 = false;
-			m_Label[1].text = "OffQN4";
-		}
-		else
-		{
-			pcvr.m_IsOpneQinang4 = true;
-			m_Label[1].text = "OpenQN4";
-		}
+		//if(pcvr.m_IsOpneQinang4)
+		//{
+		//	pcvr.m_IsOpneQinang4 = false;
+		//	m_Label[1].text = "OffQN4";
+		//}
+		//else
+		//{
+		//	pcvr.m_IsOpneQinang4 = true;
+		//	m_Label[1].text = "OpenQN4";
+		//}
 	}
 	public void OnClickLeftBt()
 	{
-		if(pcvr.m_IsOpneQinang1)
-		{
-			pcvr.m_IsOpneQinang1 = false;
-			m_Label[2].text = "OffQN1";
-		}
-		else
-		{
-			pcvr.m_IsOpneQinang1 = true;
-			m_Label[2].text = "OpenQN1";
-		}
+		//if(pcvr.m_IsOpneQinang1)
+		//{
+		//	pcvr.m_IsOpneQinang1 = false;
+		//	m_Label[2].text = "OffQN1";
+		//}
+		//else
+		//{
+		//	pcvr.m_IsOpneQinang1 = true;
+		//	m_Label[2].text = "OpenQN1";
+		//}
 	}
 	public void OnClickRightBt()
 	{
-		if(pcvr.m_IsOpneQinang2)
-		{
-			pcvr.m_IsOpneQinang2 = false;
-			m_Label[3].text = "OffQN2";
-		}
-		else
-		{
-			pcvr.m_IsOpneQinang2 = true;
-			m_Label[3].text = "OpenQN2";
-		}
+		//if(pcvr.m_IsOpneQinang2)
+		//{
+		//	pcvr.m_IsOpneQinang2 = false;
+		//	m_Label[3].text = "OffQN2";
+		//}
+		//else
+		//{
+		//	//pcvr.m_IsOpneQinang2 = true;
+		//	m_Label[3].text = "OpenQN2";
+		//}
 	}
 	public void OnClickSubCoinBt()
 	{
@@ -155,17 +155,17 @@ public class HardWareTest : MonoBehaviour
 		switch (ShaCheCount) {
 		case 0:
 			ShaCheDengLabel.text = "刹车灯灭";
-			pcvr.ShaCheBtLight = StartLightState.Mie;
+			//pcvr.ShaCheBtLight = StartLightState.Mie;
 			break;
 
 		case 1:
 			ShaCheDengLabel.text = "刹车灯半亮";
-			pcvr.ShaCheBtLight = StartLightState.Shan;
+			//pcvr.ShaCheBtLight = StartLightState.Shan;
 			break;
 			
 		case 2:
 			ShaCheDengLabel.text = "刹车灯全亮";
-			pcvr.ShaCheBtLight = StartLightState.Liang;
+			//pcvr.ShaCheBtLight = StartLightState.Liang;
 			ShaCheCount = -1;
 			break;
 		}
@@ -226,28 +226,28 @@ public class HardWareTest : MonoBehaviour
 				m_HitshakeTimmer+=Time.deltaTime;
 				if(m_HitshakeTimmer<m_HitshakeTimmerSet*0.25f || (m_HitshakeTimmer>=m_HitshakeTimmerSet*0.5f && m_HitshakeTimmer<m_HitshakeTimmerSet*0.75f))
 				{
-					pcvr.m_IsOpneForwardQinang = false;
-					pcvr.m_IsOpneBehindQinang = false;
-					pcvr.m_IsOpneLeftQinang = false;
-					pcvr.m_IsOpneRightQinang = true;
+					//pcvr.m_IsOpneForwardQinang = false;
+					//pcvr.m_IsOpneBehindQinang = false;
+					//pcvr.m_IsOpneLeftQinang = false;
+					//pcvr.m_IsOpneRightQinang = true;
 				}
 				else if((m_HitshakeTimmer>=m_HitshakeTimmerSet*0.25f &&m_HitshakeTimmer<m_HitshakeTimmerSet*0.5f) || m_HitshakeTimmer>=m_HitshakeTimmerSet*0.75f)
 				{
-					pcvr.m_IsOpneForwardQinang = false;
-					pcvr.m_IsOpneBehindQinang = false;
-					pcvr.m_IsOpneLeftQinang = true;
-					pcvr.m_IsOpneRightQinang = false;
+					//pcvr.m_IsOpneForwardQinang = false;
+					//pcvr.m_IsOpneBehindQinang = false;
+					//pcvr.m_IsOpneLeftQinang = true;
+					//pcvr.m_IsOpneRightQinang = false;
 				}
 			}
 			else
 			{
 				m_HitshakeTimmer = 0.0f;
-				m_IsHitshake = false;
-				pcvr.m_IsOpneForwardQinang = false;
-				pcvr.m_IsOpneBehindQinang = false;
-				pcvr.m_IsOpneLeftQinang = false;
-				pcvr.m_IsOpneRightQinang = false;
-			}
+                m_IsHitshake = false;
+                //pcvr.m_IsOpneForwardQinang = false;
+                //pcvr.m_IsOpneBehindQinang = false;
+                //pcvr.m_IsOpneLeftQinang = false;
+                //pcvr.m_IsOpneRightQinang = false;
+            }
 		}
 	}
 
@@ -260,17 +260,17 @@ public class HardWareTest : MonoBehaviour
 		switch (LightStart) {
 		case 1:
 			StartLightLabel.text = "开始灯亮";
-			pcvr.StartBtLight = StartLightState.Liang;
+			//pcvr.StartBtLight = StartLightState.Liang;
 			break;
 
 		case 2:
 			StartLightLabel.text = "开始灯闪";
-			pcvr.StartBtLight = StartLightState.Shan;
+			//pcvr.StartBtLight = StartLightState.Shan;
 			break;
 
 		case 3:
 			StartLightLabel.text = "开始灯灭";
-			pcvr.StartBtLight = StartLightState.Mie;
+			//pcvr.StartBtLight = StartLightState.Mie;
 			LightStart = 1;
 			break;
 		}
@@ -304,17 +304,17 @@ public class HardWareTest : MonoBehaviour
 		switch (LightDongGan) {
 		case 1:
 			DongGanLightLabel.text = "动感灯亮";
-			pcvr.DongGanBtLight = StartLightState.Liang;
+			//pcvr.DongGanBtLight = StartLightState.Liang;
 			break;
 			
 		case 2:
 			DongGanLightLabel.text = "动感灯闪";
-			pcvr.DongGanBtLight = StartLightState.Shan;
+			//pcvr.DongGanBtLight = StartLightState.Shan;
 			break;
 			
 		case 3:
 			DongGanLightLabel.text = "动感灯灭";
-			pcvr.DongGanBtLight = StartLightState.Mie;
+			//pcvr.DongGanBtLight = StartLightState.Mie;
 			LightDongGan = 1;
 			break;
 		}

@@ -26,7 +26,7 @@ public class InputEventCtrl : MonoBehaviour {
 		if(ClickStartBtOneEvent != null)
 		{
 			ClickStartBtOneEvent( val );
-			pcvr.StartBtLight = StartLightState.Mie;
+			//pcvr.StartBtLight = StartLightState.Mie;
 		}
 		pcvr.SetIsPlayerActivePcvr();
 	}
