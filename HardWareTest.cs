@@ -26,9 +26,9 @@ public class HardWareTest : MonoBehaviour
 		AnJianLabel.text = "";
 		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
 		InputEventCtrl.GetInstance().ClickSetMoveBtEvent += ClickSetMoveBtEvent;
-		InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
+		//InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
 		InputEventCtrl.GetInstance().ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
-		InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
+		//InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
 		pcvr.GetInstance();
 		pcvr.CloseFangXiangPanPower();
 	}
@@ -38,12 +38,12 @@ public class HardWareTest : MonoBehaviour
 		TouBiLabel.text = GlobalData.CoinCur.ToString();
 		//ShaCheLabel.text = pcvr.ShaCheCurPcvr.ToString();
 		//YouMenLabel.text = pcvr.BikePowerCurPcvr.ToString();
-		BeiYongYouMenLabel.text = pcvr.BikeBeiYongPowerCurPcvr.ToString();
+		//BeiYongYouMenLabel.text = pcvr.BikeBeiYongPowerCurPcvr.ToString();
 		FangXiangLabel.text = pcvr.SteerValCur.ToString();
 
-		m_HitTimmerSet.text = ((float)(Convert.ToDouble(m_HitTimmerValue.value)*5.0f)).ToString();
-		m_FallTimmerSet.text = ((float)(Convert.ToDouble(m_FallTimmerValue.value)*5.0f)).ToString();
-		m_HitshakeTimmerSet = (float)(Convert.ToDouble(m_HitTimmerSet.text));
+		//m_HitTimmerSet.text = ((float)(Convert.ToDouble(m_HitTimmerValue.value)*5.0f)).ToString();
+		//m_FallTimmerSet.text = ((float)(Convert.ToDouble(m_FallTimmerValue.value)*5.0f)).ToString();
+		//m_HitshakeTimmerSet = (float)(Convert.ToDouble(m_HitTimmerSet.text));
 		OnShakeHit();
 	}
 	void ClickSetEnterBtEvent(ButtonState val)
@@ -73,15 +73,15 @@ public class HardWareTest : MonoBehaviour
 			AnJianLabel.text = "SetMove Up";
 		}
 	}
-	void ClickStartBtOneEvent(ButtonState val)
-	{
-		if (val == ButtonState.DOWN) {
-			AnJianLabel.text = "StartBt Down";
-		}
-		else {
-			AnJianLabel.text = "StartBt Up";
-		}
-	}
+	//void ClickStartBtOneEvent(ButtonState val)
+	//{
+	//	if (val == ButtonState.DOWN) {
+	//		AnJianLabel.text = "StartBt Down";
+	//	}
+	//	else {
+	//		AnJianLabel.text = "StartBt Up";
+	//	}
+	//}
 	void ClickCloseDongGanBtEvent(ButtonState val)
 	{
 		if (val == ButtonState.DOWN) {
@@ -91,8 +91,8 @@ public class HardWareTest : MonoBehaviour
 			AnJianLabel.text = "DongGanBt Up";
 		}
 	}
-	public void OnClickForwardBt()
-	{
+	//public void OnClickForwardBt()
+	//{
 		//if(pcvr.m_IsOpneQinang3)
 		//{
 		//	pcvr.m_IsOpneQinang3 = false;
@@ -103,9 +103,9 @@ public class HardWareTest : MonoBehaviour
 		//	pcvr.m_IsOpneQinang3 = true;
 		//	m_Label[0].text = "OpenQN3";
 		//}
-	}
-	public void OnClickBehindBt()
-	{
+	//}
+	//public void OnClickBehindBt()
+	//{
 		//if(pcvr.m_IsOpneQinang4)
 		//{
 		//	pcvr.m_IsOpneQinang4 = false;
@@ -116,9 +116,9 @@ public class HardWareTest : MonoBehaviour
 		//	pcvr.m_IsOpneQinang4 = true;
 		//	m_Label[1].text = "OpenQN4";
 		//}
-	}
-	public void OnClickLeftBt()
-	{
+	//}
+	//public void OnClickLeftBt()
+	//{
 		//if(pcvr.m_IsOpneQinang1)
 		//{
 		//	pcvr.m_IsOpneQinang1 = false;
@@ -129,9 +129,9 @@ public class HardWareTest : MonoBehaviour
 		//	pcvr.m_IsOpneQinang1 = true;
 		//	m_Label[2].text = "OpenQN1";
 		//}
-	}
-	public void OnClickRightBt()
-	{
+	//}
+	//public void OnClickRightBt()
+	//{
 		//if(pcvr.m_IsOpneQinang2)
 		//{
 		//	pcvr.m_IsOpneQinang2 = false;
@@ -142,34 +142,34 @@ public class HardWareTest : MonoBehaviour
 		//	//pcvr.m_IsOpneQinang2 = true;
 		//	m_Label[3].text = "OpenQN2";
 		//}
-	}
+	//}
 	public void OnClickSubCoinBt()
 	{
 		pcvr.GetInstance().SubPlayerCoin(1);
 	}
-	public UILabel ShaCheDengLabel;
-	int ShaCheCount;
-	public void OnClickShaCheLightBt()
-	{
-		ShaCheCount++;
-		switch (ShaCheCount) {
-		case 0:
-			ShaCheDengLabel.text = "刹车灯灭";
-			//pcvr.ShaCheBtLight = StartLightState.Mie;
-			break;
+	//public UILabel ShaCheDengLabel;
+	//int ShaCheCount;
+	//public void OnClickShaCheLightBt()
+	//{
+	//	ShaCheCount++;
+	//	switch (ShaCheCount) {
+	//	case 0:
+	//		ShaCheDengLabel.text = "刹车灯灭";
+	//		//pcvr.ShaCheBtLight = StartLightState.Mie;
+	//		break;
 
-		case 1:
-			ShaCheDengLabel.text = "刹车灯半亮";
-			//pcvr.ShaCheBtLight = StartLightState.Shan;
-			break;
+	//	case 1:
+	//		ShaCheDengLabel.text = "刹车灯半亮";
+	//		//pcvr.ShaCheBtLight = StartLightState.Shan;
+	//		break;
 			
-		case 2:
-			ShaCheDengLabel.text = "刹车灯全亮";
-			//pcvr.ShaCheBtLight = StartLightState.Liang;
-			ShaCheCount = -1;
-			break;
-		}
-	}
+	//	case 2:
+	//		ShaCheDengLabel.text = "刹车灯全亮";
+	//		//pcvr.ShaCheBtLight = StartLightState.Liang;
+	//		ShaCheCount = -1;
+	//		break;
+	//	}
+	//}
 	public void OnClickCloseAppBt()
 	{
 		Application.Quit();

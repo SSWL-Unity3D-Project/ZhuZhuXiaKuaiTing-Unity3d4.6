@@ -1319,7 +1319,7 @@ public class pcvr : MonoBehaviour
 		//}
 	}
 
-	public static uint BikeBeiYongPowerCurPcvr;
+	//public static uint BikeBeiYongPowerCurPcvr;
 	void KeyProcess(byte []buffer)
 	{
 		if (!MyCOMDevice.IsFindDeviceDt) {
