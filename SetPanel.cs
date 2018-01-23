@@ -114,9 +114,9 @@ public class SetPanel : MonoBehaviour
 			FangXiangInfoLabel.text = pcvr.SteerValCur.ToString();
 
 			if (!IsInitJiaoZhunPcvr) {
-				if (pcvr.mGetPower > pcvr.YouMemnMinVal) {				
-					YouMenInfoLabel.text += ", Throttle Response";
-				}
+				//if (pcvr.mGetPower > pcvr.YouMemnMinVal) {				
+				//	YouMenInfoLabel.text += ", Throttle Response";
+				//}
 
 				float offsetSteer = 0.05f;
 				if (pcvr.mGetSteer < -offsetSteer) {

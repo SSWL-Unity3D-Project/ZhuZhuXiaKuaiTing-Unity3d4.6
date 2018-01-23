@@ -986,9 +986,10 @@ public class PlayerController : MonoBehaviour
 	{
 		//if(throttle > 0f && SpeedObj <= m_pTopSpeed && !m_IsPubu) {
 		if(SpeedObj <= m_pTopSpeed && !m_IsPubu) {
-			float speedVal = (m_pTopSpeed * throttle);
-			float tmp = (m_pTopSpeed - PlayerMinSpeedVal) / (1f - pcvr.YouMemnMinVal);
-			speedVal = m_pTopSpeed - (1f - throttle) * tmp;
+			//float speedVal = (m_pTopSpeed * throttle);
+			float speedVal = m_pTopSpeed;
+			//float tmp = (m_pTopSpeed - PlayerMinSpeedVal) / (1f - pcvr.YouMemnMinVal);
+			//speedVal = m_pTopSpeed - (1f - throttle) * tmp;
 			speedVal = speedVal < PlayerMinSpeedVal ? PlayerMinSpeedVal : speedVal;
             //			if (!pcvr.bIsHardWare) {
             //				speedVal = 80f; //test

@@ -121,15 +121,15 @@ public class pcvr : MonoBehaviour
 		CheckBikeDirLen();
 		
 		//YouMenInfo
-		mBikePowerMin = (uint)PlayerPrefs.GetInt("mBikePowerMin");
-		mBikePowerMax = (uint)PlayerPrefs.GetInt("mBikePowerMax");
-		BikePowerLen = mBikePowerMax < mBikePowerMin ? (mBikePowerMin - mBikePowerMax + 1) : (mBikePowerMax - mBikePowerMin + 1);
-		BikePowerLen = Math.Max(1, BikePowerLen);
+		//mBikePowerMin = (uint)PlayerPrefs.GetInt("mBikePowerMin");
+		//mBikePowerMax = (uint)PlayerPrefs.GetInt("mBikePowerMax");
+		//BikePowerLen = mBikePowerMax < mBikePowerMin ? (mBikePowerMin - mBikePowerMax + 1) : (mBikePowerMax - mBikePowerMin + 1);
+		//BikePowerLen = Math.Max(1, BikePowerLen);
 
-		mBikeShaCheMin = (uint)PlayerPrefs.GetInt("mBikeShaCheMin");
-		mBikeShaCheMax = (uint)PlayerPrefs.GetInt("mBikeShaCheMax");
-		BikeShaCheLen = mBikeShaCheMax < mBikeShaCheMin ? (mBikeShaCheMin - mBikeShaCheMax + 1) : (mBikeShaCheMax - mBikeShaCheMin + 1);
-		BikeShaCheLen = Math.Max(1, BikeShaCheLen);
+		//mBikeShaCheMin = (uint)PlayerPrefs.GetInt("mBikeShaCheMin");
+		//mBikeShaCheMax = (uint)PlayerPrefs.GetInt("mBikeShaCheMax");
+		//BikeShaCheLen = mBikeShaCheMax < mBikeShaCheMin ? (mBikeShaCheMin - mBikeShaCheMax + 1) : (mBikeShaCheMax - mBikeShaCheMin + 1);
+		//BikeShaCheLen = Math.Max(1, BikeShaCheLen);
 		
 		InitFangXiangPowerOpen();
 	}
@@ -140,7 +140,7 @@ public class pcvr : MonoBehaviour
 			IsHandleDirByKey = !IsHandleDirByKey;
 		}
 
-		GetPcvrPowerVal();
+		//GetPcvrPowerVal();
 		GetPcvrSteerVal();
 		//GetPcvrShaCheVal();
 		if (!bIsHardWare) {
@@ -201,38 +201,38 @@ public class pcvr : MonoBehaviour
 		buffer[MyCOMDevice.ComThreadClass.BufLenWrite - 2] = WriteEnd_1;
 		buffer[MyCOMDevice.ComThreadClass.BufLenWrite - 1] = WriteEnd_2;
 		
-		switch (StartBtLight) {
-		case StartLightState.Liang:
-			buffer[4] |= 0x40;
-			break;
+		//switch (StartBtLight) {
+		//case StartLightState.Liang:
+		//	buffer[4] |= 0x40;
+		//	break;
 			
-		case StartLightState.Shan:
-			buffer[4] |= 0x40;
-			break;
+		//case StartLightState.Shan:
+		//	buffer[4] |= 0x40;
+		//	break;
 			
-		case StartLightState.Mie:
-			buffer[4] &= 0xbf;
-			break;
-		}
+		//case StartLightState.Mie:
+		//	buffer[4] &= 0xbf;
+		//	break;
+		//}
 		
-		switch (ShaCheBtLight) {
-		case StartLightState.Liang:
-			buffer[7] = 0xaa;
-			break;
+		//switch (ShaCheBtLight) {
+		//case StartLightState.Liang:
+		//	buffer[7] = 0xaa;
+		//	break;
 			
-		case StartLightState.Shan:
-			buffer[7] = 0x55;
-			break;
+		//case StartLightState.Shan:
+		//	buffer[7] = 0x55;
+		//	break;
 			
-		case StartLightState.Mie:
-			buffer[7] = 0x00;
-			break;
-		}
+		//case StartLightState.Mie:
+		//	buffer[7] = 0x00;
+		//	break;
+		//}
 
-		if (TouBiInfoCtrl.IsCloseDongGan || TouBiInfoCtrl.IsCloseQiNang) {
-			buffer[4] <<= 4;
-		}
-		else {
+		//if (TouBiInfoCtrl.IsCloseDongGan || TouBiInfoCtrl.IsCloseQiNang) {
+		//	buffer[4] <<= 4;
+		//}
+		//else {
 			/*
 0	气囊1：充气1、放气0	（快艇气囊1）		0x01	0xFE
 1	气囊2：充气1、放气0	（快艇气囊2）		0x02	0xFD
@@ -253,232 +253,232 @@ public class pcvr : MonoBehaviour
 
              */
 
-#if SHI_ZI_QI_NANG
+//#if SHI_ZI_QI_NANG
 
-            if (!HardWareTest.IsTestHardWare || HardWareTest.m_IsHitshake)
-            {
-                if (SetPanel.IsOpenSetPanel)
-                {
-                    if (m_IsOpneForwardQinang)
-                    {
-                        buffer[4] |= 0x01;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xfe;
-                    }
+     //       if (!HardWareTest.IsTestHardWare || HardWareTest.m_IsHitshake)
+     //       {
+     //           if (SetPanel.IsOpenSetPanel)
+     //           {
+     //               if (m_IsOpneForwardQinang)
+     //               {
+     //                   buffer[4] |= 0x01;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xfe;
+     //               }
 
-					if (m_IsOpneRightQinang)
-					{
-						buffer[4] |= 0x02;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xfd;
-                    }
+					//if (m_IsOpneRightQinang)
+					//{
+					//	buffer[4] |= 0x02;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xfd;
+     //               }
 
-					if (m_IsOpneBehindQinang)
-                    {
-                        buffer[4] |= 0x04;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xfb;
-                    }
+					//if (m_IsOpneBehindQinang)
+     //               {
+     //                   buffer[4] |= 0x04;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xfb;
+     //               }
 
-					if (m_IsOpneLeftQinang)
-                    {
-                        buffer[4] |= 0x08;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xf7;
-                    }
+					//if (m_IsOpneLeftQinang)
+     //               {
+     //                   buffer[4] |= 0x08;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xf7;
+     //               }
 
-                }
-                else
-                {
-                    if (m_IsOpneForwardQinang)
-                    {
-                        buffer[4] |= 0x01;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xfe;
-                    }
+     //           }
+     //           else
+     //           {
+     //               if (m_IsOpneForwardQinang)
+     //               {
+     //                   buffer[4] |= 0x01;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xfe;
+     //               }
 
-					if (m_IsOpneRightQinang)
-					{
-						buffer[4] |= 0x02;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xfd;
-                    }
+					//if (m_IsOpneRightQinang)
+					//{
+					//	buffer[4] |= 0x02;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xfd;
+     //               }
 
-					if (m_IsOpneBehindQinang)
-                    {
-                        buffer[4] |= 0x04;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xfb;
-                    }
+					//if (m_IsOpneBehindQinang)
+     //               {
+     //                   buffer[4] |= 0x04;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xfb;
+     //               }
 
-					if (m_IsOpneLeftQinang)
-                    {
-                        buffer[4] |= 0x08;
-                    }
-                    else
-                    {
-                        buffer[4] &= 0xf7;
-                    }
-                }
-            }
-            else
-            {
-                if (m_IsOpneQinang1)
-                {
-                    buffer[4] |= 0x01;
-                }
-                else
-                {
-                    buffer[4] &= 0xfe;
-                }
+					//if (m_IsOpneLeftQinang)
+     //               {
+     //                   buffer[4] |= 0x08;
+     //               }
+     //               else
+     //               {
+     //                   buffer[4] &= 0xf7;
+     //               }
+     //           }
+     //       }
+     //       else
+     //       {
+     //           if (m_IsOpneQinang1)
+     //           {
+     //               buffer[4] |= 0x01;
+     //           }
+     //           else
+     //           {
+     //               buffer[4] &= 0xfe;
+     //           }
 
-                if (m_IsOpneQinang2)
-                {
-                    buffer[4] |= 0x02;
-                }
-                else
-                {
-                    buffer[4] &= 0xfd;
-                }
+     //           if (m_IsOpneQinang2)
+     //           {
+     //               buffer[4] |= 0x02;
+     //           }
+     //           else
+     //           {
+     //               buffer[4] &= 0xfd;
+     //           }
 
-                if (m_IsOpneQinang3)
-                {
-                    buffer[4] |= 0x04;
-                }
-                else
-                {
-                    buffer[4] &= 0xfb;
-                }
+     //           if (m_IsOpneQinang3)
+     //           {
+     //               buffer[4] |= 0x04;
+     //           }
+     //           else
+     //           {
+     //               buffer[4] &= 0xfb;
+     //           }
 
-                if (m_IsOpneQinang4)
-                {
-                    buffer[4] |= 0x08;
-                }
-                else
-                {
-                    buffer[4] &= 0xf7;
-                }
-            }
+     //           if (m_IsOpneQinang4)
+     //           {
+     //               buffer[4] |= 0x08;
+     //           }
+     //           else
+     //           {
+     //               buffer[4] &= 0xf7;
+     //           }
+     //       }
 
-#else
-            if (!HardWareTest.IsTestHardWare || HardWareTest.m_IsHitshake) {
-				if (SetPanel.IsOpenSetPanel) {
-					if (m_IsOpneForwardQinang) {
-						buffer[4] |=  0x01;
-					}
-					else {
-						buffer[4] &=  0xfe;
-					}
+//#else
+//            if (!HardWareTest.IsTestHardWare || HardWareTest.m_IsHitshake) {
+//				if (SetPanel.IsOpenSetPanel) {
+//					if (m_IsOpneForwardQinang) {
+//						buffer[4] |=  0x01;
+//					}
+//					else {
+//						buffer[4] &=  0xfe;
+//					}
 					
-					if (m_IsOpneBehindQinang) {
-						buffer[4] |=  0x02;
-					}
-					else {
-						buffer[4] &=  0xfd;
-					}
+//					if (m_IsOpneBehindQinang) {
+//						buffer[4] |=  0x02;
+//					}
+//					else {
+//						buffer[4] &=  0xfd;
+//					}
 					
-					if (m_IsOpneLeftQinang) {
-						buffer[4] |=  0x04;
-					}
-					else {
-						buffer[4] &=  0xfb;
-					}
+//					if (m_IsOpneLeftQinang) {
+//						buffer[4] |=  0x04;
+//					}
+//					else {
+//						buffer[4] &=  0xfb;
+//					}
 					
-					if (m_IsOpneRightQinang) {
-						buffer[4] |=  0x08;
-					}
-					else {
-						buffer[4] &=  0xf7;
-					}
-				}
-				else {
-					if (m_IsOpneForwardQinang) {
-						buffer[4] |=  0x01;
-						buffer[4] |=  0x02;
-					}
-					else {
-						buffer[4] &=  0xfe;
-						buffer[4] &=  0xfd;
-					}
+//					if (m_IsOpneRightQinang) {
+//						buffer[4] |=  0x08;
+//					}
+//					else {
+//						buffer[4] &=  0xf7;
+//					}
+//				}
+//				else {
+//					if (m_IsOpneForwardQinang) {
+//						buffer[4] |=  0x01;
+//						buffer[4] |=  0x02;
+//					}
+//					else {
+//						buffer[4] &=  0xfe;
+//						buffer[4] &=  0xfd;
+//					}
 					
-					if (m_IsOpneBehindQinang) {
-						buffer[4] |=  0x04;
-						buffer[4] |=  0x08;
-					}
-					else {
-						buffer[4] &=  0xfb;
-						buffer[4] &=  0xf7;
-					}
+//					if (m_IsOpneBehindQinang) {
+//						buffer[4] |=  0x04;
+//						buffer[4] |=  0x08;
+//					}
+//					else {
+//						buffer[4] &=  0xfb;
+//						buffer[4] &=  0xf7;
+//					}
 					
-					if (m_IsOpneLeftQinang) {
-						buffer[4] |=  0x01;
-						buffer[4] |=  0x08;
-					}
-					else {
-						if (!m_IsOpneForwardQinang) {
-							buffer[4] &=  0xfe;
-							buffer[4] &=  0xf7;
-						}
-					}
+//					if (m_IsOpneLeftQinang) {
+//						buffer[4] |=  0x01;
+//						buffer[4] |=  0x08;
+//					}
+//					else {
+//						if (!m_IsOpneForwardQinang) {
+//							buffer[4] &=  0xfe;
+//							buffer[4] &=  0xf7;
+//						}
+//					}
 					
-					if (m_IsOpneRightQinang) {
-						buffer[4] |=  0x02;
-						buffer[4] |=  0x04;
-					}
-					else {
-						if (!m_IsOpneForwardQinang) {
-							buffer[4] &=  0xfd;
-							buffer[4] &=  0xfb;
-						}
-					}
-				}
-			}
-			else {
+//					if (m_IsOpneRightQinang) {
+//						buffer[4] |=  0x02;
+//						buffer[4] |=  0x04;
+//					}
+//					else {
+//						if (!m_IsOpneForwardQinang) {
+//							buffer[4] &=  0xfd;
+//							buffer[4] &=  0xfb;
+//						}
+//					}
+//				}
+//			}
+//			else {
 				
-				if (m_IsOpneQinang1) {
-					buffer[4] |=  0x01;
-				}
-				else {
-					buffer[4] &=  0xfe;
-				}
+//				if (m_IsOpneQinang1) {
+//					buffer[4] |=  0x01;
+//				}
+//				else {
+//					buffer[4] &=  0xfe;
+//				}
 				
-				if (m_IsOpneQinang2) {
-					buffer[4] |=  0x02;
-				}
-				else {
-					buffer[4] &=  0xfd;
-				}
+//				if (m_IsOpneQinang2) {
+//					buffer[4] |=  0x02;
+//				}
+//				else {
+//					buffer[4] &=  0xfd;
+//				}
 				
-				if (m_IsOpneQinang3) {
-					buffer[4] |=  0x04;
-				}
-				else {
-					buffer[4] &=  0xfb;
-				}
+//				if (m_IsOpneQinang3) {
+//					buffer[4] |=  0x04;
+//				}
+//				else {
+//					buffer[4] &=  0xfb;
+//				}
 				
-				if (m_IsOpneQinang4) {
-					buffer[4] |=  0x08;
-				}
-				else {
-					buffer[4] &=  0xf7;
-				}
-			}
-#endif
-        }
+//				if (m_IsOpneQinang4) {
+//					buffer[4] |=  0x08;
+//				}
+//				else {
+//					buffer[4] &=  0xf7;
+//				}
+//			}
+//#endif
+        //}
 
 		if (IsZhenDongFangXiangPan) {
 			buffer[6] = 0x55;
@@ -925,109 +925,109 @@ public class pcvr : MonoBehaviour
 		//Debug.Log("*** mGetSteer "+mGetSteer+", SteerValMax "+SteerValMax+", SteerValMin "+SteerValMin+", bikeDirCur "+bikeDirCur);
 	}
 
-	static float TimePowerLast;
-	static float TimePowerMax = 3f;
-	static float PowerLastVal;
+	//static float TimePowerLast;
+	//static float TimePowerMax = 3f;
+	//static float PowerLastVal;
 	static bool IsAddSpeed;
-	public static void GetPcvrPowerVal()
-	{
-		//if (!bIsHardWare) {
-		if (!bIsHardWare || IsTestGame) {
-			float valVer = Input.GetAxis("Vertical");
-			float powerTmp = 0f;
-			if (valVer > 0f) {
-				if (!IsAddSpeed) {
-					IsAddSpeed = true;
-					TimePowerLast = Time.realtimeSinceStartup;
-				}
+	//public static void GetPcvrPowerVal()
+	//{
+	//	//if (!bIsHardWare) {
+	//	if (!bIsHardWare || IsTestGame) {
+	//		float valVer = Input.GetAxis("Vertical");
+	//		float powerTmp = 0f;
+	//		if (valVer > 0f) {
+	//			if (!IsAddSpeed) {
+	//				IsAddSpeed = true;
+	//				TimePowerLast = Time.realtimeSinceStartup;
+	//			}
 
-				if (Time.realtimeSinceStartup - TimePowerLast < TimePowerMax) {
-					powerTmp = (Time.realtimeSinceStartup - TimePowerLast) / TimePowerMax;
-				}
-				else {
-					powerTmp = 1f;
-				}
-			}
-			else {
-				if (IsAddSpeed) {
-					IsAddSpeed = false;
-					PowerLastVal = mGetPower;
-					TimePowerLast = Time.realtimeSinceStartup;
-				}
+	//			if (Time.realtimeSinceStartup - TimePowerLast < TimePowerMax) {
+	//				powerTmp = (Time.realtimeSinceStartup - TimePowerLast) / TimePowerMax;
+	//			}
+	//			else {
+	//				powerTmp = 1f;
+	//			}
+	//		}
+	//		else {
+	//			if (IsAddSpeed) {
+	//				IsAddSpeed = false;
+	//				PowerLastVal = mGetPower;
+	//				TimePowerLast = Time.realtimeSinceStartup;
+	//			}
 				
-				if (Time.realtimeSinceStartup - TimePowerLast < TimePowerMax && mGetPower > 0f) {
-					powerTmp = (Time.realtimeSinceStartup - TimePowerLast) / TimePowerMax;
-					powerTmp = PowerLastVal > powerTmp ? (PowerLastVal - powerTmp) : 0f;
-				}
-				else {
-					powerTmp = 0f;
-				}
-			}
-			powerTmp = powerTmp <= YouMemnMinVal ? 0f : powerTmp;
-			mGetPower = powerTmp;
-			return;
-		}
+	//			if (Time.realtimeSinceStartup - TimePowerLast < TimePowerMax && mGetPower > 0f) {
+	//				powerTmp = (Time.realtimeSinceStartup - TimePowerLast) / TimePowerMax;
+	//				powerTmp = PowerLastVal > powerTmp ? (PowerLastVal - powerTmp) : 0f;
+	//			}
+	//			else {
+	//				powerTmp = 0f;
+	//			}
+	//		}
+	//		powerTmp = powerTmp <= YouMemnMinVal ? 0f : powerTmp;
+	//		mGetPower = powerTmp;
+	//		return;
+	//	}
 
-		if (!MyCOMDevice.IsFindDeviceDt) {
-			return;
-		}
+	//	if (!MyCOMDevice.IsFindDeviceDt) {
+	//		return;
+	//	}
 
-		if (IsInitYouMenJiaoZhun) {
-			return;
-		}
+	//	if (IsInitYouMenJiaoZhun) {
+	//		return;
+	//	}
 
-		uint bikePowerCurValTmp = 0;
-		if (mBikePowerMin > mBikePowerMax) {
-			bikePowerCurValTmp = Math.Min(BikePowerCur, mBikePowerMin);
-			bikePowerCurValTmp = Math.Max(bikePowerCurValTmp, mBikePowerMax);
-		}
-		else {
-			bikePowerCurValTmp = Math.Max(BikePowerCur, mBikePowerMin);
-			bikePowerCurValTmp = Math.Min(bikePowerCurValTmp, mBikePowerMax);
-		}
+	//	uint bikePowerCurValTmp = 0;
+	//	if (mBikePowerMin > mBikePowerMax) {
+	//		bikePowerCurValTmp = Math.Min(BikePowerCur, mBikePowerMin);
+	//		bikePowerCurValTmp = Math.Max(bikePowerCurValTmp, mBikePowerMax);
+	//	}
+	//	else {
+	//		bikePowerCurValTmp = Math.Max(BikePowerCur, mBikePowerMin);
+	//		bikePowerCurValTmp = Math.Min(bikePowerCurValTmp, mBikePowerMax);
+	//	}
 		
-		uint bikePowerDis = mBikePowerMin > mBikePowerMax ? (mBikePowerMin - bikePowerCurValTmp) : (bikePowerCurValTmp - mBikePowerMin);
-		float valThrottleTmp = (float)bikePowerDis / BikePowerLen;
-		valThrottleTmp = valThrottleTmp <= YouMemnMinVal ? 0f : valThrottleTmp;
-		valThrottleTmp = valThrottleTmp > 1f ? 1f : valThrottleTmp;
-		mGetPower = valThrottleTmp;
+	//	uint bikePowerDis = mBikePowerMin > mBikePowerMax ? (mBikePowerMin - bikePowerCurValTmp) : (bikePowerCurValTmp - mBikePowerMin);
+	//	float valThrottleTmp = (float)bikePowerDis / BikePowerLen;
+	//	valThrottleTmp = valThrottleTmp <= YouMemnMinVal ? 0f : valThrottleTmp;
+	//	valThrottleTmp = valThrottleTmp > 1f ? 1f : valThrottleTmp;
+	//	mGetPower = valThrottleTmp;
 		
 //		if (IsTestGame) {
 //			mGetPower = 1f; //test
 //		}
-	}
-	public static float YouMemnMinVal = 0.1f;
+	//}
+	//public static float YouMemnMinVal = 0.1f;
 
-	public static void GetPcvrShaCheVal()
-	{
-		if (!bIsHardWare) {
-			return;
-		}
+	//public static void GetPcvrShaCheVal()
+	//{
+	//	if (!bIsHardWare) {
+	//		return;
+	//	}
 		
-		if (!MyCOMDevice.IsFindDeviceDt) {
-			return;
-		}
+	//	if (!MyCOMDevice.IsFindDeviceDt) {
+	//		return;
+	//	}
 		
-		if (IsInitShaCheJiaoZhun) {
-			return;
-		}
+	//	if (IsInitShaCheJiaoZhun) {
+	//		return;
+	//	}
 		
-		uint bikeShaCheCurValTmp = 0;
-		if (mBikeShaCheMin > mBikeShaCheMax) {
-			bikeShaCheCurValTmp = Math.Min(BikeShaCheCur, mBikeShaCheMin);
-			bikeShaCheCurValTmp = Math.Max(bikeShaCheCurValTmp, mBikeShaCheMax);
-		}
-		else {
-			bikeShaCheCurValTmp = Math.Max(BikeShaCheCur, mBikeShaCheMin);
-			bikeShaCheCurValTmp = Math.Min(bikeShaCheCurValTmp, mBikeShaCheMax);
-		}
+	//	uint bikeShaCheCurValTmp = 0;
+	//	if (mBikeShaCheMin > mBikeShaCheMax) {
+	//		bikeShaCheCurValTmp = Math.Min(BikeShaCheCur, mBikeShaCheMin);
+	//		bikeShaCheCurValTmp = Math.Max(bikeShaCheCurValTmp, mBikeShaCheMax);
+	//	}
+	//	else {
+	//		bikeShaCheCurValTmp = Math.Max(BikeShaCheCur, mBikeShaCheMin);
+	//		bikeShaCheCurValTmp = Math.Min(bikeShaCheCurValTmp, mBikeShaCheMax);
+	//	}
 		
-		uint bikeShaCheDis = mBikeShaCheMin > mBikeShaCheMax ? (mBikeShaCheMin - bikeShaCheCurValTmp) : (bikeShaCheCurValTmp - mBikeShaCheMin);
-		float valTmp = (float)bikeShaCheDis / BikeShaCheLen;
-		valTmp = valTmp <= 0.3f ? 0f : 1f;
-		if (IsTestGame) {
-			return; //test
-		}
+	//	uint bikeShaCheDis = mBikeShaCheMin > mBikeShaCheMax ? (mBikeShaCheMin - bikeShaCheCurValTmp) : (bikeShaCheCurValTmp - mBikeShaCheMin);
+	//	float valTmp = (float)bikeShaCheDis / BikeShaCheLen;
+	//	valTmp = valTmp <= 0.3f ? 0f : 1f;
+	//	if (IsTestGame) {
+	//		return; //test
+	//	}
 
 //		if (!IsActiveSheCheEvent && valTmp > 0.3f) {
 //			IsActiveSheCheEvent = true;
@@ -1037,7 +1037,7 @@ public class pcvr : MonoBehaviour
 //			IsActiveSheCheEvent = false;
 //			InputEventCtrl.GetInstance().ClickShaCheBt( ButtonState.UP );
 //		}
-	}
+	//}
 
 	public void SubPlayerCoin(int subNum)
 	{
@@ -1057,82 +1057,82 @@ public class pcvr : MonoBehaviour
 		}
 	}
 	
-	public void InitYouMenJiaoZhun()
-	{
-		if (IsInitYouMenJiaoZhun) {
-			return;
-		}
-		//ScreenLog.Log("pcvr -> InitYouMenJiaoZhun...");
-		mBikePowerMin = 999999;
-		mBikePowerMax = 0;
+	//public void InitYouMenJiaoZhun()
+	//{
+	//	if (IsInitYouMenJiaoZhun) {
+	//		return;
+	//	}
+	//	//ScreenLog.Log("pcvr -> InitYouMenJiaoZhun...");
+	//	mBikePowerMin = 999999;
+	//	mBikePowerMax = 0;
 		
-		IsJiaoZhunFireBt = false;
-		IsInitYouMenJiaoZhun = true;
-	}
+	//	IsJiaoZhunFireBt = false;
+	//	IsInitYouMenJiaoZhun = true;
+	//}
 	
-	void ResetYouMenJiaoZhun()
-	{
-		if (!IsInitYouMenJiaoZhun) {
-			return;
-		}
-		//ScreenLog.Log("pcvr -> ResetYouMenJiaoZhun...");
-		IsJiaoZhunFireBt = false;
-		IsInitYouMenJiaoZhun = false;
-		bIsJiaoYanBikeValue = false;
+	//void ResetYouMenJiaoZhun()
+	//{
+	//	if (!IsInitYouMenJiaoZhun) {
+	//		return;
+	//	}
+	//	//ScreenLog.Log("pcvr -> ResetYouMenJiaoZhun...");
+	//	IsJiaoZhunFireBt = false;
+	//	IsInitYouMenJiaoZhun = false;
+	//	bIsJiaoYanBikeValue = false;
 		
-		uint TmpVal = 0;
-		if (IsFanZhuangYouMen) {
-			TmpVal = mBikePowerMax;
-			mBikePowerMax = mBikePowerMin;
-			mBikePowerMin = TmpVal;
-			BikePowerLen = mBikePowerMin - mBikePowerMax + 1;
-			//ScreenLog.Log("YouMenFanZhuang -> mBikePowerMax = " + mBikePowerMax + ", mBikePowerMin = " + mBikePowerMin);
-		}
-		else {
-			BikePowerLen = mBikePowerMax - mBikePowerMin + 1;
-			//ScreenLog.Log("YouMenZhengZhuang -> mBikePowerMax = " + mBikePowerMax + ", mBikePowerMin = " + mBikePowerMin);
-		}
-		BikePowerLen = Math.Max(1, BikePowerLen);
+	//	uint TmpVal = 0;
+	//	if (IsFanZhuangYouMen) {
+	//		TmpVal = mBikePowerMax;
+	//		mBikePowerMax = mBikePowerMin;
+	//		mBikePowerMin = TmpVal;
+	//		BikePowerLen = mBikePowerMin - mBikePowerMax + 1;
+	//		//ScreenLog.Log("YouMenFanZhuang -> mBikePowerMax = " + mBikePowerMax + ", mBikePowerMin = " + mBikePowerMin);
+	//	}
+	//	else {
+	//		BikePowerLen = mBikePowerMax - mBikePowerMin + 1;
+	//		//ScreenLog.Log("YouMenZhengZhuang -> mBikePowerMax = " + mBikePowerMax + ", mBikePowerMin = " + mBikePowerMin);
+	//	}
+	//	BikePowerLen = Math.Max(1, BikePowerLen);
 
-		PlayerPrefs.SetInt("mBikePowerMax", (int)mBikePowerMax);
-		PlayerPrefs.SetInt("mBikePowerMin", (int)mBikePowerMin);
-	}
+	//	PlayerPrefs.SetInt("mBikePowerMax", (int)mBikePowerMax);
+	//	PlayerPrefs.SetInt("mBikePowerMin", (int)mBikePowerMin);
+	//}
 
-	public void InitShaCheJiaoZhun()
-	{
-		if (IsInitShaCheJiaoZhun) {
-			return;
-		}
-		mBikeShaCheMin = 999999;
-		mBikeShaCheMax = 0;
-		IsJiaoZhunFireBt = false;
-		IsInitShaCheJiaoZhun = true;
-	}
+	//public void InitShaCheJiaoZhun()
+	//{
+	//	if (IsInitShaCheJiaoZhun) {
+	//		return;
+	//	}
+	//	mBikeShaCheMin = 999999;
+	//	mBikeShaCheMax = 0;
+	//	IsJiaoZhunFireBt = false;
+	//	IsInitShaCheJiaoZhun = true;
+	//}
 
-	void ResetShaCheJiaoZhun()
-	{
-		if (!IsInitShaCheJiaoZhun) {
-			return;
-		}
-		IsJiaoZhunFireBt = false;
-		IsInitShaCheJiaoZhun = false;
-		bIsJiaoYanBikeValue = false;
+	//void ResetShaCheJiaoZhun()
+	//{
+	//	if (!IsInitShaCheJiaoZhun) {
+	//		return;
+	//	}
+	//	IsJiaoZhunFireBt = false;
+	//	IsInitShaCheJiaoZhun = false;
+	//	bIsJiaoYanBikeValue = false;
 		
-		uint TmpVal = 0;
-		if (IsFanZhuangShaChe) {
-			TmpVal = mBikeShaCheMax;
-			mBikeShaCheMax = mBikeShaCheMin;
-			mBikeShaCheMin = TmpVal;
-			BikeShaCheLen = mBikeShaCheMin - mBikeShaCheMax + 1;
-		}
-		else {
-			BikeShaCheLen = mBikeShaCheMax - mBikeShaCheMin + 1;
-		}
-		BikeShaCheLen = Math.Max(1, BikeShaCheLen);
+	//	uint TmpVal = 0;
+	//	if (IsFanZhuangShaChe) {
+	//		TmpVal = mBikeShaCheMax;
+	//		mBikeShaCheMax = mBikeShaCheMin;
+	//		mBikeShaCheMin = TmpVal;
+	//		BikeShaCheLen = mBikeShaCheMin - mBikeShaCheMax + 1;
+	//	}
+	//	else {
+	//		BikeShaCheLen = mBikeShaCheMax - mBikeShaCheMin + 1;
+	//	}
+	//	BikeShaCheLen = Math.Max(1, BikeShaCheLen);
 
-		PlayerPrefs.SetInt("mBikeShaCheMax", (int)mBikeShaCheMax);
-		PlayerPrefs.SetInt("mBikeShaCheMin", (int)mBikeShaCheMin);
-	}
+	//	PlayerPrefs.SetInt("mBikeShaCheMax", (int)mBikeShaCheMax);
+	//	PlayerPrefs.SetInt("mBikeShaCheMin", (int)mBikeShaCheMin);
+	//}
 
 	public void InitFangXiangJiaoZhun()
 	{
@@ -1177,75 +1177,75 @@ public class pcvr : MonoBehaviour
 		PlayerPrefs.SetInt("mBikeDirMax", (int)SteerValMax);
 	}
 
-	void ShaCheJiaoZhun()
-	{
-		if (!IsInitShaCheJiaoZhun) {
-			return;
-		}
+	//void ShaCheJiaoZhun()
+	//{
+	//	if (!IsInitShaCheJiaoZhun) {
+	//		return;
+	//	}
 		
-		if (BikeShaCheCur < mBikeShaCheMin) {
-			mBikeShaCheMin = BikeShaCheCur;
-			PlayerPrefs.SetInt("mBikeShaCheMin", (int)mBikeShaCheMin);
-		}
+	//	if (BikeShaCheCur < mBikeShaCheMin) {
+	//		mBikeShaCheMin = BikeShaCheCur;
+	//		PlayerPrefs.SetInt("mBikeShaCheMin", (int)mBikeShaCheMin);
+	//	}
 		
-		if (BikeShaCheCur > mBikeShaCheMax) {
-			mBikeShaCheMax = BikeShaCheCur;
-			PlayerPrefs.SetInt("mBikeShaCheMax", (int)mBikeShaCheMax);
-		}
+	//	if (BikeShaCheCur > mBikeShaCheMax) {
+	//		mBikeShaCheMax = BikeShaCheCur;
+	//		PlayerPrefs.SetInt("mBikeShaCheMax", (int)mBikeShaCheMax);
+	//	}
 		
-		if (bPlayerStartKeyDown && !IsJiaoZhunFireBt) {
-			IsJiaoZhunFireBt = true;
-			uint dVal_0 = BikeShaCheCur - mBikeShaCheMin;
-			uint dVal_1 = mBikeShaCheMax - BikeShaCheCur;
-			if (dVal_0 > dVal_1) {
-				IsFanZhuangShaChe = false;
-			}
-			else if (dVal_0 < dVal_1) {
-				IsFanZhuangShaChe = true;
-			}
-			ResetShaCheJiaoZhun();
-		}
-		else if(!bPlayerStartKeyDown && IsJiaoZhunFireBt) {
-			IsJiaoZhunFireBt = false;
-		}
-	}
+	//	if (bPlayerStartKeyDown && !IsJiaoZhunFireBt) {
+	//		IsJiaoZhunFireBt = true;
+	//		uint dVal_0 = BikeShaCheCur - mBikeShaCheMin;
+	//		uint dVal_1 = mBikeShaCheMax - BikeShaCheCur;
+	//		if (dVal_0 > dVal_1) {
+	//			IsFanZhuangShaChe = false;
+	//		}
+	//		else if (dVal_0 < dVal_1) {
+	//			IsFanZhuangShaChe = true;
+	//		}
+	//		ResetShaCheJiaoZhun();
+	//	}
+	//	else if(!bPlayerStartKeyDown && IsJiaoZhunFireBt) {
+	//		IsJiaoZhunFireBt = false;
+	//	}
+	//}
 
-	void YouMenJiaoZhun()
-	{
-		if (!IsInitYouMenJiaoZhun) {
-			return;
-		}
+	//void YouMenJiaoZhun()
+	//{
+	//	if (!IsInitYouMenJiaoZhun) {
+	//		return;
+	//	}
 
-		if (BikePowerCur < mBikePowerMin) {
-			mBikePowerMin = BikePowerCur;
-			PlayerPrefs.SetInt("mBikePowerMin", (int)mBikePowerMin);
-		}
+	//	if (BikePowerCur < mBikePowerMin) {
+	//		mBikePowerMin = BikePowerCur;
+	//		PlayerPrefs.SetInt("mBikePowerMin", (int)mBikePowerMin);
+	//	}
 		
-		if (BikePowerCur > mBikePowerMax) {
-			mBikePowerMax = BikePowerCur;
-			PlayerPrefs.SetInt("mBikePowerMax", (int)mBikePowerMax);
-		}
+	//	if (BikePowerCur > mBikePowerMax) {
+	//		mBikePowerMax = BikePowerCur;
+	//		PlayerPrefs.SetInt("mBikePowerMax", (int)mBikePowerMax);
+	//	}
 		
-		if (bPlayerStartKeyDown && !IsJiaoZhunFireBt) {
-			IsJiaoZhunFireBt = true;
-			uint dVal_0 = BikePowerCur - mBikePowerMin;
-			uint dVal_1 = mBikePowerMax - BikePowerCur;
-			if (dVal_0 > dVal_1) {
-				//YouMenZhengZhuang
-				IsFanZhuangYouMen = false;
-			}
-			else if (dVal_0 < dVal_1) {
-				//YouMenFanZhuang
-				IsFanZhuangYouMen = true;
-			}
-			ResetYouMenJiaoZhun();
-			//InitShaCheJiaoZhun();
-			IsJiaoZhunFireBt = true;
-		}
-		else if(!bPlayerStartKeyDown && IsJiaoZhunFireBt) {
-			IsJiaoZhunFireBt = false;
-		}
-	}
+	//	if (bPlayerStartKeyDown && !IsJiaoZhunFireBt) {
+	//		IsJiaoZhunFireBt = true;
+	//		uint dVal_0 = BikePowerCur - mBikePowerMin;
+	//		uint dVal_1 = mBikePowerMax - BikePowerCur;
+	//		if (dVal_0 > dVal_1) {
+	//			//YouMenZhengZhuang
+	//			IsFanZhuangYouMen = false;
+	//		}
+	//		else if (dVal_0 < dVal_1) {
+	//			//YouMenFanZhuang
+	//			IsFanZhuangYouMen = true;
+	//		}
+	//		ResetYouMenJiaoZhun();
+	//		//InitShaCheJiaoZhun();
+	//		IsJiaoZhunFireBt = true;
+	//	}
+	//	else if(!bPlayerStartKeyDown && IsJiaoZhunFireBt) {
+	//		IsJiaoZhunFireBt = false;
+	//	}
+	//}
 
 	void FangXiangJiaoZhun()
 	{
@@ -1288,7 +1288,7 @@ public class pcvr : MonoBehaviour
 			case 3:
 				//CheTouYouZhuan
 				ResetFangXiangJiaoZhun();
-				InitYouMenJiaoZhun();
+				//InitYouMenJiaoZhun();
 				IsJiaoZhunFireBt = true;
 				break;
 			}
@@ -1308,24 +1308,25 @@ public class pcvr : MonoBehaviour
 		if (buffer[0] != ReadHead_1 || buffer[1] != ReadHead_2) {
 			return;
 		}
-		SteerValCur = (((uint)buffer[6]&0x0f) << 8) + buffer[7]; //fangXiang
-		bool isTest = false;
-		if (!isTest) {
-			BikePowerCur = (((uint)buffer[2]&0x0f) << 8) + buffer[3]; //youMen
-			BikePowerCurPcvr = BikePowerCur;
-			
-			BikeShaCheCur = (((uint)buffer[4]&0x0f) << 8) + buffer[5]; //shaChe
-			ShaCheCurPcvr = BikeShaCheCur;
-		}
-		else {
-			BikePowerCur = SteerValCur; //test
-			BikeShaCheCur = SteerValCur; //test
-		}
 
-		if (HardWareTest.IsTestHardWare) {
-			uint tmpBYYouMen = (((uint)buffer[2]&0x0f) << 8) + buffer[3]; //youMen
-			BikeBeiYongPowerCurPcvr = tmpBYYouMen;
-		}
+		SteerValCur = (((uint)buffer[6]&0x0f) << 8) + buffer[7]; //fangXiang
+		//bool isTest = false;
+		//if (!isTest) {
+		//	BikePowerCur = (((uint)buffer[2]&0x0f) << 8) + buffer[3]; //youMen
+		//	BikePowerCurPcvr = BikePowerCur;
+			
+		//	BikeShaCheCur = (((uint)buffer[4]&0x0f) << 8) + buffer[5]; //shaChe
+		//	ShaCheCurPcvr = BikeShaCheCur;
+		//}
+		//else {
+		//	BikePowerCur = SteerValCur; //test
+		//	BikeShaCheCur = SteerValCur; //test
+		//}
+
+		//if (HardWareTest.IsTestHardWare) {
+		//	uint tmpBYYouMen = (((uint)buffer[2]&0x0f) << 8) + buffer[3]; //youMen
+		//	BikeBeiYongPowerCurPcvr = tmpBYYouMen;
+		//}
 
 //		if (!IsInitYouMenJiaoZhun) {
 //			float dPower = BikePowerOld > BikePowerCur ? BikePowerOld - BikePowerCur : BikePowerCur - BikePowerOld;
@@ -1355,8 +1356,8 @@ public class pcvr : MonoBehaviour
 
 		if (bIsJiaoYanBikeValue) {
 			FangXiangJiaoZhun();
-			YouMenJiaoZhun();
-			ShaCheJiaoZhun();
+			//YouMenJiaoZhun();
+			//ShaCheJiaoZhun();
 		}
 
 		if ( !IsCloseDongGanBtDown && 0x02 == (buffer[9]&0x02) ) {
@@ -1371,17 +1372,17 @@ public class pcvr : MonoBehaviour
 		}
 		
 		//if ( !bPlayerStartKeyDown && 0x01 == (buffer[28]&0x01) ) { //test
-		if ( !bPlayerStartKeyDown && 0x01 == (buffer[9]&0x01) ) {
-//			ScreenLog.Log("game startBt down!");
-			bPlayerStartKeyDown = true;
-			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.DOWN );
-		}
-		//else if ( bPlayerStartKeyDown && 0x00 == (buffer[28]&0x01) ) { //test
-		else if ( bPlayerStartKeyDown && 0x00 == (buffer[9]&0x01) ) {
-//			ScreenLog.Log("game startBt up!");
-			bPlayerStartKeyDown = false;
-			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.UP );
-		}
+//		if ( !bPlayerStartKeyDown && 0x01 == (buffer[9]&0x01) ) {
+////			ScreenLog.Log("game startBt down!");
+//			bPlayerStartKeyDown = true;
+//			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.DOWN );
+//		}
+//		//else if ( bPlayerStartKeyDown && 0x00 == (buffer[28]&0x01) ) { //test
+//		else if ( bPlayerStartKeyDown && 0x00 == (buffer[9]&0x01) ) {
+////			ScreenLog.Log("game startBt up!");
+//			bPlayerStartKeyDown = false;
+//			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.UP );
+//		}
 
 		if ( !bSetEnterKeyDown && 0x10 == (buffer[9]&0x10) ) {
 			bSetEnterKeyDown = true;
@@ -1405,16 +1406,16 @@ public class pcvr : MonoBehaviour
 			InputEventCtrl.GetInstance().ClickSetMoveBt( ButtonState.UP );
 		}
 
-		if ( !IsClickLaBaBt && 0x04 == (buffer[9]&0x04) ) {
-			IsClickLaBaBt = true;
-//			ScreenLog.Log("game LaBaBt down!");
-			InputEventCtrl.GetInstance().ClickLaBaBt( ButtonState.DOWN );
-		}
-		else if( IsClickLaBaBt && 0x00 == (buffer[9]&0x04) ) {
-			IsClickLaBaBt = false;
-//			ScreenLog.Log("game LaBaBt up!");
-			InputEventCtrl.GetInstance().ClickLaBaBt( ButtonState.UP );
-		}
+//		if ( !IsClickLaBaBt && 0x04 == (buffer[9]&0x04) ) {
+//			IsClickLaBaBt = true;
+////			ScreenLog.Log("game LaBaBt down!");
+//			InputEventCtrl.GetInstance().ClickLaBaBt( ButtonState.DOWN );
+//		}
+//		else if( IsClickLaBaBt && 0x00 == (buffer[9]&0x04) ) {
+//			IsClickLaBaBt = false;
+////			ScreenLog.Log("game LaBaBt up!");
+//			InputEventCtrl.GetInstance().ClickLaBaBt( ButtonState.UP );
+//		}
 	}
 
 	public static bool IsPlayerActivePcvr = true;
