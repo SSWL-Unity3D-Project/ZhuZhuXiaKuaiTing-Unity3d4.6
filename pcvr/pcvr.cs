@@ -1344,7 +1344,7 @@ public class pcvr : MonoBehaviour
 //		}
 		
 		//game coinInfo
-		CoinCurPcvr = buffer[8];
+		CoinCurPcvr = buffer[18];
 		if (CoinCurPcvr > 0) {
 			if (!IsCleanHidCoin) {
 				IsCleanHidCoin = true;
@@ -1360,51 +1360,195 @@ public class pcvr : MonoBehaviour
 			//ShaCheJiaoZhun();
 		}
 
-		if ( !IsCloseDongGanBtDown && 0x02 == (buffer[9]&0x02) ) {
-//			ScreenLog.Log("game DongGanBt down!");
-			IsCloseDongGanBtDown = true;
-			InputEventCtrl.GetInstance().ClickCloseDongGanBt( ButtonState.DOWN );
-		}
-		else if ( IsCloseDongGanBtDown && 0x00 == (buffer[9]&0x02) ) {
-//			ScreenLog.Log("game DongGanBt up!");
-			IsCloseDongGanBtDown = false;
-			InputEventCtrl.GetInstance().ClickCloseDongGanBt( ButtonState.UP );
-		}
-		
-		//if ( !bPlayerStartKeyDown && 0x01 == (buffer[28]&0x01) ) { //test
-//		if ( !bPlayerStartKeyDown && 0x01 == (buffer[9]&0x01) ) {
-////			ScreenLog.Log("game startBt down!");
-//			bPlayerStartKeyDown = true;
-//			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.DOWN );
-//		}
-//		//else if ( bPlayerStartKeyDown && 0x00 == (buffer[28]&0x01) ) { //test
-//		else if ( bPlayerStartKeyDown && 0x00 == (buffer[9]&0x01) ) {
-////			ScreenLog.Log("game startBt up!");
-//			bPlayerStartKeyDown = false;
-//			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.UP );
-//		}
+        //按键1 - 动感控制开关
+        if (buffer[21] == 0x00 || buffer[21] == 0xff)
+        {
+        }
+        else
+        {
+            if (buffer[20] == 0x00 || buffer[20] == 0xff)
+            {
+            }
+            else
+            {
+                if (buffer[21] & 0x10 == 0x10)
+                {
+                    if (IsCloseDongGanBtDown && buffer[20] & 0x04 == 0x04)
+                    {
+                        //按键弹起.
+                        ScreenLog.Log("dongGanBt up!");
+                        IsCloseDongGanBtDown = false;
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.UP);
+                    }
+                    else if (!IsCloseDongGanBtDown && buffer[20] & 0x04 == 0x00)
+                    {
+                        //按键按下.
+                        ScreenLog.Log("dongGanBt down!");
+                        IsCloseDongGanBtDown = true;
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.DOWN);
+                    }
+                }
+                else if (buffer[21] & 0x40 == 0x40)
+                {
+                    if (IsCloseDongGanBtDown && buffer[20] & 0x10 == 0x10)
+                    {
+                        //按键弹起.
+                        ScreenLog.Log("dongGanBt up!");
+                        IsCloseDongGanBtDown = false;
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.UP);
+                    }
+                    else if (!IsCloseDongGanBtDown && buffer[20] & 0x10 == 0x00)
+                    {
+                        //按键按下.
+                        ScreenLog.Log("dongGanBt down!");
+                        IsCloseDongGanBtDown = true;
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.DOWN);
+                    }
+                }
+            }
+        }
 
-		if ( !bSetEnterKeyDown && 0x10 == (buffer[9]&0x10) ) {
-			bSetEnterKeyDown = true;
-//			ScreenLog.Log("game setEnterBt down!");
-			InputEventCtrl.GetInstance().ClickSetEnterBt( ButtonState.DOWN );
-		}
-		else if ( bSetEnterKeyDown && 0x00 == (buffer[9]&0x10) ) {
-			bSetEnterKeyDown = false;
-//			ScreenLog.Log("game setEnterBt up!");
-			InputEventCtrl.GetInstance().ClickSetEnterBt( ButtonState.UP );
-		}
+        //		if ( !IsCloseDongGanBtDown && 0x02 == (buffer[9]&0x02) ) {
+        ////			ScreenLog.Log("game DongGanBt down!");
+        //			IsCloseDongGanBtDown = true;
+        //			InputEventCtrl.GetInstance().ClickCloseDongGanBt( ButtonState.DOWN );
+        //		}
+        //		else if ( IsCloseDongGanBtDown && 0x00 == (buffer[9]&0x02) ) {
+        ////			ScreenLog.Log("game DongGanBt up!");
+        //			IsCloseDongGanBtDown = false;
+        //			InputEventCtrl.GetInstance().ClickCloseDongGanBt( ButtonState.UP );
+        //		}
 
-		if ( !bSetMoveKeyDown && 0x20 == (buffer[9]&0x20) ) {
-			bSetMoveKeyDown = true;
-//			ScreenLog.Log("game setMoveBt down!");
-			InputEventCtrl.GetInstance().ClickSetMoveBt( ButtonState.DOWN );
-		}
-		else if( bSetMoveKeyDown && 0x00 == (buffer[9]&0x20) ) {
-			bSetMoveKeyDown = false;
-//			ScreenLog.Log("game setMoveBt up!");
-			InputEventCtrl.GetInstance().ClickSetMoveBt( ButtonState.UP );
-		}
+        //if ( !bPlayerStartKeyDown && 0x01 == (buffer[28]&0x01) ) { //test
+        //		if ( !bPlayerStartKeyDown && 0x01 == (buffer[9]&0x01) ) {
+        ////			ScreenLog.Log("game startBt down!");
+        //			bPlayerStartKeyDown = true;
+        //			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.DOWN );
+        //		}
+        //		//else if ( bPlayerStartKeyDown && 0x00 == (buffer[28]&0x01) ) { //test
+        //		else if ( bPlayerStartKeyDown && 0x00 == (buffer[9]&0x01) ) {
+        ////			ScreenLog.Log("game startBt up!");
+        //			bPlayerStartKeyDown = false;
+        //			InputEventCtrl.GetInstance().ClickStartBtOne( ButtonState.UP );
+        //		}
+
+        //按键2 - 设置确定按键.
+        if (buffer[22] == 0x00 || buffer[22] == 0xff)
+        {
+        }
+        else
+        {
+            if (buffer[24] == 0x00 || buffer[24] == 0xff)
+            {
+            }
+            else
+            {
+                if (buffer[22] & 0x10 == 0x10)
+                {
+                    if (bSetEnterKeyDown && buffer[24] & 0x20 == 0x20)
+                    {
+                        //按键弹起.
+                        ScreenLog.Log("setEnterBt up!");
+                        bSetEnterKeyDown = false;
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.UP);
+                    }
+                    else if (!bSetEnterKeyDown && buffer[24] & 0x20 == 0x00)
+                    {
+                        //按键按下.
+                        ScreenLog.Log("setEnterBt down!");
+                        bSetEnterKeyDown = true;
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.DOWN);
+                    }
+                }
+                else if (buffer[22] & 0x40 == 0x40)
+                {
+                    if (bSetEnterKeyDown && buffer[24] & 0x80 == 0x80)
+                    {
+                        //按键弹起.
+                        ScreenLog.Log("setEnterBt up!");
+                        bSetEnterKeyDown = false;
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.UP);
+                    }
+                    else if (!bSetEnterKeyDown && buffer[24] & 0x80 == 0x00)
+                    {
+                        //按键按下.
+                        ScreenLog.Log("setEnterBt down!");
+                        bSetEnterKeyDown = true;
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.DOWN);
+                    }
+                }
+            }
+        }
+
+        //        if ( !bSetEnterKeyDown && 0x10 == (buffer[9]&0x10) ) {
+        //			bSetEnterKeyDown = true;
+        ////			ScreenLog.Log("game setEnterBt down!");
+        //			InputEventCtrl.GetInstance().ClickSetEnterBt( ButtonState.DOWN );
+        //		}
+        //		else if ( bSetEnterKeyDown && 0x00 == (buffer[9]&0x10) ) {
+        //			bSetEnterKeyDown = false;
+        ////			ScreenLog.Log("game setEnterBt up!");
+        //			InputEventCtrl.GetInstance().ClickSetEnterBt( ButtonState.UP );
+        //		}
+
+        //按键8 - 设置移动按键.
+        if (buffer[25] == 0x00 || buffer[25] == 0xff)
+        {
+        }
+        else
+        {
+            if (buffer[27] == 0x00 || buffer[27] == 0xff)
+            {
+            }
+            else
+            {
+                if (buffer[25] & 0x10 == 0x10)
+                {
+                    if (bSetMoveKeyDown && buffer[27] & 0x02 == 0x02)
+                    {
+                        //按键弹起.
+                        ScreenLog.Log("setMoveBt up!");
+                        bSetMoveKeyDown = false;
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.UP);
+                    }
+                    else if (!bSetMoveKeyDown && buffer[27] & 0x02 == 0x00)
+                    {
+                        //按键按下.
+                        ScreenLog.Log("setMoveBt down!");
+                        bSetMoveKeyDown = true;
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.DOWN);
+                    }
+                }
+                else if (buffer[25] & 0x40 == 0x40)
+                {
+                    if (bSetMoveKeyDown && buffer[27] & 0x10 == 0x10)
+                    {
+                        //按键弹起.
+                        ScreenLog.Log("setMoveBt up!");
+                        bSetMoveKeyDown = false;
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.UP);
+                    }
+                    else if (!bSetMoveKeyDown && buffer[27] & 0x10 == 0x00)
+                    {
+                        //按键按下.
+                        ScreenLog.Log("setMoveBt down!");
+                        bSetMoveKeyDown = true;
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.DOWN);
+                    }
+                }
+            }
+        }
+
+//        if ( !bSetMoveKeyDown && 0x20 == (buffer[9]&0x20) ) {
+//			bSetMoveKeyDown = true;
+////			ScreenLog.Log("game setMoveBt down!");
+//			InputEventCtrl.GetInstance().ClickSetMoveBt( ButtonState.DOWN );
+//		}
+//		else if( bSetMoveKeyDown && 0x00 == (buffer[9]&0x20) ) {
+//			bSetMoveKeyDown = false;
+////			ScreenLog.Log("game setMoveBt up!");
+//			InputEventCtrl.GetInstance().ClickSetMoveBt( ButtonState.UP );
+//		}
 
 //		if ( !IsClickLaBaBt && 0x04 == (buffer[9]&0x04) ) {
 //			IsClickLaBaBt = true;
