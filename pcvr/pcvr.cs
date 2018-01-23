@@ -11,59 +11,59 @@ public class pcvr : MonoBehaviour
 {
     static public bool bIsHardWare = false;
 	static public bool IsTestGame = false;
-	public static uint ShaCheCurPcvr;
-	static bool IsClickLaBaBt;
+	//public static uint ShaCheCurPcvr;
+	//static bool IsClickLaBaBt;
 	static public uint gOldCoinNum = 0;
 	static private uint mOldCoinNum = 0;
 	public int CoinNumCurrent = 0;
 	static public bool IsCloseDongGanBtDown = false;
-	static public bool bPlayerStartKeyDown = false;
+	//static public bool bPlayerStartKeyDown = false;
 	private bool bSetEnterKeyDown = false;
 	static public bool bSetMoveKeyDown = false;
 	public static bool IsZhenDongFangXiangPan;
 	int SubCoinNum = 0;
-	public static bool m_IsOpneForwardQinang = false;
-	public static bool m_IsOpneBehindQinang = false;
-	public static bool m_IsOpneLeftQinang = false;
-	public static bool m_IsOpneRightQinang = false;
-	public static bool m_IsOpneQinang1 = false;
-	public static bool m_IsOpneQinang2 = false;
-	public static bool m_IsOpneQinang3 = false;
-	public static bool m_IsOpneQinang4 = false;
+	//public static bool m_IsOpneForwardQinang = false;
+	//public static bool m_IsOpneBehindQinang = false;
+	//public static bool m_IsOpneLeftQinang = false;
+	//public static bool m_IsOpneRightQinang = false;
+	//public static bool m_IsOpneQinang1 = false;
+	//public static bool m_IsOpneQinang2 = false;
+	//public static bool m_IsOpneQinang3 = false;
+	//public static bool m_IsOpneQinang4 = false;
 	public static uint SteerValMax = 999999;
 	public static uint SteerValCen = 1765;
 	public static uint SteerValMin = 0;
 	public static uint SteerValCur;
 	public static float mGetSteer = 0f;
-	public static uint BikeShaCheCur;
-	public static uint mBikePowerMin = 999999;
-	public static uint mBikePowerMax = 0;
-	public static float mGetPower = 0f;
-	static uint BikePowerLen = 0;
-	public static uint BikePowerCur;
-	public static uint BikePowerOld;
+	//public static uint BikeShaCheCur;
+	//public static uint mBikePowerMin = 999999;
+	//public static uint mBikePowerMax = 0;
+	//public static float mGetPower = 0f;
+	//static uint BikePowerLen = 0;
+	//public static uint BikePowerCur;
+	//public static uint BikePowerOld;
 	bool bIsJiaoYanBikeValue = false;
 	static bool IsInitYouMenJiaoZhun = false;
-	bool IsJiaoZhunFireBt;
-	bool IsFanZhuangYouMen;
+	//bool IsJiaoZhunFireBt;
+	//bool IsFanZhuangYouMen;
 	static bool IsInitFangXiangJiaoZhun;
 	bool IsFanZhuangFangXiang;
 	int FangXiangJiaoZhunCount;
 	public static uint CoinCurPcvr;
-	public static uint BikePowerCurPcvr;
-	public static StartLightState StartBtLight = StartLightState.Mie;
-	public static StartLightState DongGanBtLight = StartLightState.Mie;
+	//public static uint BikePowerCurPcvr;
+	//public static StartLightState StartBtLight = StartLightState.Mie;
+	//public static StartLightState DongGanBtLight = StartLightState.Mie;
 	bool IsCleanHidCoin;
 	static uint BikeDirLenA;
 	static uint BikeDirLenB;
 	static uint BikeDirLenC;
 	static uint BikeDirLenD;
-	public static bool IsActiveSheCheEvent;
-	static bool IsInitShaCheJiaoZhun;
-	static bool IsFanZhuangShaChe;
-	static uint mBikeShaCheMin = 999999;
-	static uint mBikeShaCheMax = 0;
-	static uint BikeShaCheLen = 1;
+	//public static bool IsActiveSheCheEvent;
+	//static bool IsInitShaCheJiaoZhun;
+	//static bool IsFanZhuangShaChe;
+	//static uint mBikeShaCheMin = 999999;
+	//static uint mBikeShaCheMax = 0;
+	//static uint BikeShaCheLen = 1;
 	bool IsPlayFangXiangPanZhenDong;
 	static private pcvr Instance = null;
 	static public pcvr GetInstance()
@@ -134,7 +134,7 @@ public class pcvr : MonoBehaviour
 		InitFangXiangPowerOpen();
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
 		if (IsTestGame  &&  Input.GetKeyUp(KeyCode.O)) {
 			IsHandleDirByKey = !IsHandleDirByKey;
@@ -164,7 +164,7 @@ public class pcvr : MonoBehaviour
 	static byte WriteEnd_1 = 0x0d;
 	static byte WriteEnd_2 = 0x0a;
 	public static bool IsOpenFangXiangPanPower = true;
-	public static StartLightState ShaCheBtLight = StartLightState.Mie;
+	//public static StartLightState ShaCheBtLight = StartLightState.Mie;
 	public static void OpenFangXiangPanPower()
 	{
 		IsOpenFangXiangPanPower = true;
@@ -480,17 +480,17 @@ public class pcvr : MonoBehaviour
 //#endif
         //}
 
-		if (IsZhenDongFangXiangPan) {
-			buffer[6] = 0x55;
-		}
-		else {
-			if (IsOpenFangXiangPanPower) {
-				buffer[6] = 0xaa;
-			}
-			else {
-				buffer[6] = 0x00;
-			}
-		}
+		//if (IsZhenDongFangXiangPan) {
+		//	buffer[6] = 0x55;
+		//}
+		//else {
+		//	if (IsOpenFangXiangPanPower) {
+		//		buffer[6] = 0xaa;
+		//	}
+		//	else {
+		//		buffer[6] = 0x00;
+		//	}
+		//}
 
 		if (IsCleanHidCoin) {
 			buffer[2] = 0xaa;
@@ -512,43 +512,43 @@ public class pcvr : MonoBehaviour
 //		buffer[40] = FangXiangPanM_2;
 
 		if (IsJiaoYanHid) {
-			for (int i = 0; i < 4; i++) {
-				buffer[i + 10] = JiaoYanMiMa[i];
-			}
+			//for (int i = 0; i < 4; i++) {
+			//	buffer[i + 10] = JiaoYanMiMa[i];
+			//}
 
-			for (int i = 0; i < 4; i++) {
-				buffer[i + 14] = JiaoYanDt[i];
-			}
+			//for (int i = 0; i < 4; i++) {
+			//	buffer[i + 14] = JiaoYanDt[i];
+			//}
 		}
 		else {
-			RandomJiaoYanMiMaVal();
-			for (int i = 0; i < 4; i++) {
-				buffer[i + 10] = JiaoYanMiMaRand[i];
-			}
+			//RandomJiaoYanMiMaVal();
+			//for (int i = 0; i < 4; i++) {
+			//	buffer[i + 10] = JiaoYanMiMaRand[i];
+			//}
 
-			//0x41 0x42 0x43 0x44
-			for (int i = 15; i < 18; i++) {
-				buffer[i] = (byte)UnityEngine.Random.Range(0x00, 0x40);
-			}
-			buffer[14] = 0x00;
+			////0x41 0x42 0x43 0x44
+			//for (int i = 15; i < 18; i++) {
+			//	buffer[i] = (byte)UnityEngine.Random.Range(0x00, 0x40);
+			//}
+			//buffer[14] = 0x00;
 			
-			for (int i = 15; i < 18; i++) {
-				buffer[14] ^= buffer[i];
-			}
+			//for (int i = 15; i < 18; i++) {
+			//	buffer[14] ^= buffer[i];
+			//}
 		}
 
-		buffer[5] = 0x00;
-		for (int i = 2; i < 12; i++) {
-			buffer[5] ^= buffer[i];
-		}
+		//buffer[5] = 0x00;
+		//for (int i = 2; i < 12; i++) {
+		//	buffer[5] ^= buffer[i];
+		//}
 
-		buffer[19] = 0x00;
-		for (int i = 2; i < (MyCOMDevice.ComThreadClass.BufLenWrite - 2); i++) {
-			if (i == 19) {
-				continue;
-			}
-			buffer[19] ^= buffer[i];
-		}
+		//buffer[19] = 0x00;
+		//for (int i = 2; i < (MyCOMDevice.ComThreadClass.BufLenWrite - 2); i++) {
+		//	if (i == 19) {
+		//		continue;
+		//	}
+		//	buffer[19] ^= buffer[i];
+		//}
 		MyCOMDevice.ComThreadClass.WriteByteMsg = buffer;
 	}
 
@@ -1422,7 +1422,7 @@ public class pcvr : MonoBehaviour
 	public static float TimeLastActivePcvr;
 	void CheckIsPlayerActivePcvr()
 	{
-		if (Application.loadedLevel == 1) {
+		if (Application.loadedLevel >= 1) {
 			return;
 		}
 
