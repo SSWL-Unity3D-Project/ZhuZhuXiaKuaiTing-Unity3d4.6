@@ -151,6 +151,9 @@ public class pcvr : MonoBehaviour
 			return;
 		}
 
+        //减币，方向有问题.
+        //机台动感有问题.
+        //CRC校验不懂.
 		SendMessage();
 		GetMessage();
 	}
@@ -538,19 +541,36 @@ public class pcvr : MonoBehaviour
 			//}
 		}
 
-		//buffer[5] = 0x00;
-		//for (int i = 2; i < 12; i++) {
-		//	buffer[5] ^= buffer[i];
-		//}
+		buffer[25] = 0x85;
+        for (int i = 2; i <= 35; i++)
+        {
+            if (i == 32 || i == 25)
+            {
+            }
+            else
+            {
+                buffer[25] ^= buffer[i];
+            }
+        }
 
-		//buffer[19] = 0x00;
-		//for (int i = 2; i < (MyCOMDevice.ComThreadClass.BufLenWrite - 2); i++) {
-		//	if (i == 19) {
-		//		continue;
-		//	}
-		//	buffer[19] ^= buffer[i];
-		//}
-		MyCOMDevice.ComThreadClass.WriteByteMsg = buffer;
+        buffer[32] = 0x58;
+        for (int i = 9; i <= 28; i++)
+        {
+            buffer[32] ^= buffer[i];
+        }
+
+        buffer[46] = 0x53;
+        for (int i = 33; i <= 49; i++)
+        {
+            if (i == 46)
+            {
+            }
+            else
+            {
+                buffer[46] ^= buffer[i];
+            }
+        }
+        MyCOMDevice.ComThreadClass.WriteByteMsg = buffer;
 	}
 
 	static void RandomJiaoYanDt()
