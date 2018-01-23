@@ -7,7 +7,8 @@ using SLAB_HID_DEVICE;
 using System;
 using System.IO;
 
-public class pcvr : MonoBehaviour {
+public class pcvr : MonoBehaviour
+{
     static public bool bIsHardWare = false;
 	static public bool IsTestGame = false;
 	public static uint ShaCheCurPcvr;
@@ -154,10 +155,12 @@ public class pcvr : MonoBehaviour {
 		GetMessage();
 	}
 	
-	static byte ReadHead_1 = 0x01;
-	static byte ReadHead_2 = 0x55;
-	static byte WriteHead_1 = 0x02;
-	static byte WriteHead_2 = 0x55;
+	static byte ReadHead_1 = 0x53;
+	static byte ReadHead_2 = 0x57;
+    static byte EndRead_1 = 0x41;
+    static byte EndRead_2 = 0x42;
+    static byte WriteHead_1 = 0x09;
+	static byte WriteHead_2 = 0x05;
 	static byte WriteEnd_1 = 0x0d;
 	static byte WriteEnd_2 = 0x0a;
 	public static bool IsOpenFangXiangPanPower = true;
@@ -710,8 +713,6 @@ public class pcvr : MonoBehaviour {
 	byte JiOuJiaoYanCount;
 	byte JiOuJiaoYanMax = 5;
 	public static bool IsJiOuJiaoYanFailed;
-	byte EndRead_1 = 0x41;
-	byte EndRead_2 = 0x42;
 	public void GetMessage()
 	{
 		if (!MyCOMDevice.ComThreadClass.IsReadComMsg) {
@@ -731,42 +732,42 @@ public class pcvr : MonoBehaviour {
 			return;
 		}
 
-		if ((MyCOMDevice.ComThreadClass.ReadByteMsg[22]&0x01) == 0x01) {
-			JiOuJiaoYanCount++;
-			if (JiOuJiaoYanCount >= JiOuJiaoYanMax && !IsJiOuJiaoYanFailed) {
-				IsJiOuJiaoYanFailed = true;
-				//JiOuJiaoYanFailed
-			}
-		}
+		//if ((MyCOMDevice.ComThreadClass.ReadByteMsg[22]&0x01) == 0x01) {
+		//	JiOuJiaoYanCount++;
+		//	if (JiOuJiaoYanCount >= JiOuJiaoYanMax && !IsJiOuJiaoYanFailed) {
+		//		IsJiOuJiaoYanFailed = true;
+		//		//JiOuJiaoYanFailed
+		//	}
+		//}
 		//IsJiOuJiaoYanFailed = true; //test
 
-		byte tmpVal = 0x00;
-		string testA = "";
-		for (int i = 2; i < (MyCOMDevice.ComThreadClass.BufLenRead - 4); i++) {
-			if (i == 8 || i == 21) {
-				continue;
-			}
-			testA += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
-			tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
-		}
-		tmpVal ^= EndRead_1;
-		tmpVal ^= EndRead_2;
-		testA += EndRead_1 + " ";
-		testA += EndRead_2 + " ";
+		//byte tmpVal = 0x00;
+		//string testA = "";
+		//for (int i = 2; i < (MyCOMDevice.ComThreadClass.BufLenRead - 4); i++) {
+		//	if (i == 8 || i == 21) {
+		//		continue;
+		//	}
+		//	testA += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
+		//	tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
+		//}
+		//tmpVal ^= EndRead_1;
+		//tmpVal ^= EndRead_2;
+		//testA += EndRead_1 + " ";
+		//testA += EndRead_2 + " ";
 
-		if (tmpVal != MyCOMDevice.ComThreadClass.ReadByteMsg[21]) {
-			if (MyCOMDevice.ComThreadClass.IsStopComTX) {
-				return;
-			}
-			MyCOMDevice.ComThreadClass.IsStopComTX = true;
+		//if (tmpVal != MyCOMDevice.ComThreadClass.ReadByteMsg[21]) {
+		//	if (MyCOMDevice.ComThreadClass.IsStopComTX) {
+		//		return;
+		//	}
+		//	MyCOMDevice.ComThreadClass.IsStopComTX = true;
 //			ScreenLog.Log("testA: "+testA);
 //			ScreenLog.LogError("tmpVal: "+tmpVal.ToString("X2")+", byte[21] "+MyCOMDevice.ComThreadClass.ReadByteMsg[21].ToString("X2"));
 //			ScreenLog.Log("byte21 was wrong!");
-			return;
-		}
+		//	return;
+		//}
 
-		if (IsJiaoYanHid) {
-			tmpVal = 0x00;
+		//if (IsJiaoYanHid) {
+		//	tmpVal = 0x00;
 //			string testStrA = MyCOMDevice.ComThreadClass.ReadByteMsg[30].ToString("X2") + " ";
 //			string testStrB = "";
 //			string testStrA = "";
@@ -786,31 +787,31 @@ public class pcvr : MonoBehaviour {
 //			}
 //			ScreenLog.Log("GameSendMiMa: "+testStrC);
 
-			for (int i = 11; i < 14; i++) {
-				tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
+			//for (int i = 11; i < 14; i++) {
+			//	tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
 //				testStrA += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
-			}
+			//}
 
-			if (tmpVal == MyCOMDevice.ComThreadClass.ReadByteMsg[10]) {
-				bool isJiaoYanDtSucceed = false;
-				tmpVal = 0x00;
-				for (int i = 15; i < 18; i++) {
-					tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
-				}
+			//if (tmpVal == MyCOMDevice.ComThreadClass.ReadByteMsg[10]) {
+			//	bool isJiaoYanDtSucceed = false;
+			//	tmpVal = 0x00;
+			//	for (int i = 15; i < 18; i++) {
+			//		tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
+			//	}
 				
 				//校验2...
-				if ( tmpVal == MyCOMDevice.ComThreadClass.ReadByteMsg[14]
-				    && (JiaoYanDt[1]&0xef) == MyCOMDevice.ComThreadClass.ReadByteMsg[15]
-				    && (JiaoYanDt[2]&0xfe) == MyCOMDevice.ComThreadClass.ReadByteMsg[16]
-				    && (JiaoYanDt[3]|0x28) == MyCOMDevice.ComThreadClass.ReadByteMsg[17] ) {
-					isJiaoYanDtSucceed = true;
-				}
+				//if ( tmpVal == MyCOMDevice.ComThreadClass.ReadByteMsg[14]
+				//    && (JiaoYanDt[1]&0xef) == MyCOMDevice.ComThreadClass.ReadByteMsg[15]
+				//    && (JiaoYanDt[2]&0xfe) == MyCOMDevice.ComThreadClass.ReadByteMsg[16]
+				//    && (JiaoYanDt[3]|0x28) == MyCOMDevice.ComThreadClass.ReadByteMsg[17] ) {
+				//	isJiaoYanDtSucceed = true;
+				//}
 
-				if (isJiaoYanDtSucceed) {
+				//if (isJiaoYanDtSucceed) {
 					//JiaMiJiaoYanSucceed
-					OnEndJiaoYanIO(JIAOYANENUM.SUCCEED);
+					//OnEndJiaoYanIO(JIAOYANENUM.SUCCEED);
 					//ScreenLog.Log("JMJYCG...");
-				}
+				//}
 //				else {
 //					testStrA = "";
 //					for (int i = 0; i < 46; i++) {
@@ -830,7 +831,7 @@ public class pcvr : MonoBehaviour {
 //					ScreenLog.Log("SendByte[21 - 24] "+testStrC);
 //					ScreenLog.LogError("校验数据错误!");
 //				}
-			}
+			//}
 //			else {
 //				testStrB = "byte[30] "+MyCOMDevice.ComThreadClass.ReadByteMsg[30].ToString("X2")+" "
 //					+", tmpVal "+tmpVal.ToString("X2");
@@ -838,15 +839,16 @@ public class pcvr : MonoBehaviour {
 //				ScreenLog.Log(testStrB);
 //				ScreenLog.LogError("ReadByte[30] was wrong!");
 //			}
-		}
+		//}
 
 		CheckIsPlayerActivePcvr();
-		int len = MyCOMDevice.ComThreadClass.ReadByteMsg.Length;
-		uint[] readMsg = new uint[len];
-		for (int i = 0; i < len; i++) {
-			readMsg[i] = MyCOMDevice.ComThreadClass.ReadByteMsg[i];
-		}
-		KeyProcess( readMsg );
+        //int len = MyCOMDevice.ComThreadClass.ReadByteMsg.Length;
+        //uint[] readMsg = new uint[len];
+        //for (int i = 0; i < len; i++)
+        //{
+        //    readMsg[i] = MyCOMDevice.ComThreadClass.ReadByteMsg[i];
+        //}
+        KeyProcess(MyCOMDevice.ComThreadClass.ReadByteMsg);
 	}
 
 	void CheckBikeDirLen()
@@ -1297,7 +1299,7 @@ public class pcvr : MonoBehaviour {
 	}
 
 	public static uint BikeBeiYongPowerCurPcvr;
-	void KeyProcess(uint []buffer)
+	void KeyProcess(byte []buffer)
 	{
 		if (!MyCOMDevice.IsFindDeviceDt) {
 			return;
@@ -1306,13 +1308,13 @@ public class pcvr : MonoBehaviour {
 		if (buffer[0] != ReadHead_1 || buffer[1] != ReadHead_2) {
 			return;
 		}
-		SteerValCur = ((buffer[6]&0x0f) << 8) + buffer[7]; //fangXiang
+		SteerValCur = (((uint)buffer[6]&0x0f) << 8) + buffer[7]; //fangXiang
 		bool isTest = false;
 		if (!isTest) {
-			BikePowerCur = ((buffer[2]&0x0f) << 8) + buffer[3]; //youMen
+			BikePowerCur = (((uint)buffer[2]&0x0f) << 8) + buffer[3]; //youMen
 			BikePowerCurPcvr = BikePowerCur;
 			
-			BikeShaCheCur = ((buffer[4]&0x0f) << 8) + buffer[5]; //shaChe
+			BikeShaCheCur = (((uint)buffer[4]&0x0f) << 8) + buffer[5]; //shaChe
 			ShaCheCurPcvr = BikeShaCheCur;
 		}
 		else {
@@ -1321,7 +1323,7 @@ public class pcvr : MonoBehaviour {
 		}
 
 		if (HardWareTest.IsTestHardWare) {
-			uint tmpBYYouMen = ((buffer[2]&0x0f) << 8) + buffer[3]; //youMen
+			uint tmpBYYouMen = (((uint)buffer[2]&0x0f) << 8) + buffer[3]; //youMen
 			BikeBeiYongPowerCurPcvr = tmpBYYouMen;
 		}
 
