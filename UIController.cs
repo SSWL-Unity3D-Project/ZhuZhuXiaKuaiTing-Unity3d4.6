@@ -103,10 +103,10 @@ public class UIController : MonoBehaviour
             //gzkun void CloseAllQiNang()
             if (!SetPanel.IsOpenSetPanel)
             {                
-                pcvr.m_IsOpneForwardQinang = false;
-                pcvr.m_IsOpneBehindQinang = false;
-                pcvr.m_IsOpneLeftQinang = false;
-                pcvr.m_IsOpneRightQinang = false;
+                //pcvr.m_IsOpneForwardQinang = false;
+                //pcvr.m_IsOpneBehindQinang = false;
+                //pcvr.m_IsOpneLeftQinang = false;
+                //pcvr.m_IsOpneRightQinang = false;
             }
 
             UpdateBeginDaojishi();

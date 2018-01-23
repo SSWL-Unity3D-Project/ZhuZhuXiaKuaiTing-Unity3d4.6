@@ -36,7 +36,7 @@ public class SetPanel : MonoBehaviour
 
 		IsOpenSetPanel = true;
 		CloseAllQiNang();
-		pcvr.ShaCheBtLight = StartLightState.Mie;
+		//pcvr.ShaCheBtLight = StartLightState.Mie;
 		pcvr.CloseFangXiangPanPower();
 		pcvr.IsSlowLoopCom = false;
 		m_InserNum = Convert.ToInt32(ReadGameInfo.GetInstance().ReadInsertCoinNum());
@@ -110,7 +110,7 @@ public class SetPanel : MonoBehaviour
 				OnClickInsertBt();
 			}
 
-			YouMenInfoLabel.text = pcvr.BikePowerCur.ToString();
+			//YouMenInfoLabel.text = pcvr.BikePowerCur.ToString();
 			FangXiangInfoLabel.text = pcvr.SteerValCur.ToString();
 
 			if (!IsInitJiaoZhunPcvr) {
@@ -149,7 +149,7 @@ public class SetPanel : MonoBehaviour
 				}
 			}
 
-			val = (int)(pcvr.mGetPower * 100);
+			//val = (int)(pcvr.mGetPower * 100);
 			YouMenInfoLabel.text = val.ToString();
 			if (!IsInitJiaoZhunPcvr) {
 				if (val > 0) {				
@@ -401,49 +401,49 @@ public class SetPanel : MonoBehaviour
                 }
             case 4:
                 {
-                    pcvr.StartBtLight = StartLightState.Liang;
+                    //pcvr.StartBtLight = StartLightState.Liang;
                     break;
                 }
             case 5:
                 {
-                    pcvr.StartBtLight = StartLightState.Shan;
+                    //pcvr.StartBtLight = StartLightState.Shan;
                     break;
                 }
             case 6:
                 {
-                    pcvr.StartBtLight = StartLightState.Mie;
+                    //pcvr.StartBtLight = StartLightState.Mie;
                     break;
                 }
             case 7:
                 {
-                    pcvr.m_IsOpneForwardQinang = true;
-                    pcvr.m_IsOpneBehindQinang = false;
-                    pcvr.m_IsOpneLeftQinang = false;
-                    pcvr.m_IsOpneRightQinang = false;
+                    //pcvr.m_IsOpneForwardQinang = true;
+                    //pcvr.m_IsOpneBehindQinang = false;
+                    //pcvr.m_IsOpneLeftQinang = false;
+                    //pcvr.m_IsOpneRightQinang = false;
                     break;
                 }
             case 8:
                 {
-                    pcvr.m_IsOpneForwardQinang = false;
-                    pcvr.m_IsOpneBehindQinang = true;
-                    pcvr.m_IsOpneLeftQinang = false;
-                    pcvr.m_IsOpneRightQinang = false;
+                    //pcvr.m_IsOpneForwardQinang = false;
+                    //pcvr.m_IsOpneBehindQinang = true;
+                    //pcvr.m_IsOpneLeftQinang = false;
+                    //pcvr.m_IsOpneRightQinang = false;
                     break;
                 }
             case 9:
                 {
-                    pcvr.m_IsOpneForwardQinang = false;
-                    pcvr.m_IsOpneBehindQinang = false;
-                    pcvr.m_IsOpneLeftQinang = true;
-                    pcvr.m_IsOpneRightQinang = false;
+                    //pcvr.m_IsOpneForwardQinang = false;
+                    //pcvr.m_IsOpneBehindQinang = false;
+                    //pcvr.m_IsOpneLeftQinang = true;
+                    //pcvr.m_IsOpneRightQinang = false;
                     break;
                 }
             case 10:
                 {
-                    pcvr.m_IsOpneForwardQinang = false;
-                    pcvr.m_IsOpneBehindQinang = false;
-                    pcvr.m_IsOpneLeftQinang = false;
-                    pcvr.m_IsOpneRightQinang = true;
+                    //pcvr.m_IsOpneForwardQinang = false;
+                    //pcvr.m_IsOpneBehindQinang = false;
+                    //pcvr.m_IsOpneLeftQinang = false;
+                    //pcvr.m_IsOpneRightQinang = true;
                     break;
                 }
 			case 11:
@@ -511,7 +511,7 @@ public class SetPanel : MonoBehaviour
             case 18:
                 {
                     CloseAllQiNang();
-					pcvr.StartBtLight = StartLightState.Mie;
+					//pcvr.StartBtLight = StartLightState.Mie;
 					XkGameCtrl.IsLoadingLevel = true;
                     IsOpenSetPanel = false;
                     Resources.UnloadUnusedAssets();
@@ -526,10 +526,10 @@ public class SetPanel : MonoBehaviour
 	public UILabel GameAudioVolumeLB;
 	void CloseAllQiNang()
 	{
-		pcvr.m_IsOpneForwardQinang = false;
-		pcvr.m_IsOpneBehindQinang = false;
-		pcvr.m_IsOpneLeftQinang = false;
-		pcvr.m_IsOpneRightQinang = false;
+		//pcvr.m_IsOpneForwardQinang = false;
+		//pcvr.m_IsOpneBehindQinang = false;
+		//pcvr.m_IsOpneLeftQinang = false;
+		//pcvr.m_IsOpneRightQinang = false;
 	}
 
 	void ResetFactory()

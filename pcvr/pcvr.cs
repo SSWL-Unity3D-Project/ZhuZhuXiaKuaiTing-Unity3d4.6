@@ -1166,7 +1166,7 @@ public class pcvr : MonoBehaviour
 		SteerValCen = 1765;
 		SteerValMax = 0;
 		
-		IsJiaoZhunFireBt = false;
+		//IsJiaoZhunFireBt = false;
 		FangXiangJiaoZhunCount = 0;
 		IsInitFangXiangJiaoZhun = true;
 		bIsJiaoYanBikeValue = true;
@@ -1178,7 +1178,7 @@ public class pcvr : MonoBehaviour
 			return;
 		}
 		//ScreenLog.Log("pcvr -> ResetFangXiangJiaoZhun...");
-		IsJiaoZhunFireBt = false;
+		//IsJiaoZhunFireBt = false;
 		FangXiangJiaoZhunCount = 0;
 		IsInitFangXiangJiaoZhun = false;
 		
@@ -1285,38 +1285,38 @@ public class pcvr : MonoBehaviour
 			PlayerPrefs.SetInt("mBikeDirMax", (int)SteerValMax);
 		}
 		
-		if (bPlayerStartKeyDown && !IsJiaoZhunFireBt) {
-			IsJiaoZhunFireBt = true;
-			FangXiangJiaoZhunCount++;
-			switch (FangXiangJiaoZhunCount) {
-			case 1:
-				//CheTouZuoZhuan
-				uint dVal_0 = SteerValCur - SteerValMin;
-				uint dVal_1 = SteerValMax - SteerValCur;
-				if (dVal_0 < dVal_1) {
-					IsFanZhuangFangXiang = false;
-				}
-				else if (dVal_0 > dVal_1) {
-					IsFanZhuangFangXiang = true;
-				}
-				break;
+		//if (bPlayerStartKeyDown && !IsJiaoZhunFireBt) {
+			//IsJiaoZhunFireBt = true;
+		//	FangXiangJiaoZhunCount++;
+		//	switch (FangXiangJiaoZhunCount) {
+		//	case 1:
+		//		//CheTouZuoZhuan
+		//		uint dVal_0 = SteerValCur - SteerValMin;
+		//		uint dVal_1 = SteerValMax - SteerValCur;
+		//		if (dVal_0 < dVal_1) {
+		//			IsFanZhuangFangXiang = false;
+		//		}
+		//		else if (dVal_0 > dVal_1) {
+		//			IsFanZhuangFangXiang = true;
+		//		}
+		//		break;
 				
-			case 2:
-				//CheTouZhuanDaoZhongJian
-				SteerValCen = SteerValCur;
-				break;
+		//	case 2:
+		//		//CheTouZhuanDaoZhongJian
+		//		SteerValCen = SteerValCur;
+		//		break;
 				
-			case 3:
-				//CheTouYouZhuan
-				ResetFangXiangJiaoZhun();
-				//InitYouMenJiaoZhun();
-				IsJiaoZhunFireBt = true;
-				break;
-			}
-		}
-		else if(!bPlayerStartKeyDown && IsJiaoZhunFireBt) {
-			IsJiaoZhunFireBt = false;
-		}
+		//	case 3:
+		//		//CheTouYouZhuan
+		//		ResetFangXiangJiaoZhun();
+		//		//InitYouMenJiaoZhun();
+		//		//IsJiaoZhunFireBt = true;
+		//		break;
+		//	}
+		//}
+		//else if(!bPlayerStartKeyDown && IsJiaoZhunFireBt) {
+		//	IsJiaoZhunFireBt = false;
+		//}
 	}
 
 	public static uint BikeBeiYongPowerCurPcvr;
@@ -1392,16 +1392,16 @@ public class pcvr : MonoBehaviour
             }
             else
             {
-                if (buffer[21] & 0x10 == 0x10)
+                if ((buffer[21] & 0x10) == 0x10)
                 {
-                    if (IsCloseDongGanBtDown && buffer[20] & 0x04 == 0x04)
+                    if (IsCloseDongGanBtDown && (buffer[20] & 0x04) == 0x04)
                     {
                         //按键弹起.
                         ScreenLog.Log("dongGanBt up!");
                         IsCloseDongGanBtDown = false;
                         InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.UP);
                     }
-                    else if (!IsCloseDongGanBtDown && buffer[20] & 0x04 == 0x00)
+                    else if (!IsCloseDongGanBtDown && (buffer[20] & 0x04) == 0x00)
                     {
                         //按键按下.
                         ScreenLog.Log("dongGanBt down!");
@@ -1409,16 +1409,16 @@ public class pcvr : MonoBehaviour
                         InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.DOWN);
                     }
                 }
-                else if (buffer[21] & 0x40 == 0x40)
+                else if ((buffer[21] & 0x40) == 0x40)
                 {
-                    if (IsCloseDongGanBtDown && buffer[20] & 0x10 == 0x10)
+                    if (IsCloseDongGanBtDown && (buffer[20] & 0x10) == 0x10)
                     {
                         //按键弹起.
                         ScreenLog.Log("dongGanBt up!");
                         IsCloseDongGanBtDown = false;
                         InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.UP);
                     }
-                    else if (!IsCloseDongGanBtDown && buffer[20] & 0x10 == 0x00)
+                    else if (!IsCloseDongGanBtDown && (buffer[20] & 0x10) == 0x00)
                     {
                         //按键按下.
                         ScreenLog.Log("dongGanBt down!");
@@ -1464,16 +1464,16 @@ public class pcvr : MonoBehaviour
             }
             else
             {
-                if (buffer[22] & 0x10 == 0x10)
+                if ((buffer[22] & 0x10) == 0x10)
                 {
-                    if (bSetEnterKeyDown && buffer[24] & 0x20 == 0x20)
+                    if (bSetEnterKeyDown && (buffer[24] & 0x20) == 0x20)
                     {
                         //按键弹起.
                         ScreenLog.Log("setEnterBt up!");
                         bSetEnterKeyDown = false;
                         InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.UP);
                     }
-                    else if (!bSetEnterKeyDown && buffer[24] & 0x20 == 0x00)
+                    else if (!bSetEnterKeyDown && (buffer[24] & 0x20) == 0x00)
                     {
                         //按键按下.
                         ScreenLog.Log("setEnterBt down!");
@@ -1481,16 +1481,16 @@ public class pcvr : MonoBehaviour
                         InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.DOWN);
                     }
                 }
-                else if (buffer[22] & 0x40 == 0x40)
+                else if ((buffer[22] & 0x40) == 0x40)
                 {
-                    if (bSetEnterKeyDown && buffer[24] & 0x80 == 0x80)
+                    if (bSetEnterKeyDown && (buffer[24] & 0x80) == 0x80)
                     {
                         //按键弹起.
                         ScreenLog.Log("setEnterBt up!");
                         bSetEnterKeyDown = false;
                         InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.UP);
                     }
-                    else if (!bSetEnterKeyDown && buffer[24] & 0x80 == 0x00)
+                    else if (!bSetEnterKeyDown && (buffer[24] & 0x80) == 0x00)
                     {
                         //按键按下.
                         ScreenLog.Log("setEnterBt down!");
@@ -1523,16 +1523,16 @@ public class pcvr : MonoBehaviour
             }
             else
             {
-                if (buffer[25] & 0x10 == 0x10)
+                if ((buffer[25] & 0x10) == 0x10)
                 {
-                    if (bSetMoveKeyDown && buffer[27] & 0x02 == 0x02)
+                    if (bSetMoveKeyDown && (buffer[27] & 0x02) == 0x02)
                     {
                         //按键弹起.
                         ScreenLog.Log("setMoveBt up!");
                         bSetMoveKeyDown = false;
                         InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.UP);
                     }
-                    else if (!bSetMoveKeyDown && buffer[27] & 0x02 == 0x00)
+                    else if (!bSetMoveKeyDown && (buffer[27] & 0x02) == 0x00)
                     {
                         //按键按下.
                         ScreenLog.Log("setMoveBt down!");
@@ -1540,16 +1540,16 @@ public class pcvr : MonoBehaviour
                         InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.DOWN);
                     }
                 }
-                else if (buffer[25] & 0x40 == 0x40)
+                else if ((buffer[25] & 0x40) == 0x40)
                 {
-                    if (bSetMoveKeyDown && buffer[27] & 0x10 == 0x10)
+                    if (bSetMoveKeyDown && (buffer[27] & 0x10) == 0x10)
                     {
                         //按键弹起.
                         ScreenLog.Log("setMoveBt up!");
                         bSetMoveKeyDown = false;
                         InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.UP);
                     }
-                    else if (!bSetMoveKeyDown && buffer[27] & 0x10 == 0x00)
+                    else if (!bSetMoveKeyDown && (buffer[27] & 0x10) == 0x00)
                     {
                         //按键按下.
                         ScreenLog.Log("setMoveBt down!");
