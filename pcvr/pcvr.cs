@@ -185,7 +185,7 @@ public class pcvr : MonoBehaviour
 		}
 
 		byte []buffer = new byte[MyCOMDevice.ComThreadClass.BufLenWrite];
-		for (int i = 6; i < (MyCOMDevice.ComThreadClass.BufLenWrite - 2); i++) {
+		for (int i = 5; i < (MyCOMDevice.ComThreadClass.BufLenWrite - 2); i++) {
 //			if (i >= 7 && i <= 11) {
 //				continue;
 //			}
@@ -493,14 +493,15 @@ public class pcvr : MonoBehaviour
 		//}
 
 		if (IsCleanHidCoin) {
-			buffer[2] = 0xaa;
-			buffer[3] = 0x01;
+			buffer[4] = 0x04;
+			buffer[2] = 0x01;
+			buffer[3] = 0x00;
 			if (CoinCurPcvr == 0) {
 				IsCleanHidCoin = false;
 			}
 		}
 		else {
-			buffer[2] = 0x00;
+			buffer[4] = 0x00;
 		}
 
 		//FangXiangPanInfo
