@@ -69,7 +69,13 @@ public class Loading : MonoBehaviour
 
 		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
 		InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
-	}
+
+        if (m_InserNum >= m_CoinNumSet)
+        {
+            UpdateTex();
+            ClickStartBtOneEvent(ButtonState.UP);
+        }
+    }
 	void Update ()
 	{
 		if (!m_IsStartGame) {
