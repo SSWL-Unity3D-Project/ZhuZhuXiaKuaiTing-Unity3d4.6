@@ -498,7 +498,7 @@ public class pcvr : MonoBehaviour
 		if (IsCleanHidCoin) {
 			buffer[4] = 0x04;
 			buffer[2] = 0x01;
-			buffer[3] = 0x00;
+			buffer[3] = 0x10;
 			if (CoinCurPcvr == 0) {
 				IsCleanHidCoin = false;
 			}
@@ -1395,8 +1395,9 @@ public class pcvr : MonoBehaviour
         CoinCurPcvr = buffer[18];
 		if (CoinCurPcvr > 0) {
 			if (!IsCleanHidCoin) {
+                Debug.Log("coin " + CoinCurPcvr.ToString("X2"));
 				IsCleanHidCoin = true;
-				mOldCoinNum += CoinCurPcvr;
+				mOldCoinNum += (CoinCurPcvr & 0x0f);
 				GlobalData.CoinCur = (int)mOldCoinNum;
 				//ScreenLog.Log("player insert coin, game coinNum: " + mOldCoinNum );
 			}
@@ -1626,7 +1627,7 @@ public class pcvr : MonoBehaviour
 	public static float TimeLastActivePcvr;
 	void CheckIsPlayerActivePcvr()
 	{
-		if (Application.loadedLevel >= 1) {
+		if (Application.loadedLevel >= 1 || HardWareTest.IsTestHardWare) {
 			return;
 		}
 
