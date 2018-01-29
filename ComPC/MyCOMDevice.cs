@@ -44,7 +44,7 @@ public class MyCOMDevice : MonoBehaviour
 				return;
 			}
 
-            _SerialPort = new SerialPort(ComPortName, 38400, Parity.None, 8, StopBits.One);
+            _SerialPort = new SerialPort(ComPortName, 57600, Parity.None, 8, StopBits.One);
 			if (_SerialPort != null)
 			{
 				try
@@ -236,6 +236,6 @@ public class MyCOMDevice : MonoBehaviour
 		Debug.Log("OnApplicationQuit...Com");
 		XkGameCtrl.IsGameOnQuit = true;
 		ComThreadClass.CloseComPort();
-		Invoke("CloseComThread", 2f);
-	}
+        CloseComThread();
+    }
 }

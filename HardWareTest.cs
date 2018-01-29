@@ -39,7 +39,7 @@ public class HardWareTest : MonoBehaviour
 		//ShaCheLabel.text = pcvr.ShaCheCurPcvr.ToString();
 		//YouMenLabel.text = pcvr.BikePowerCurPcvr.ToString();
 		//BeiYongYouMenLabel.text = pcvr.BikeBeiYongPowerCurPcvr.ToString();
-		FangXiangLabel.text = pcvr.SteerValCur.ToString();
+		FangXiangLabel.text = pcvr.SteerValCur.ToString("X2");
 
 		//m_HitTimmerSet.text = ((float)(Convert.ToDouble(m_HitTimmerValue.value)*5.0f)).ToString();
 		//m_FallTimmerSet.text = ((float)(Convert.ToDouble(m_FallTimmerValue.value)*5.0f)).ToString();
@@ -49,10 +49,10 @@ public class HardWareTest : MonoBehaviour
 	void ClickSetEnterBtEvent(ButtonState val)
 	{
 		if (val == ButtonState.DOWN) {
-			AnJianLabel.text = "SetEnter Down";
+			AnJianLabel.text = "SetEnter Down 按键2（投币4）";
 		}
 		else {
-			AnJianLabel.text = "SetEnter Up";
+			AnJianLabel.text = "SetEnter Up 按键2（投币4）";
 		}
 	}
 	void ClickLaBaBtEvent(ButtonState val)
@@ -67,10 +67,10 @@ public class HardWareTest : MonoBehaviour
 	void ClickSetMoveBtEvent(ButtonState val)
 	{
 		if (val == ButtonState.DOWN) {
-			AnJianLabel.text = "SetMove Down";
+			AnJianLabel.text = "SetMove Down 按键8（移动）";
 		}
 		else {
-			AnJianLabel.text = "SetMove Up";
+			AnJianLabel.text = "SetMove Up 按键8（移动）";
 		}
 	}
 	//void ClickStartBtOneEvent(ButtonState val)
@@ -85,10 +85,10 @@ public class HardWareTest : MonoBehaviour
 	void ClickCloseDongGanBtEvent(ButtonState val)
 	{
 		if (val == ButtonState.DOWN) {
-			AnJianLabel.text = "DongGanBt Down";
+			AnJianLabel.text = "DongGanBt Down 按键1（投币3）";
 		}
 		else {
-			AnJianLabel.text = "DongGanBt Up";
+			AnJianLabel.text = "DongGanBt Up 按键1（投币3）";
 		}
 	}
 	//public void OnClickForwardBt()

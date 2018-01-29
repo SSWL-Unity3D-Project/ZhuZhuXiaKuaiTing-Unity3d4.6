@@ -111,7 +111,7 @@ public class SetPanel : MonoBehaviour
 			}
 
 			//YouMenInfoLabel.text = pcvr.BikePowerCur.ToString();
-			FangXiangInfoLabel.text = pcvr.SteerValCur.ToString();
+			FangXiangInfoLabel.text = pcvr.SteerValCur.ToString("X2");
 
 			if (!IsInitJiaoZhunPcvr) {
 				//if (pcvr.mGetPower > pcvr.YouMemnMinVal) {				
