@@ -14,7 +14,8 @@ public class Loading : MonoBehaviour
 	public UISprite m_InsertNumS;
 	public UISprite m_InsertNumG;
 	private int m_InserNum = 0;
-	private bool m_IsBeginOk = false;
+	private int m_CoinNumSet = 0;
+    private bool m_IsBeginOk = false;
 
 	private float m_PressTimmer = 0.0f;
 	private float m_InserTimmer = 0.0f;
@@ -52,7 +53,8 @@ public class Loading : MonoBehaviour
 			InsertCoinNum = ReadGameInfo.GetInstance ().ReadInsertCoinNum();
 			CoinNumSetTex.spriteName = CoinNumSet;
 			m_InserNum = Convert.ToInt32(InsertCoinNum);
-			UpdateInsertCoin();
+            m_CoinNumSet = Convert.ToInt32(CoinNumSet);
+            UpdateInsertCoin();
 			UpdateTex();
 		}
 		else
@@ -103,14 +105,14 @@ public class Loading : MonoBehaviour
 			return;
 		}
 
-		if (Loading.m_HasBegin) {
+		if (m_HasBegin) {
 			return;
 		}
 		
 		XkGameCtrl.IsLoadingLevel = true;
 		Resources.UnloadUnusedAssets();
 		GC.Collect();
-		Application.LoadLevel(2);
+		Application.LoadLevel(5);
 	}
 
 	void UpdateInsertCoin()
@@ -201,12 +203,17 @@ public class Loading : MonoBehaviour
 	}
 
 	void OnClickInsertBt()
-	{
-			m_TbSource.Play();
-			m_InserNum++;
-			ReadGameInfo.GetInstance().WriteInsertCoinNum(m_InserNum.ToString());
-			UpdateInsertCoin();
-	}
+    {
+        m_InserNum++;
+        m_TbSource.Play();
+        ReadGameInfo.GetInstance().WriteInsertCoinNum(m_InserNum.ToString());
+        UpdateInsertCoin();
+        if (m_InserNum >= m_CoinNumSet)
+        {
+            UpdateTex();
+            ClickStartBtOneEvent(ButtonState.UP);
+        }
+    }
 	void OnClickBeginBt()
 	{
 		if (PlayerControllerForMoiew.IsLoadMovieLevel) {
