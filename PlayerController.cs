@@ -621,7 +621,7 @@ public class PlayerController : MonoBehaviour
 			}
 			if(!m_BeijingAudio.isPlaying)
 			{
-                m_BeijingAudio.clip = mBeiJingAdClip[(Application.loadedLevel % 4) - 1];
+                m_BeijingAudio.clip = mBeiJingAdClip[(Application.loadedLevel - 1) % 4];
                 m_BeijingAudio.Play();
 			}
 			CalculateState();
