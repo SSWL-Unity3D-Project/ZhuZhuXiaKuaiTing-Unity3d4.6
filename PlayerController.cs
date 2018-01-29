@@ -330,6 +330,10 @@ public class PlayerController : MonoBehaviour
 	public AudioSource m_YinqingAudio;
 	public AudioSource m_ShuihuaAudio;
 	public AudioSource m_BeijingAudio;
+    /// <summary>
+    /// 游戏背景音效.
+    /// </summary>
+    public AudioClip[] mBeiJingAdClip = new AudioClip[4];
 	public AudioSource m_ErrorDirectionAudio;
 	public AudioSource m_HuanjingSenlin;
 	public AudioSource m_HuanjingShuiliu;
@@ -617,7 +621,8 @@ public class PlayerController : MonoBehaviour
 			}
 			if(!m_BeijingAudio.isPlaying)
 			{
-				m_BeijingAudio.Play();
+                m_BeijingAudio.clip = mBeiJingAdClip[(Application.loadedLevel % 4) - 1];
+                m_BeijingAudio.Play();
 			}
 			CalculateState();
 			if(!m_IsFinished && !m_UIController.m_IsGameOver )

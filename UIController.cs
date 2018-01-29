@@ -102,7 +102,7 @@ public class UIController : MonoBehaviour
 
             //gzkun void CloseAllQiNang()
             if (!SetPanel.IsOpenSetPanel)
-            {                
+            {
                 //pcvr.m_IsOpneForwardQinang = false;
                 //pcvr.m_IsOpneBehindQinang = false;
                 //pcvr.m_IsOpneLeftQinang = false;
@@ -358,8 +358,11 @@ public class UIController : MonoBehaviour
 		{
 			m_BeginDaojishi.enabled = true;
 		}
-		if (!m_BeginDaojishiAudio.isPlaying)
-				m_BeginDaojishiAudio.Play ();
+        if (!m_BeginDaojishiAudio.isPlaying)
+        {
+            m_BeginDaojishiAudio.Play();
+        }
+
 		int index = (int)(6.0f - PlayerController.GetInstance().timmerstar);
 		if(index>=6)
 		{
