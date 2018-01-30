@@ -1375,7 +1375,7 @@ public class PlayerController : MonoBehaviour
 			{
 				m_ShuihuaAudio.Play();
 			}
-			m_ShuihuaAudio.volume =rigidbody.velocity.magnitude*3.6f/120.0f;
+			m_ShuihuaAudio.volume =rigidbody.velocity.magnitude*3.6f/230.0f;
 		}
 		else
 		{
