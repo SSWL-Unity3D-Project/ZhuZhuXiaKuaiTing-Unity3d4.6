@@ -490,6 +490,7 @@ public class UIController : MonoBehaviour
                 JieSuanJiFenSpriteArray[i].enabled = false;
             }
         }
+        mRankListUI.ShowJiFenInfo(jiFen);
     }
 
     void HiddenJiFen()

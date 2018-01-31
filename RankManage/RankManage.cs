@@ -6,6 +6,10 @@
 public class RankManage
 {
     /// <summary>
+    /// 比赛开始时间.
+    /// </summary>
+    float TimeStartVal = 0f;
+    /// <summary>
     /// 排名标记.
     /// </summary>
     public enum RankEnum
@@ -27,6 +31,10 @@ public class RankManage
         /// </summary>
         public RankEnum RankType = RankEnum.Null;
         /// <summary>
+        /// 是否是玩家数据.
+        /// </summary>
+        public bool IsPlayerData = false;
+        /// <summary>
         /// 是否到达终点.
         /// </summary>
         public bool IsMoveToFinishPoint = false;
@@ -42,9 +50,14 @@ public class RankManage
         /// 走过主角路径点的时间记录信息.
         /// </summary>
         public float TimePathNodeCur = 0f;
-        public RankData(RankEnum rankType)
+        /// <summary>
+        /// 比赛使用时间.
+        /// </summary>
+        public float TimeUsedVal = 0f;
+        public RankData(RankEnum rankType, bool isPlayer)
         {
             RankType = rankType;
+            IsPlayerData = isPlayer;
         }
 
         /// <summary>
@@ -91,14 +104,14 @@ public class RankManage
     /// <summary>
     /// 添加排名数据.
     /// </summary>
-    public RankData AddRankDt(RankEnum rankType)
+    public RankData AddRankDt(RankEnum rankType, bool isPlayer)
     {
         if (rankType == RankEnum.Null)
         {
             UnityEngine.Debug.LogError("AddRankDt -> rankType was wrong!");
             return null;
         }
-        RankData rankDt = new RankData(rankType);
+        RankData rankDt = new RankData(rankType, isPlayer);
         RankDtList.Add(rankDt);
         return rankDt;
     }
@@ -124,16 +137,20 @@ public class RankManage
         {
             //x和y都到达终点.
             retval = x.TimeFinishPoint.CompareTo(y.TimeFinishPoint);
+            x.TimeUsedVal = x.TimeFinishPoint - TimeStartVal;
+            y.TimeUsedVal = y.TimeFinishPoint - TimeStartVal;
         }
         else if (x.IsMoveToFinishPoint)
         {
             //x到达终点.
             retval = 1;
+            x.TimeUsedVal = x.TimeFinishPoint - TimeStartVal;
         }
         else if (y.IsMoveToFinishPoint)
         {
             //y到达终点.
             retval = -1;
+            y.TimeUsedVal = y.TimeFinishPoint - TimeStartVal;
         }
         else
         {
@@ -144,6 +161,9 @@ public class RankManage
                 //x和y在相同路径点上.
                 retval = x.TimePathNodeCur.CompareTo(y.TimePathNodeCur);
             }
+
+            float timeUsed = UnityEngine.Time.time - TimeStartVal;
+            x.TimeUsedVal = y.TimeUsedVal = timeUsed;
         }
         return retval;
     }
@@ -158,5 +178,10 @@ public class RankManage
         {
             UnityEngine.Debug.Log("SortRankDtList -> index " + i + "RankType " + RankDtList[i].RankType);
         }
+    }
+
+    public void SetTimeStartVal(float timeVal)
+    {
+        TimeStartVal = timeVal;
     }
 }

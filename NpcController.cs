@@ -51,7 +51,7 @@ public class NpcController : MonoBehaviour
         }
         NpcIndexVal++;
         mRankIndex = (RankManage.RankEnum)NpcIndexVal;
-        mRankDt = PlayerController.GetInstance().RankDtManage.AddRankDt(mRankIndex);
+        mRankDt = PlayerController.GetInstance().RankDtManage.AddRankDt(mRankIndex, false);
 
         for (int i = 0; i < NpcObjArray.Length; i++)
         {

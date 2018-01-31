@@ -391,7 +391,7 @@ public class PlayerController : MonoBehaviour
         PlayerIndexRand++;
         NpcController.NpcIndexVal = PlayerIndexRand;
         mRankIndex = (RankManage.RankEnum)PlayerIndexRand;
-        mRankDt = RankDtManage.AddRankDt(mRankIndex);
+        mRankDt = RankDtManage.AddRankDt(mRankIndex, true);
         m_UIController.SetGameOverUIDt(mRankIndex);
 
         for (int i = 0; i < PlayerObjArray.Length; i++)
