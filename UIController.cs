@@ -219,6 +219,7 @@ public class UIController : MonoBehaviour
 				if(m_Player.m_IsFinished)
 				{
 					m_Score =  (int)(m_totalTime + chile * addChiLe - m_pGameTime);
+                    Debug.Log("UIController -> PlayerTimeUsed " + m_Score);
 					m_JiluRecord = ReadGameInfo.GetInstance().ReadGameRecord();
 					if(m_JiluRecord == 0 || m_Score<m_JiluRecord)
 					{

@@ -41,6 +41,7 @@ public class RankListUICtrl : MonoBehaviour
             {
                 mJiFenTr.parent = mJiFenTrArray[i];
                 mJiFenTr.localPosition = Vector3.zero;
+                Debug.Log("ShowRankListUI -> PlayerTimeUsed " + rankDt.TimeUsedVal.ToString("f2"));
             }
             rankDt = PlayerController.GetInstance().RankDtManage.RankDtList[i];
             indexVal = (int)rankDt.RankType;

@@ -576,6 +576,10 @@ public class PlayerController : MonoBehaviour
         if (timmerstar<5.0f)
 		{
 			timmerstar+=Time.deltaTime;
+            if (timmerstar >= 5f)
+            {
+                RankDtManage.SetTimeStartVal(Time.time);
+            }
 		}
 		else
         {
