@@ -5,6 +5,11 @@ using System;
 public class UIController : MonoBehaviour
 {
     /// <summary>
+    /// 进度条船图标.
+    /// ChuanTuBiaoImgArray[x] -> 0 猪猪侠, 1 波比, 2 超人强, 3 菲菲.
+    /// </summary>
+    public Texture[] ChuanTuBiaoImgArray;
+    /// <summary>
     /// 游戏结束时图片数据.
     /// </summary>
      [Serializable]
@@ -520,5 +525,16 @@ public class UIController : MonoBehaviour
         GameOverBkUI.mainTexture = GameOverImgDtArray[indexVal].GameOverImg;
         FinishBkUI.mainTexture = GameOverImgDtArray[indexVal].FinishImg;
         CongratulationBkUI.mainTexture = GameOverImgDtArray[indexVal].CongratulationImg;
+    }
+
+    /// <summary>
+    /// 设置进度条船图标.
+    /// </summary>
+    /// <param name="indexRank"></param>
+    public void SetChuanTuBiaoImg(RankManage.RankEnum indexRank)
+    {
+        int indexVal = (int)indexRank;
+        UITexture uiTextureCom = m_ChuanTuBiao.GetComponent<UITexture>();
+        uiTextureCom.mainTexture = ChuanTuBiaoImgArray[indexVal];
     }
 }

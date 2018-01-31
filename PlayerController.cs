@@ -393,6 +393,7 @@ public class PlayerController : MonoBehaviour
         mRankIndex = (RankManage.RankEnum)PlayerIndexRand;
         mRankDt = RankDtManage.AddRankDt(mRankIndex, true);
         m_UIController.SetGameOverUIDt(mRankIndex);
+        m_UIController.SetChuanTuBiaoImg(mRankIndex);
 
         for (int i = 0; i < PlayerObjArray.Length; i++)
         {
