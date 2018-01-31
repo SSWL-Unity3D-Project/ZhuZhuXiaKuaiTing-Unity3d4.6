@@ -5,6 +5,49 @@ using System;
 public class UIController : MonoBehaviour
 {
     /// <summary>
+    /// 游戏结束时图片数据.
+    /// </summary>
+     [Serializable]
+    public class GameOverImgData
+    {
+        /// <summary>
+        /// 游戏结束图片.
+        /// </summary>
+        public Texture GameOverImg;
+        /// <summary>
+        /// 到达终点图片.
+        /// </summary>
+        public Texture FinishImg;
+        /// <summary>
+        /// 创记录图片.
+        /// </summary>
+        public Texture CongratulationImg;
+    }
+
+    /// <summary>
+    /// 游戏结束时图片数据列表.
+    /// GameOverImgDtArray[x] -> 0 猪猪侠, 1 波比, 2 超人强, 3 菲菲.
+    /// </summary>
+    public GameOverImgData[] GameOverImgDtArray;
+
+    /// <summary>
+    /// 游戏结束图片.
+    /// </summary>
+    public UITexture GameOverBkUI;
+    /// <summary>
+    /// 到达终点图片.
+    /// </summary>
+    public UITexture FinishBkUI;
+    /// <summary>
+    /// 创记录图片.
+    /// </summary>
+    public UITexture CongratulationBkUI;
+
+    /// <summary>
+    /// 排行榜数据UI.
+    /// </summary>
+    public RankListUICtrl mRankListUI;
+    /// <summary>
     /// 游戏结束时要关闭的对象.
     /// </summary>
     public GameObject[] HiddenObjArray;
@@ -167,6 +210,7 @@ public class UIController : MonoBehaviour
 				{
 					m_IsGameOver = true;
 					TouBiInfoCtrl.IsCloseQiNang = true;
+                    PlayerController.GetInstance().SortPlayerRankList();
 				}
 				m_pScale.enabled = false;
 			}
@@ -206,6 +250,7 @@ public class UIController : MonoBehaviour
                 HiddenJiFen();
                 HiddenUi();
                 JieSuanJiFenObj.SetActive(true);
+                mRankListUI.ShowRankListUI();
             }
 			if(m_IsCongratulate)
 			{
@@ -463,4 +508,15 @@ public class UIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 设置游戏结束时大背景的图片信息.
+    /// </summary>
+    public void SetGameOverUIDt(RankManage.RankEnum indexRank)
+    {
+        Debug.Log("SetGameOverUIDt -> indexRank " + indexRank);
+        int indexVal = (int)indexRank;
+        GameOverBkUI.mainTexture = GameOverImgDtArray[indexVal].GameOverImg;
+        FinishBkUI.mainTexture = GameOverImgDtArray[indexVal].FinishImg;
+        CongratulationBkUI.mainTexture = GameOverImgDtArray[indexVal].CongratulationImg;
+    }
 }

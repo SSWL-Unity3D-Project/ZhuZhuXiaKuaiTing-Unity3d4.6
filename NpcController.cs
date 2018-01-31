@@ -34,7 +34,15 @@ public class NpcController : MonoBehaviour
     [HideInInspector]
     public Vector3 m_NpcPos;
     public static int NpcIndexVal = 0;
-	void Start ()
+    /// <summary>
+    /// 排名标记.
+    /// </summary>
+    RankManage.RankEnum mRankIndex = RankManage.RankEnum.Null;
+    /// <summary>
+    /// 排名数据.
+    /// </summary>
+    RankManage.RankData mRankDt = null;
+    void Start ()
     {
         m_playerRig = m_player.GetComponent<Rigidbody>();
         if (NpcIndexVal >= NpcObjArray.Length)
@@ -42,6 +50,8 @@ public class NpcController : MonoBehaviour
             NpcIndexVal = -1;
         }
         NpcIndexVal++;
+        mRankIndex = (RankManage.RankEnum)NpcIndexVal;
+        mRankDt = PlayerController.GetInstance().RankDtManage.AddRankDt(mRankIndex);
 
         for (int i = 0; i < NpcObjArray.Length; i++)
         {
@@ -174,10 +184,15 @@ public class NpcController : MonoBehaviour
     public NpcEnum NpcState = NpcEnum.Null;
 	void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "finish")
+        {
+            mRankDt.UpdateRankDtTimeFinish(Time.time);
+        }
         if (other.tag == "pathpoint")
 		{
 			m_NpcIndex = Convert.ToInt32(other.name);
-		}
+            mRankDt.UpdateRankDtPathPoint(m_NpcIndex, Time.time);
+        }
 		if(other.tag == "npc1" && NpcState == NpcEnum.Npc01)
 		{
 			m_NpcPathNum = Convert.ToInt32(other.name)-1;

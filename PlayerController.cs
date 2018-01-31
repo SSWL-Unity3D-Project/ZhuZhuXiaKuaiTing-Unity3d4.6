@@ -5,6 +5,18 @@ using System;
 public class PlayerController : MonoBehaviour
 {
     /// <summary>
+    /// 排名数据.
+    /// </summary>
+    RankManage.RankData mRankDt = null;
+    /// <summary>
+    /// 排名标记.
+    /// </summary>
+    RankManage.RankEnum mRankIndex = RankManage.RankEnum.Null;
+    /// <summary>
+    /// 排名数据管理.
+    /// </summary>
+    public RankManage RankDtManage = new RankManage();
+    /// <summary>
     /// 潜艇/坦克对水粒子位置的信息.
     /// </summary>
     [Serializable]
@@ -378,6 +390,9 @@ public class PlayerController : MonoBehaviour
         }
         PlayerIndexRand++;
         NpcController.NpcIndexVal = PlayerIndexRand;
+        mRankIndex = (RankManage.RankEnum)PlayerIndexRand;
+        mRankDt = RankDtManage.AddRankDt(mRankIndex);
+        m_UIController.SetGameOverUIDt(mRankIndex);
 
         for (int i = 0; i < PlayerObjArray.Length; i++)
         {
@@ -1041,6 +1056,21 @@ public class PlayerController : MonoBehaviour
 		OnNpcHitPlayer ();
 	}
 
+    bool IsRankListSort = false;
+    /// <summary>
+    /// 对排名数据进行排序.
+    /// </summary>
+    public void SortPlayerRankList()
+    {
+        if (!IsRankListSort)
+        {
+            return;
+        }
+        IsRankListSort = true;
+        Debug.Log("SortPlayerRankList...");
+        RankDtManage.SortRankDtList();
+    }
+
 	void OnTriggerEnter(Collider other)
 	{
         DaoJuCtrl daoJuCom = other.GetComponent<DaoJuCtrl>();
@@ -1056,13 +1086,15 @@ public class PlayerController : MonoBehaviour
 		}
 		if(other.tag == "finish")
 		{
+            mRankDt.UpdateRankDtTimeFinish(Time.time);
 			TouBiInfoCtrl.IsCloseQiNang = true;
 			m_IsFinished = true;
 			if (m_PlayerAnimator.gameObject.activeInHierarchy)
 			{
 				m_PlayerAnimator.SetBool("IsFinish",true);
 			}
-		}
+            SortPlayerRankList();
+        }
 		if(other.tag == "water")
 		{
 			m_IsInWarter = true;
@@ -1077,8 +1109,9 @@ public class PlayerController : MonoBehaviour
 		if(other.tag == "pathpoint")
 		{
 			PathNum = Convert.ToInt32(other.name)-1;
-			//Debug.Log("PathNum PathNum PathNum" + PathNum);
-		}
+            //Debug.Log("PathNum PathNum PathNum" + PathNum);
+            mRankDt.UpdateRankDtPathPoint(Convert.ToInt32(other.name), Time.time);
+        }
 		if(other.tag == "zhangai")
 		{
 			if(/*m_SpeedRecord*3.6f - */rigidbody.velocity.magnitude*3.6f >30.0f)
