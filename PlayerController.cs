@@ -1568,6 +1568,7 @@ public class PlayerController : MonoBehaviour
             case DaoJuCtrl.DaoJuType.FeiXingYi:
                 {
                     m_pChuan.localPosition -= new Vector3(0f, PlayerHightFeiXing, 0f);
+                    SpawnJiFenTr.localPosition -= new Vector3(0f, PlayerHightShuangYiFeiJi, 0f);
                     m_CameraSmooth.SetCameraUpPos(-PlayerHightFeiXing);
                     Instantiate(FeiXingYiPrefab, DaoJuDiaoLuoTr[1].position, DaoJuDiaoLuoTr[1].rotation);
                     for (int i = 0; i < FiXingYiAniAy.Length; i++)
@@ -1580,6 +1581,7 @@ public class PlayerController : MonoBehaviour
             case DaoJuCtrl.DaoJuType.ShuangYiFeiJi:
                 {
                     m_pChuan.localPosition -= new Vector3(0f, PlayerHightShuangYiFeiJi, 0f);
+                    SpawnJiFenTr.localPosition -= new Vector3(0f, PlayerHightShuangYiFeiJi, 0f);
                     m_CameraSmooth.SetCameraUpPos(-PlayerHightShuangYiFeiJi);
                     Instantiate(ShuangYiFeiJiPrefab, DaoJuDiaoLuoTr[3].position, DaoJuDiaoLuoTr[3].rotation);
                     ShuangYiFeiJiTwRot.enabled = false;
@@ -1663,6 +1665,7 @@ public class PlayerController : MonoBehaviour
                 {
                     m_ParameterForEfferct = m_ForEfferctFeiXing;
                     m_pChuan.localPosition += new Vector3(0f, PlayerHightFeiXing, 0f);
+                    SpawnJiFenTr.localPosition += new Vector3(0f, PlayerHightShuangYiFeiJi, 0f);
                     m_CameraSmooth.SetCameraUpPos(PlayerHightFeiXing);
                     m_pTopSpeed = PlayerMvSpeedFeiXing;
                     for (int i = 0; i < FiXingYiAniAy.Length; i++)
@@ -1676,6 +1679,7 @@ public class PlayerController : MonoBehaviour
                 {
                     m_ParameterForEfferct = m_ForEfferctShuangYiFeiJi;
                     m_pChuan.localPosition += new Vector3(0f, PlayerHightShuangYiFeiJi, 0f);
+                    SpawnJiFenTr.localPosition += new Vector3(0f, PlayerHightShuangYiFeiJi, 0f);
                     m_CameraSmooth.SetCameraUpPos(PlayerHightShuangYiFeiJi);
                     m_pTopSpeed = PlayerMvSpeedShuangYiFeiJi;
                     ShuangYiFeiJiTwRot.enabled = false;
