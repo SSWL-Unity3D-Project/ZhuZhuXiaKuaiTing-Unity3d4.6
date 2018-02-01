@@ -878,22 +878,28 @@ public class PlayerController : MonoBehaviour
 
         float rotSpeed = m_ParameterForRotate * mSteer * Time.smoothDeltaTime;
         transform.Rotate(0, rotSpeed, 0);
-        float angleZ = 0.0f;
+        float angleZ = 0f;
         if (rigidbody.velocity.magnitude * 3.6f >= m_SpeedForZangle)
         {
-            angleZ = -mSteer * m_ParameterForZangle * rigidbody.velocity.magnitude * 3.6f * rigidbody.velocity.magnitude * 3.6f;
-            if (angleZ < -42f)
+            angleZ = Mathf.MoveTowards(mChuanAngleCurZ, -42f * mSteer, Time.deltaTime * m_ParameterForZangle * SpeedObj);
+            angleZ = Mathf.Clamp(angleZ, -42f, 42f);
+            mChuanAngleCurZ = angleZ;
+        }
+        else
+        {
+            if (mChuanAngleCurZ != 0f)
             {
-                angleZ = -42f;
-            }
-            else if (angleZ > 42f)
-            {
-                angleZ = 42f;
+                angleZ = Mathf.MoveTowards(mChuanAngleCurZ, 0f, Time.deltaTime * m_ParameterForZangle * SpeedObj);
+                mChuanAngleCurZ = angleZ;
             }
         }
         m_pChuan.localEulerAngles = new Vector3(m_pChuan.localEulerAngles.x, m_pChuan.localEulerAngles.y, angleZ);
     }
 
+    /// <summary>
+    /// 船体当前角度.
+    /// </summary>
+    float mChuanAngleCurZ = 0f;
 	private bool m_hasplay = false;
 	void CalculateState()
 	{
@@ -1870,12 +1876,14 @@ public class PlayerController : MonoBehaviour
         IsOpenCiTieDaoJu = true;
         TimeLastCiTie = Time.time;
     }
+
     /// <summary>
     /// 产生道具积分.
     /// </summary>
     public void SpawnDaoJuJiFen(GameObject jiFenPrefab)
     {
-        Instantiate(jiFenPrefab, SpawnJiFenTr.position, SpawnJiFenTr.rotation);
+        GameObject obj = (GameObject)Instantiate(jiFenPrefab, SpawnJiFenTr.position, SpawnJiFenTr.rotation);
+        obj.transform.parent = SpawnJiFenTr;
     }
 
     /// <summary>
