@@ -484,7 +484,8 @@ public class UIController : MonoBehaviour
         if (jiFen != 0)
         {
             JiFenAni.SetTrigger("IsTrigger");
-        }
+		}
+		mRankListUI.ShowJiFenInfo(jiFen);
 
         int jiFenTmp = 0;
         string jiFenStr = jiFen.ToString();
@@ -505,7 +506,6 @@ public class UIController : MonoBehaviour
                 JieSuanJiFenSpriteArray[i].enabled = false;
             }
         }
-        mRankListUI.ShowJiFenInfo(jiFen);
     }
 
     void HiddenJiFen()
