@@ -383,7 +383,8 @@ public class PlayerController : MonoBehaviour
 	public AudioSource LaBaAudio;
     public static int PlayerIndexRand = -1;
     void Awake()
-    {
+	{
+		Instance = this;
         if (PlayerIndexRand >= PlayerObjArray.Length - 1)
         {
             PlayerIndexRand = -1;
@@ -447,7 +448,7 @@ public class PlayerController : MonoBehaviour
 		transform.eulerAngles = new Vector3(PathPoint[0].eulerAngles.x,PathPoint[0].eulerAngles.y,PathPoint[0].eulerAngles.z);
 		m_WaterDirection = m_OldWaterDirection = PathPoint[1].position - PathPoint[0].position;
 //		m_SpeedRecord = rigidbody.velocity.magnitude;
-		Instance = this;
+		//Instance = this;
 		//InputEventCtrl.GetInstance().ClickShaCheBtEvent += ClickShaCheBtEvent;
 		InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
 		Invoke("DelayCallClickShaCheBtEvent", 0.5f);
