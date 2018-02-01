@@ -5,6 +5,10 @@ using System;
 public class UIController : MonoBehaviour
 {
     /// <summary>
+    /// 积分动画控制.
+    /// </summary>
+    public Animator JiFenAni;
+    /// <summary>
     /// 进度条船图标.
     /// ChuanTuBiaoImgArray[x] -> 0 猪猪侠, 1 波比, 2 超人强, 3 菲菲.
     /// </summary>
@@ -477,6 +481,11 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void ShowJiFenInfo(int jiFen)
     {
+        if (jiFen != 0)
+        {
+            JiFenAni.SetTrigger("IsTrigger");
+        }
+
         int jiFenTmp = 0;
         string jiFenStr = jiFen.ToString();
         for (int i = 0; i < 6; i++)
