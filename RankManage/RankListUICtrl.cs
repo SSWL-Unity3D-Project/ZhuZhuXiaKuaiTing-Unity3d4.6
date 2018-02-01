@@ -37,13 +37,13 @@ public class RankListUICtrl : MonoBehaviour
         RankManage.RankData rankDt = null;
         for (int i = 0; i < RankTouXiangArray.Length; i++)
         {
+            rankDt = PlayerController.GetInstance().RankDtManage.RankDtList[i];
             if (rankDt.IsPlayerData)
             {
                 mJiFenTr.parent = mJiFenTrArray[i];
                 mJiFenTr.localPosition = Vector3.zero;
                 Debug.Log("ShowRankListUI -> PlayerTimeUsed " + rankDt.TimeUsedVal.ToString("f2"));
             }
-            rankDt = PlayerController.GetInstance().RankDtManage.RankDtList[i];
             indexVal = (int)rankDt.RankType;
             RankTouXiangArray[i].mainTexture = TouXiangImgArray[indexVal];
             mRankDtUIArray[i].ShowTimeUsedVal((int)rankDt.TimeUsedVal);
