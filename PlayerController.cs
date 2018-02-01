@@ -1885,6 +1885,7 @@ public class PlayerController : MonoBehaviour
     {
         GameObject obj = (GameObject)Instantiate(jiFenPrefab, SpawnJiFenTr.position, SpawnJiFenTr.rotation);
         obj.transform.parent = SpawnJiFenTr;
+        obj.transform.localPosition = Vector3.zero;
     }
 
     /// <summary>
