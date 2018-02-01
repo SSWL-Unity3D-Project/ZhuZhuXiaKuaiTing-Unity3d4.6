@@ -10,8 +10,8 @@ public class MyCOMDevice : MonoBehaviour
 	{
 		public string ThreadName;
         static SerialPort _SerialPort;
-        public static int BufLenRead = 58;
-		public static int BufLenReadEnd = 4;
+        public static int BufLenRead = 60;
+		public static int BufLenReadEnd = 2;
 		public static  int BufLenWrite = 50;
 		public static byte[] ReadByteMsg = new byte[BufLenRead];
 		public static byte[] WriteByteMsg = new byte[BufLenWrite];
@@ -82,7 +82,8 @@ public class MyCOMDevice : MonoBehaviour
 			do
 			{
                 COMTxData();
-				if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
+				//if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
+				if (pcvr.IsJiaoYanHid) {
 					Thread.Sleep(100);
 				}
 				else {
@@ -90,7 +91,8 @@ public class MyCOMDevice : MonoBehaviour
 				}
 
                 COMRxData();
-				if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
+				//if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
+				if (pcvr.IsJiaoYanHid) {
 					Thread.Sleep(100);
 				}
 				else {

@@ -414,7 +414,7 @@ public class PlayerController : MonoBehaviour
     }
 
 	void Start()
-	{
+    {
         m_PlayerAnimator = m_pChuan.GetComponent<Animator>();
         npc1Pos = npc1.transform;
         npc2Pos = npc2.transform;
@@ -864,23 +864,35 @@ public class PlayerController : MonoBehaviour
 			mSteer = 0f;
 		}
 
-		float rotSpeed = m_ParameterForRotate * mSteer * Time.smoothDeltaTime;
-		transform.Rotate(0, rotSpeed, 0);
-		float angleZ = 0.0f;
-		if(rigidbody.velocity.magnitude*3.6f >= m_SpeedForZangle)
-		{
-			angleZ = -mSteer * m_ParameterForZangle* rigidbody.velocity.magnitude*3.6f*rigidbody.velocity.magnitude*3.6f;
-			if(angleZ < -42f)
-			{
-				angleZ = -42f;
-			}
-			else if(angleZ > 42f)
-			{
-				angleZ = 42f;
-			}
-		}
-		m_pChuan.localEulerAngles = new Vector3(m_pChuan.localEulerAngles.x,m_pChuan.localEulerAngles.y,angleZ);
-	}
+        if (mSteer == 0f)
+        {
+            if (PathNum + 1 < PathPoint.Length)
+            {
+                Vector3 moveDir = PathPoint[PathNum + 1].position - transform.position;
+                if (moveDir.magnitude > 10f)
+                {
+                    transform.forward = Vector3.MoveTowards(transform.forward, moveDir, Time.deltaTime * 3.1f);
+                }
+            }
+        }
+
+        float rotSpeed = m_ParameterForRotate * mSteer * Time.smoothDeltaTime;
+        transform.Rotate(0, rotSpeed, 0);
+        float angleZ = 0.0f;
+        if (rigidbody.velocity.magnitude * 3.6f >= m_SpeedForZangle)
+        {
+            angleZ = -mSteer * m_ParameterForZangle * rigidbody.velocity.magnitude * 3.6f * rigidbody.velocity.magnitude * 3.6f;
+            if (angleZ < -42f)
+            {
+                angleZ = -42f;
+            }
+            else if (angleZ > 42f)
+            {
+                angleZ = 42f;
+            }
+        }
+        m_pChuan.localEulerAngles = new Vector3(m_pChuan.localEulerAngles.x, m_pChuan.localEulerAngles.y, angleZ);
+    }
 
 	private bool m_hasplay = false;
 	void CalculateState()
@@ -1075,7 +1087,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("SortPlayerRankList...");
         RankDtManage.SortRankDtList();
     }
-
+    
 	void OnTriggerEnter(Collider other)
 	{
         DaoJuCtrl daoJuCom = other.GetComponent<DaoJuCtrl>();

@@ -2,10 +2,6 @@
 
 using UnityEngine;
 using System.Collections;
-using System.Runtime.InteropServices;
-using SLAB_HID_DEVICE;
-using System;
-using System.IO;
 
 public class pcvr : MonoBehaviour
 {
@@ -883,11 +879,15 @@ public class pcvr : MonoBehaviour
 	static bool IsHandleDirByKey = true;
     enum SteerEnum
     {
-        Left = 0x55,
-        Right = 0xaa,
+        //Left = 0x55,
+        //Right = 0xaa,
+        Left = 0xaa,
+        Right = 0x55,
         Center = 0x00,
     }
-	public static void GetPcvrSteerVal()
+
+    float TimeLastSteer = 0f;
+	public void GetPcvrSteerVal()
 	{
 		if (!IsHandleDirByKey) {
 			if (!bIsHardWare) {
@@ -912,16 +912,21 @@ public class pcvr : MonoBehaviour
             case SteerEnum.Left:
                 {
                     mGetSteer = -1f;
+                    TimeLastSteer = Time.time;
                     break;
                 }
             case SteerEnum.Center:
                 {
-                    mGetSteer = 0f;
+                    if (Time.time - TimeLastSteer > 0.2f)
+                    {
+                        mGetSteer = 0f;
+                    }
                     break;
                 }
             case SteerEnum.Right:
                 {
                     mGetSteer = 1f;
+                    TimeLastSteer = Time.time;
                     break;
                 }
         }
