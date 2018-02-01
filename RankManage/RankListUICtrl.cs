@@ -47,6 +47,7 @@ public class RankListUICtrl : MonoBehaviour
             indexVal = (int)rankDt.RankType;
             RankTouXiangArray[i].mainTexture = TouXiangImgArray[indexVal];
             mRankDtUIArray[i].ShowTimeUsedVal((int)rankDt.TimeUsedVal);
+            mRankDtUIArray[i].gameObject.SetActive(true);
         }
         gameObject.SetActive(true);
     }
