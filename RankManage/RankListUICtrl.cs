@@ -44,7 +44,8 @@ public class RankListUICtrl : MonoBehaviour
                 mJiFenTr.localPosition = Vector3.zero;
                 Debug.Log("ShowRankListUI -> PlayerTimeUsed " + rankDt.TimeUsedVal.ToString("f2"));
             }
-            indexVal = (int)rankDt.RankType;
+			indexVal = (int)rankDt.RankType;
+			Debug.Log("SortRankDtList -> index " + i + ", RankType " + rankDt.RankType);
             RankTouXiangArray[i].mainTexture = TouXiangImgArray[indexVal];
             mRankDtUIArray[i].ShowTimeUsedVal((int)rankDt.TimeUsedVal);
             mRankDtUIArray[i].gameObject.SetActive(true);

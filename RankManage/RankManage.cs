@@ -57,7 +57,8 @@ public class RankManage
         public RankData(RankEnum rankType, bool isPlayer)
         {
             RankType = rankType;
-            IsPlayerData = isPlayer;
+			IsPlayerData = isPlayer;
+			UnityEngine.Debug.Log("SortRankDtList -> isPlayer " + isPlayer + ", RankType " + RankType);
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ public class RankManage
         RankDtList.Sort(CompareRankDt);
         for (int i = 0; i < RankDtList.Count; i++)
         {
-            UnityEngine.Debug.Log("SortRankDtList -> index " + i + "RankType " + RankDtList[i].RankType);
+            UnityEngine.Debug.Log("SortRankDtList -> index " + i + ", RankType " + RankDtList[i].RankType);
         }
     }
 
