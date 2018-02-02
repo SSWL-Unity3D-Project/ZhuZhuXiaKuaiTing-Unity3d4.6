@@ -340,6 +340,7 @@ public class PlayerController : MonoBehaviour
 	public GameObject m_HitEffectObj;
 	public AudioSource m_HitWater;
 	public AudioSource m_YinqingAudio;
+	public float mYinQingYinLiang = 120f;
 	public AudioSource m_ShuihuaAudio;
 	public AudioSource m_BeijingAudio;
     /// <summary>
@@ -651,7 +652,7 @@ public class PlayerController : MonoBehaviour
 				UpdateCameraEffect();
 				UpdateShuihua();
 //				m_SpeedRecord = rigidbody.velocity.magnitude;
-				m_YinqingAudio.volume = rigidbody.velocity.magnitude*3.6f/120.0f;
+				m_YinqingAudio.volume = (rigidbody.velocity.magnitude * 3.6f) / mYinQingYinLiang;
 				ResetPlayer();
 				OnHitShake();
 			}
