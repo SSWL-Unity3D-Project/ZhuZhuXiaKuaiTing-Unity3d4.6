@@ -1087,7 +1087,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void SortPlayerRankList()
     {
-        if (!IsRankListSort)
+        if (IsRankListSort)
         {
             return;
         }

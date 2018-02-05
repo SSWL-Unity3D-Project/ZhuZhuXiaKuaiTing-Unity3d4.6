@@ -77,6 +77,9 @@ public class RankManage
             }
             IsMoveToFinishPoint = true;
             TimeFinishPoint = timeVal;
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log("UpdateRankDtTimeFinish -> TimeFinishPoint " + TimeFinishPoint + ", RankType " + RankType);
+#endif
         }
 
         /// <summary>
@@ -95,6 +98,9 @@ public class RankManage
             }
             PathNodeCur = node;
             TimePathNodeCur = timeVal;
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log("UpdateRankDtTimeFinish -> TimePathNodeCur " + TimePathNodeCur + ", node " + node + ", RankType " + RankType);
+#endif
         }
     }
 
@@ -144,13 +150,13 @@ public class RankManage
         else if (x.IsMoveToFinishPoint)
         {
             //x到达终点.
-            retval = 1;
+            retval = -1;
             x.TimeUsedVal = x.TimeFinishPoint - TimeStartVal;
         }
         else if (y.IsMoveToFinishPoint)
         {
             //y到达终点.
-            retval = -1;
+            retval = 1;
             y.TimeUsedVal = y.TimeFinishPoint - TimeStartVal;
         }
         else
@@ -175,10 +181,13 @@ public class RankManage
     public void SortRankDtList()
     {
         RankDtList.Sort(CompareRankDt);
+#if UNITY_EDITOR
         for (int i = 0; i < RankDtList.Count; i++)
         {
-            UnityEngine.Debug.Log("SortRankDtList -> index " + i + ", RankType " + RankDtList[i].RankType);
+            UnityEngine.Debug.Log("SortRankDtList -> index " + i + ", node " + RankDtList[i].PathNodeCur + ", timeNode " + RankDtList[i].TimePathNodeCur + ", RankType " + RankDtList[i].RankType);
+            UnityEngine.Debug.Log("SortRankDtList -> TimeFinishPoint " + RankDtList[i].TimeFinishPoint + ", IsMoveToFinishPoint " + RankDtList[i].IsMoveToFinishPoint);
         }
+#endif
     }
 
     public void SetTimeStartVal(float timeVal)
