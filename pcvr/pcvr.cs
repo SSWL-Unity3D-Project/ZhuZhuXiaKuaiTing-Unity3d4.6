@@ -38,22 +38,22 @@ public class pcvr : MonoBehaviour
 	//static uint BikePowerLen = 0;
 	//public static uint BikePowerCur;
 	//public static uint BikePowerOld;
-	bool bIsJiaoYanBikeValue = false;
-	static bool IsInitYouMenJiaoZhun = false;
+	//bool bIsJiaoYanBikeValue = false;
+	//static bool IsInitYouMenJiaoZhun = false;
 	//bool IsJiaoZhunFireBt;
 	//bool IsFanZhuangYouMen;
 	static bool IsInitFangXiangJiaoZhun;
-	bool IsFanZhuangFangXiang;
-	int FangXiangJiaoZhunCount;
+	//bool IsFanZhuangFangXiang;
+	//int FangXiangJiaoZhunCount;
 	public static uint CoinCurPcvr;
 	//public static uint BikePowerCurPcvr;
 	//public static StartLightState StartBtLight = StartLightState.Mie;
 	//public static StartLightState DongGanBtLight = StartLightState.Mie;
 	bool IsCleanHidCoin;
-	static uint BikeDirLenA;
-	static uint BikeDirLenB;
-	static uint BikeDirLenC;
-	static uint BikeDirLenD;
+	//static uint BikeDirLenA;
+	//static uint BikeDirLenB;
+	//static uint BikeDirLenC;
+	//static uint BikeDirLenD;
 	//public static bool IsActiveSheCheEvent;
 	//static bool IsInitShaCheJiaoZhun;
 	//static bool IsFanZhuangShaChe;
@@ -114,7 +114,7 @@ public class pcvr : MonoBehaviour
 		SteerValMin = (uint)PlayerPrefs.GetInt("mBikeDirMin");
 		SteerValCen = (uint)PlayerPrefs.GetInt("mBikeDirCen");
 		SteerValMax = (uint)PlayerPrefs.GetInt("mBikeDirMax");
-		CheckBikeDirLen();
+		//CheckBikeDirLen();
 		
 		//YouMenInfo
 		//mBikePowerMin = (uint)PlayerPrefs.GetInt("mBikePowerMin");
@@ -728,7 +728,7 @@ public class pcvr : MonoBehaviour
 	}
 
 	byte JiOuJiaoYanCount;
-	byte JiOuJiaoYanMax = 5;
+	//byte JiOuJiaoYanMax = 5;
 	public static bool IsJiOuJiaoYanFailed;
 	public void GetMessage()
 	{
@@ -868,13 +868,13 @@ public class pcvr : MonoBehaviour
         KeyProcess(MyCOMDevice.ComThreadClass.ReadByteMsg);
 	}
 
-	void CheckBikeDirLen()
-	{
-		BikeDirLenA = SteerValMin - SteerValCen + 1;
-		BikeDirLenB = SteerValCen - SteerValMax + 1;
-		BikeDirLenC = SteerValMax - SteerValCen + 1;
-		BikeDirLenD = SteerValCen - SteerValMin + 1;
-	}
+	//void CheckBikeDirLen()
+	//{
+		//BikeDirLenA = SteerValMin - SteerValCen + 1;
+		//BikeDirLenB = SteerValCen - SteerValMax + 1;
+		//BikeDirLenC = SteerValMax - SteerValCen + 1;
+		//BikeDirLenD = SteerValCen - SteerValMin + 1;
+	//}
 
 	static bool IsHandleDirByKey = true;
     enum SteerEnum
@@ -1198,9 +1198,9 @@ public class pcvr : MonoBehaviour
 		SteerValMax = 0;
 		
 		//IsJiaoZhunFireBt = false;
-		FangXiangJiaoZhunCount = 0;
+		//FangXiangJiaoZhunCount = 0;
 		IsInitFangXiangJiaoZhun = true;
-		bIsJiaoYanBikeValue = true;
+		//bIsJiaoYanBikeValue = true;
 	}
 	
 	void ResetFangXiangJiaoZhun()
@@ -1210,20 +1210,20 @@ public class pcvr : MonoBehaviour
 		}
 		//ScreenLog.Log("pcvr -> ResetFangXiangJiaoZhun...");
 		//IsJiaoZhunFireBt = false;
-		FangXiangJiaoZhunCount = 0;
+		//FangXiangJiaoZhunCount = 0;
 		IsInitFangXiangJiaoZhun = false;
 		
-		uint TmpVal = 0;
-		if (IsFanZhuangFangXiang) {
-			TmpVal = SteerValMax;
-			SteerValMax = SteerValMin;
-			SteerValMin = TmpVal;
-			//ScreenLog.Log("CheTouFangXiangFanZhuan -> SteerValMin " + SteerValMin + ", SteerValMax " +SteerValMax);
-		}
-		else {
-			//ScreenLog.Log("CheTouFangXiangZhengZhuan -> SteerValMin " + SteerValMin + ", SteerValMax " +SteerValMax);
-		}
-		CheckBikeDirLen();
+		//uint TmpVal = 0;
+		//if (IsFanZhuangFangXiang) {
+		//	TmpVal = SteerValMax;
+		//	SteerValMax = SteerValMin;
+		//	SteerValMin = TmpVal;
+		//	//ScreenLog.Log("CheTouFangXiangFanZhuan -> SteerValMin " + SteerValMin + ", SteerValMax " +SteerValMax);
+		//}
+		//else {
+		//	//ScreenLog.Log("CheTouFangXiangZhengZhuan -> SteerValMin " + SteerValMin + ", SteerValMax " +SteerValMax);
+		//}
+		//CheckBikeDirLen();
 		PlayerPrefs.SetInt("mBikeDirMin", (int)SteerValMin);
 		PlayerPrefs.SetInt("mBikeDirCen", (int)SteerValCen);
 		PlayerPrefs.SetInt("mBikeDirMax", (int)SteerValMax);
@@ -1408,11 +1408,11 @@ public class pcvr : MonoBehaviour
 			}
 		}
 
-		if (bIsJiaoYanBikeValue) {
-			FangXiangJiaoZhun();
+		//if (bIsJiaoYanBikeValue) {
+		//	FangXiangJiaoZhun();
             //YouMenJiaoZhun();
             //ShaCheJiaoZhun();
-        }
+        //}
 
         //按键1(投币3) - 动感控制开关
         if (buffer[21] == 0x00 || buffer[21] == 0xff)

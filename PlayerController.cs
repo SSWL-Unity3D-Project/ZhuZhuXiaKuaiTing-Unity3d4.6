@@ -1141,7 +1141,7 @@ public class PlayerController : MonoBehaviour
 		{
 			if(/*m_SpeedRecord*3.6f - */rigidbody.velocity.magnitude*3.6f >30.0f)
 			{
-				IsHitRock = true;
+				//IsHitRock = true;
 				m_IsHitshake = true;
 				if (m_PlayerAnimator.gameObject.activeInHierarchy)
 				{
@@ -1170,7 +1170,7 @@ public class PlayerController : MonoBehaviour
 		{
 			if(m_IsInWarter)
 			{
-				IsHitRock = true;
+				//IsHitRock = true;
 				m_IsHitshake = true;
 				m_CameraShake.setCameraShakeImpulseValue();
 				m_HitStone.Play();
@@ -1454,7 +1454,7 @@ public class PlayerController : MonoBehaviour
 	private float m_HitshakeTimmer = 0.0f;
     [HideInInspector]
     public bool m_IsHitshake = false;
-	static bool IsHitRock = false;
+	//static bool IsHitRock = false;
 	void OnHitShake()
 	{
 		if(m_IsHitshake)
@@ -1488,7 +1488,7 @@ public class PlayerController : MonoBehaviour
 					TimeHitRock = 0f;
 					m_HitshakeTimmer = 0.0f;
 					m_IsHitshake = false;
-					IsHitRock = false;
+					//IsHitRock = false;
 					//pcvr.m_IsOpneForwardQinang = false;
 					//pcvr.m_IsOpneBehindQinang = false;
 //					pcvr.m_IsOpneLeftQinang = false;

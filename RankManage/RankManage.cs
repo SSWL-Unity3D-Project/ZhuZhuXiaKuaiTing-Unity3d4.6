@@ -78,7 +78,7 @@ public class RankManage
             IsMoveToFinishPoint = true;
             TimeFinishPoint = timeVal;
 #if UNITY_EDITOR
-            UnityEngine.Debug.Log("UpdateRankDtTimeFinish -> TimeFinishPoint " + TimeFinishPoint + ", RankType " + RankType);
+            //UnityEngine.Debug.Log("UpdateRankDtTimeFinish -> TimeFinishPoint " + TimeFinishPoint + ", RankType " + RankType);
 #endif
         }
 
@@ -99,7 +99,7 @@ public class RankManage
             PathNodeCur = node;
             TimePathNodeCur = timeVal;
 #if UNITY_EDITOR
-            UnityEngine.Debug.Log("UpdateRankDtTimeFinish -> TimePathNodeCur " + TimePathNodeCur + ", node " + node + ", RankType " + RankType);
+            //UnityEngine.Debug.Log("UpdateRankDtTimeFinish -> TimePathNodeCur " + TimePathNodeCur + ", node " + node + ", RankType " + RankType);
 #endif
         }
     }
