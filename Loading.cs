@@ -73,7 +73,7 @@ public class Loading : MonoBehaviour
         if (m_InserNum >= m_CoinNumSet)
         {
             UpdateTex();
-            ClickStartBtOneEvent(ButtonState.UP);
+            ClickStartBtOneEvent(InputEventCtrl.ButtonState.UP);
         }
     }
 	void Update ()
@@ -97,17 +97,17 @@ public class Loading : MonoBehaviour
 		OnLoadingClicked();
 	}
 
-	void ClickStartBtOneEvent(ButtonState val)
+	void ClickStartBtOneEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			return;
 		}
 		OnClickBeginBt();
 	}
 
-	void ClickSetEnterBtEvent(ButtonState val)
+	void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			return;
 		}
 
@@ -217,7 +217,7 @@ public class Loading : MonoBehaviour
         if (m_InserNum >= m_CoinNumSet)
         {
             UpdateTex();
-            ClickStartBtOneEvent(ButtonState.UP);
+            ClickStartBtOneEvent(InputEventCtrl.ButtonState.UP);
         }
     }
 	void OnClickBeginBt()

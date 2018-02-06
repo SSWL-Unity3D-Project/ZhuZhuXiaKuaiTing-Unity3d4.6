@@ -1,9 +1,15 @@
 using UnityEngine;
 using System.Collections;
 
-public class InputEventCtrl : MonoBehaviour {
+public class InputEventCtrl : MonoBehaviour
+{
+    public enum ButtonState : int
+    {
+        UP = 1,
+        DOWN = -1
+    }
 
-	public static bool IsClickFireBtDown;
+    public static bool IsClickFireBtDown;
 	public static uint SteerValCur;
 	public static uint TaBanValCur;
 	static private InputEventCtrl Instance = null;
@@ -196,10 +202,4 @@ public class InputEventCtrl : MonoBehaviour {
 			ClickLaBaBt( ButtonState.DOWN );
 		}
 	}
-}
-
-public enum ButtonState : int
-{
-	UP = 1,
-	DOWN = -1
 }

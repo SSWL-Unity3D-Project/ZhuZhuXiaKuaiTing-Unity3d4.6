@@ -1433,7 +1433,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("dongGanBt up!按键1（投币3）");
                         Debug.Log("buffer[20] " + buffer[20].ToString("X2") + ", buffer[21] " + buffer[21].ToString("X2"));
                         IsCloseDongGanBtDown = false;
-                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.UP);
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(InputEventCtrl.ButtonState.UP);
                     }
                     else if (!IsCloseDongGanBtDown && (buffer[20] & 0x04) == 0x00)
                     {
@@ -1441,7 +1441,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("dongGanBt down!按键1（投币3）");
                         Debug.Log("buffer[20] " + buffer[20].ToString("X2") + ", buffer[21] " + buffer[21].ToString("X2"));
                         IsCloseDongGanBtDown = true;
-                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.DOWN);
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(InputEventCtrl.ButtonState.DOWN);
                     }
                 }
                 else if ((buffer[21] & 0x40) == 0x40)
@@ -1452,7 +1452,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("dongGanBt up!按键1（投币3）");
                         Debug.Log("buffer[20] " + buffer[20].ToString("X2") + ", buffer[21] " + buffer[21].ToString("X2"));
                         IsCloseDongGanBtDown = false;
-                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.UP);
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(InputEventCtrl.ButtonState.UP);
                     }
                     else if (!IsCloseDongGanBtDown && (buffer[20] & 0x10) == 0x00)
                     {
@@ -1460,7 +1460,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("dongGanBt down!按键1（投币3）");
                         Debug.Log("buffer[20] " + buffer[20].ToString("X2") + ", buffer[21] " + buffer[21].ToString("X2"));
                         IsCloseDongGanBtDown = true;
-                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(ButtonState.DOWN);
+                        InputEventCtrl.GetInstance().ClickCloseDongGanBt(InputEventCtrl.ButtonState.DOWN);
                     }
                 }
             }
@@ -1509,7 +1509,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setEnterBt up!按键2（投币4）");
                         Debug.Log("buffer[22] " + buffer[22].ToString("X2") + ", buffer[24] " + buffer[24].ToString("X2"));
                         bSetEnterKeyDown = false;
-                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.UP);
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(InputEventCtrl.ButtonState.UP);
                     }
                     else if (!bSetEnterKeyDown && (buffer[24] & 0x20) == 0x00)
                     {
@@ -1517,7 +1517,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setEnterBt down!按键2（投币4）");
                         Debug.Log("buffer[22] " + buffer[22].ToString("X2") + ", buffer[24] " + buffer[24].ToString("X2"));
                         bSetEnterKeyDown = true;
-                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.DOWN);
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(InputEventCtrl.ButtonState.DOWN);
                     }
                 }
                 else if ((buffer[22] & 0x40) == 0x40)
@@ -1528,7 +1528,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setEnterBt up!按键2（投币4）");
                         Debug.Log("buffer[22] " + buffer[22].ToString("X2") + ", buffer[24] " + buffer[24].ToString("X2"));
                         bSetEnterKeyDown = false;
-                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.UP);
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(InputEventCtrl.ButtonState.UP);
                     }
                     else if (!bSetEnterKeyDown && (buffer[24] & 0x80) == 0x00)
                     {
@@ -1536,7 +1536,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setEnterBt down!按键2（投币4）");
                         Debug.Log("buffer[22] " + buffer[22].ToString("X2") + ", buffer[24] " + buffer[24].ToString("X2"));
                         bSetEnterKeyDown = true;
-                        InputEventCtrl.GetInstance().ClickSetEnterBt(ButtonState.DOWN);
+                        InputEventCtrl.GetInstance().ClickSetEnterBt(InputEventCtrl.ButtonState.DOWN);
                     }
                 }
             }
@@ -1572,7 +1572,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setMoveBt up!按键8（移动）");
                         Debug.Log("buffer[25] " + buffer[25].ToString("X2") + ", buffer[27] " + buffer[27].ToString("X2"));
                         bSetMoveKeyDown = false;
-                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.UP);
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(InputEventCtrl.ButtonState.UP);
                     }
                     else if (!bSetMoveKeyDown && (buffer[27] & 0x02) == 0x00)
                     {
@@ -1580,7 +1580,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setMoveBt down!按键8（移动）");
                         Debug.Log("buffer[25] " + buffer[25].ToString("X2") + ", buffer[27] " + buffer[27].ToString("X2"));
                         bSetMoveKeyDown = true;
-                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.DOWN);
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(InputEventCtrl.ButtonState.DOWN);
                     }
                 }
                 else if ((buffer[25] & 0x40) == 0x40)
@@ -1591,7 +1591,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setMoveBt up!按键8（移动）");
                         Debug.Log("buffer[25] " + buffer[25].ToString("X2") + ", buffer[27] " + buffer[27].ToString("X2"));
                         bSetMoveKeyDown = false;
-                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.UP);
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(InputEventCtrl.ButtonState.UP);
                     }
                     else if (!bSetMoveKeyDown && (buffer[27] & 0x10) == 0x00)
                     {
@@ -1599,7 +1599,7 @@ public class pcvr : MonoBehaviour
                         ScreenLog.Log("setMoveBt down!按键8（移动）");
                         Debug.Log("buffer[25] " + buffer[25].ToString("X2") + ", buffer[27] " + buffer[27].ToString("X2"));
                         bSetMoveKeyDown = true;
-                        InputEventCtrl.GetInstance().ClickSetMoveBt(ButtonState.DOWN);
+                        InputEventCtrl.GetInstance().ClickSetMoveBt(InputEventCtrl.ButtonState.DOWN);
                     }
                 }
             }

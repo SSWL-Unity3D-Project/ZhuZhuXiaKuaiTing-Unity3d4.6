@@ -46,27 +46,27 @@ public class HardWareTest : MonoBehaviour
 		//m_HitshakeTimmerSet = (float)(Convert.ToDouble(m_HitTimmerSet.text));
 		OnShakeHit();
 	}
-	void ClickSetEnterBtEvent(ButtonState val)
+	void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			AnJianLabel.text = "SetEnter Down 按键2（投币4）";
 		}
 		else {
 			AnJianLabel.text = "SetEnter Up 按键2（投币4）";
 		}
 	}
-	void ClickLaBaBtEvent(ButtonState val)
+	void ClickLaBaBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			AnJianLabel.text = "SpeakerBtDown";
 		}
 		else {
 			AnJianLabel.text = "SpeakerBtUp";
 		}
 	}
-	void ClickSetMoveBtEvent(ButtonState val)
+	void ClickSetMoveBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			AnJianLabel.text = "SetMove Down 按键8（移动）";
 		}
 		else {
@@ -82,9 +82,9 @@ public class HardWareTest : MonoBehaviour
 	//		AnJianLabel.text = "StartBt Up";
 	//	}
 	//}
-	void ClickCloseDongGanBtEvent(ButtonState val)
+	void ClickCloseDongGanBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			AnJianLabel.text = "DongGanBt Down 按键1（投币3）";
 		}
 		else {

@@ -60,9 +60,9 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		}
 	}
 	
-	void ClickSetEnterBtEvent(ButtonState val)
+	void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			return;
 		}
 		XkGameCtrl.IsLoadingLevel = true;
@@ -71,9 +71,9 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		Application.LoadLevel(5);
 	}
 
-	void ClickCloseDongGanBtEvent(ButtonState val)
+	void ClickCloseDongGanBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.DOWN) {
 			return;
 		}
 
