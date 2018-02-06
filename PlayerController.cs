@@ -1770,7 +1770,8 @@ public class PlayerController : MonoBehaviour
     public void SpawnDaoDanAmmo()
     {
         bool isFollowNpc = false;
-        GameObject ammo = (GameObject)Instantiate(DaoDanPrefab, SpawnDaoDanTr[DaoDanSpawnCount].position, SpawnDaoDanTr[DaoDanSpawnCount].rotation);
+        int indexVal = DaoDanSpawnCount % SpawnDaoDanTr.Length;
+        GameObject ammo = (GameObject)Instantiate(DaoDanPrefab, SpawnDaoDanTr[indexVal].position, SpawnDaoDanTr[indexVal].rotation);
         AmmoMoveCtrl ammoMoveCom = ammo.GetComponent<AmmoMoveCtrl>();
         AmmoMoveCtrl.AmmoDt ammoDt = new AmmoMoveCtrl.AmmoDt();
         Transform AimNpcTr = null;
@@ -1821,7 +1822,6 @@ public class PlayerController : MonoBehaviour
         DaoDanSpawnCount++;
     }
 
-
     /// <summary>
     /// 地雷数据.
     /// </summary>
@@ -1858,7 +1858,8 @@ public class PlayerController : MonoBehaviour
 
     public void SpawnDiLeiAmmo()
     {
-        GameObject ammo = (GameObject)Instantiate(DiLeiDt.AmmoPrefab, DiLeiDt.SpawnAmmoTr[DiLeiDt.AmmoSpawnCount].position, DiLeiDt.SpawnAmmoTr[DiLeiDt.AmmoSpawnCount].rotation);
+        int indexVal = DiLeiDt.AmmoSpawnCount % DiLeiDt.SpawnAmmoTr.Length;
+        GameObject ammo = (GameObject)Instantiate(DiLeiDt.AmmoPrefab, DiLeiDt.SpawnAmmoTr[indexVal].position, DiLeiDt.SpawnAmmoTr[indexVal].rotation);
         AmmoMoveCtrl ammoMoveCom = ammo.GetComponent<AmmoMoveCtrl>();
         AmmoMoveCtrl.AmmoDt ammoDt = new AmmoMoveCtrl.AmmoDt();
         ammoDt.HightVal = UnityEngine.Random.Range(2.5f, 5f);
