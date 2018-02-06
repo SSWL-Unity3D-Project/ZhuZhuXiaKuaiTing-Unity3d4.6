@@ -8,7 +8,7 @@ public class pcvr : MonoBehaviour
     /// <summary>
     /// 是否是硬件版.
     /// </summary>
-    static public bool bIsHardWare = true;
+    static public bool bIsHardWare = false;
     /// <summary>
     /// 是否校验hid.
     /// </summary>
