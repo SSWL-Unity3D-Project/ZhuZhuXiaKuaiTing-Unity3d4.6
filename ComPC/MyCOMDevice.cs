@@ -7,237 +7,234 @@ using System.IO.Ports;
 public class MyCOMDevice : MonoBehaviour
 {
     public class ComThreadClass
-	{
-		public string ThreadName;
+    {
+        //string ThreadName;
         static SerialPort _SerialPort;
         public static int BufLenRead = 60;
-		public static int BufLenReadEnd = 2;
-		public static  int BufLenWrite = 50;
-		public static byte[] ReadByteMsg = new byte[BufLenRead];
-		public static byte[] WriteByteMsg = new byte[BufLenWrite];
-		static string RxStringData;
-//		static string _NewLine = "ABCD"; //0x41 0x42 0x43 0x44
-		public static int ReadTimeout = 0x0050; //单位为毫秒.
-		public static int WriteTimeout = 0x07d0;
-		public static bool IsStopComTX;
-		public static bool IsReadMsgComTimeOut;
-		public static string ComPortName = "COM1";
-		public static bool IsReadComMsg;
-		public static bool IsTestWRPer;
-		public static int WriteCount;
-		public static int ReadCount;
-		public static int ReadTimeOutCount;
+        public static int BufLenWrite = 50;
+        public static byte[] ReadByteMsg = new byte[BufLenRead];
+        public static byte[] WriteByteMsg = new byte[BufLenWrite];
+        int ReadTimeout = 0x00064; //单位为毫秒.
+        int WriteTimeout = 0x07d0; //单位为毫秒.
+        public static string ComPortName = "COM1";
+        //public static int WriteCount;
+        public static int ReadCount;
 
-		public ComThreadClass(string name)
-		{
-			ThreadName = name;
-			OpenComPort();
-		}
+        public ComThreadClass(string name)
+        {
+            //ThreadName = name;
+            OpenComPort();
+        }
 
-        public static void OpenComPort()
-		{
-			if (!pcvr.bIsHardWare) {
-				return;
-			}
-
-			if (_SerialPort != null) {
-				return;
-			}
+        /// <summary>
+        /// 打开串口.
+        /// </summary>
+        public void OpenComPort()
+        {
+            if (_SerialPort != null)
+            {
+                return;
+            }
 
             _SerialPort = new SerialPort(ComPortName, 57600, Parity.None, 8, StopBits.One);
-			if (_SerialPort != null)
-			{
-				try
-				{
-					if (_SerialPort.IsOpen)
-					{
-						_SerialPort.Close();
-						Debug.Log("Closing port, because it was already open!");
-					}
-					else
-					{
-						_SerialPort.Open();
-						if (_SerialPort.IsOpen) {
-							IsFindDeviceDt = true;
-							Debug.Log("COM open sucess");
+            if (_SerialPort != null)
+            {
+                try
+                {
+                    if (_SerialPort.IsOpen)
+                    {
+                        _SerialPort.Close();
+                        Debug.Log("Closing port, because it was already open!");
+                    }
+                    else
+                    {
+                        _SerialPort.ReadTimeout = ReadTimeout;
+                        _SerialPort.WriteTimeout = WriteTimeout;
+                        _SerialPort.Open();
+                        if (_SerialPort.IsOpen)
+                        {
+                            if (_Instance != null)
+                            {
+                                _Instance.IsFindDeviceDt = true;
+                            }
+                            Debug.Log("COM open sucess");
                         }
-					}
-				}
-				catch (Exception exception)
-				{
-					if (XkGameCtrl.IsGameOnQuit || ComThread == null) {
-						return;
-					}
-					Debug.Log("error:COM already opened by other PRG... " + exception);
-				}
-			}
-			else
-			{
-				Debug.Log("Port == null");
-			}
-		}
-
-		public void Run()
-		{
-			do
-			{
-                COMTxData();
-				//if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
-				if (pcvr.IsJiaoYanHid) {
-					Thread.Sleep(100);
-				}
-				else {
-					Thread.Sleep(25);
-				}
-
-                COMRxData();
-				//if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
-				if (pcvr.IsJiaoYanHid) {
-					Thread.Sleep(100);
-				}
-				else {
-					Thread.Sleep(25);
-				}
-				IsTestWRPer = true;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Debug.Log("error:COM already opened by other PRG... " + exception);
+                }
             }
-			while (_SerialPort.IsOpen);
-			CloseComPort();
-			Debug.Log("Close run thead...");
-		}
+            else
+            {
+                Debug.Log("Port == null");
+            }
+        }
 
+        /// <summary>
+        /// 线程运行函数.
+        /// </summary>
+		public void Run()
+        {
+            do
+            {
+                COMTxData();
+                //if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr)
+                //if (pcvr.IsJiaoYanHid)
+                //{
+                //    Thread.Sleep(100);
+                //}
+                //else
+                //{
+                //    Thread.Sleep(15);
+                //}
+                COMRxData();
+                //if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr)
+                if (pcvr.IsJiaoYanHid)
+                {
+                    Thread.Sleep(100);
+                }
+                else
+                {
+                    Thread.Sleep(15);
+                }
+            }
+            while (_SerialPort.IsOpen);
+            CloseComPort();
+            Debug.Log("Close run thead...");
+        }
+
+        /// <summary>
+        /// 写串口数据.
+        /// </summary>
 		void COMTxData()
-		{
-			if (XkGameCtrl.IsGameOnQuit) {
-				return;
-			}
+        {
+            try
+            {
+                _SerialPort.Write(WriteByteMsg, 0, WriteByteMsg.Length);
+                //WriteCount++;
+            }
+            catch (Exception exception)
+            {
+                Debug.Log("Tx error:COM!!! " + exception);
+            }
+        }
 
-			try
-			{
-				IsReadComMsg = false;
-				_SerialPort.Write(WriteByteMsg, 0, WriteByteMsg.Length);
-				WriteCount++;
-			}
-			catch (Exception exception)
-			{
-				if (XkGameCtrl.IsGameOnQuit || ComThread == null) {
-					return;
-				}
-				Debug.Log("Tx error:COM!!! " + exception);
-			}
-		}
-
+        /// <summary>
+        /// 读串口数据.
+        /// </summary>
 		void COMRxData()
-		{
-			if (XkGameCtrl.IsGameOnQuit) {
-				return;
-			}
-
-			try
-			{
+        {
+            try
+            {
                 _SerialPort.Read(ReadByteMsg, 0, ReadByteMsg.Length);
-				ReadCount++;
-				IsReadComMsg = true;
-				ReadMsgTimeOutVal = 0f;
-				CountOpenCom = 0;
-			}
-			catch (Exception exception)
-			{
-				if (XkGameCtrl.IsGameOnQuit || ComThread == null) {
-					return;
-				}
+                ReadCount++;
+            }
+            catch (Exception exception)
+            {
+                Debug.Log("Rx error:COM..." + exception);
+            }
+        }
 
-				Debug.Log("Rx error:COM..." + exception);
-				IsReadMsgComTimeOut = true;
-				IsReadComMsg = false;
-				ReadTimeOutCount++;
-			}
-		}
+        /// <summary>
+        /// 关闭串口.
+        /// </summary>
+		public void CloseComPort()
+        {
+            //IsReadComMsg = false;
+            if (_SerialPort == null || !_SerialPort.IsOpen)
+            {
+                return;
+            }
+            _SerialPort.Close();
+            _SerialPort = null;
+        }
+    }
 
-		public static void CloseComPort()
-		{
-			IsReadComMsg = false;
-			if (_SerialPort == null || !_SerialPort.IsOpen) {
-				return;
-			}
-			_SerialPort.Close();
-			_SerialPort = null;
-		}
-	}
-
-	static ComThreadClass _ComThreadClass;
-	static Thread ComThread;
-	public static bool IsFindDeviceDt;
-	public static float ReadMsgTimeOutVal;
-	static float TimeLastVal;
-	const float TimeUnitDelta = 0.1f; //单位为秒.
-	public static uint CountRestartCom;
-	public static uint CountOpenCom;
-	static MyCOMDevice _Instance;
-
+    /// <summary>
+    /// 串口线程控制.
+    /// </summary>
+    ComThreadClass mComThreadClass;
+    /// <summary>
+    /// 串口IO线程.
+    /// </summary>
+	Thread mComThreadIO;
+    /// <summary>
+    /// 是否找到串口设备.
+    /// </summary>
+    [HideInInspector]
+    public bool IsFindDeviceDt;
+    static MyCOMDevice _Instance;
     public static MyCOMDevice GetInstance()
-	{
-		if (_Instance == null) {
-			GameObject obj = new GameObject("_MyCOMDevice");
-			DontDestroyOnLoad(obj);
-			_Instance = obj.AddComponent<MyCOMDevice>();
-		}
-		return _Instance;
-	}
-    
+    {
+        if (_Instance == null)
+        {
+            GameObject obj = new GameObject("_MyCOMDevice");
+            DontDestroyOnLoad(obj);
+            _Instance = obj.AddComponent<MyCOMDevice>();
+        }
+        return _Instance;
+    }
+
     // Use this for initialization
     void Start()
-	{
-		StartCoroutine(OpenComThread());
-	}
+    {
+        if (pcvr.bIsHardWare)
+        {
+            StartCoroutine(OpenComThread());
+        }
+    }
 
+    /// <summary>
+    /// 打开IO线程.
+    /// </summary>
 	IEnumerator OpenComThread()
-	{
-		if (!pcvr.bIsHardWare) {
-			yield break;
-		}
+    {
+        if (mComThreadClass == null)
+        {
+            mComThreadClass = new ComThreadClass(ComThreadClass.ComPortName);
+        }
+        else
+        {
+            mComThreadClass.CloseComPort();
+        }
 
-		ReadMsgTimeOutVal = 0f;
-		ComThreadClass.IsReadMsgComTimeOut = false;
-		ComThreadClass.IsReadComMsg = false;
-		ComThreadClass.IsStopComTX = false;
-		if (_ComThreadClass == null) {
-			_ComThreadClass = new ComThreadClass(ComThreadClass.ComPortName);
-		}
-		else {
-			ComThreadClass.CloseComPort();
-		}
-		
-		if (ComThread != null) {
-			CloseComThread();
-		}
-		yield return new WaitForSeconds(2f);
+        if (mComThreadIO != null)
+        {
+            CloseComThread();
+        }
+        yield return new WaitForSeconds(2f);
 
-		ComThreadClass.OpenComPort();
-		if (ComThread == null) {
-			ComThread = new Thread(new ThreadStart(_ComThreadClass.Run));
-			ComThread.Start();
-		}
-	}
-//	void OnGUI()
-//	{
-//		string strA = "IsReadComMsg "+ComThreadClass.IsReadComMsg
-//			+", ReadMsgTimeOutVal "+ReadMsgTimeOutVal.ToString("f2");
-//		GUI.Box(new Rect(0f, 0f, 400f, 25f), strA);
-//	}
+        if (mComThreadIO == null)
+        {
+            mComThreadIO = new Thread(new ThreadStart(mComThreadClass.Run));
+            mComThreadIO.Start();
+        }
+    }
 
+    /// <summary>
+    /// 关闭IO线程.
+    /// </summary>
 	void CloseComThread()
-	{
-		if (ComThread != null) {
-			ComThread.Abort();
-			ComThread = null;
-		}
-	}
+    {
+        if (mComThreadIO != null)
+        {
+            mComThreadIO.Abort();
+            mComThreadIO = null;
+        }
+    }
 
+    /// <summary>
+    /// 当程序关闭时.
+    /// </summary>
 	void OnApplicationQuit()
-	{
-		Debug.Log("OnApplicationQuit...Com");
-		XkGameCtrl.IsGameOnQuit = true;
-		ComThreadClass.CloseComPort();
+    {
+        Debug.Log("OnApplicationQuit...Com");
+        if (mComThreadClass != null)
+        {
+            mComThreadClass.CloseComPort();
+        }
         CloseComThread();
     }
 }

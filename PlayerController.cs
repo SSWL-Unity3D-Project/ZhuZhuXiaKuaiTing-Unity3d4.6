@@ -425,10 +425,10 @@ public class PlayerController : MonoBehaviour
         PlayerMinSpeedVal = (float)ReadGameInfo.GetInstance().ReadPlayerMinSpeedVal();
 		Loading.m_HasBegin = false;
 		//pcvr.ShaCheBtLight = StartLightState.Liang;
-		pcvr.IsSlowLoopCom = false;
-		pcvr.CountFXZD = 0;
-		pcvr.CountQNZD = 0;
-		pcvr.OpenFangXiangPanPower();
+		//pcvr.IsSlowLoopCom = false;
+		//pcvr.CountFXZD = 0;
+		//pcvr.CountQNZD = 0;
+		//pcvr.OpenFangXiangPanPower();
 		Screen.showCursor = false;
 		Time.timeScale = 1f;
 
@@ -451,7 +451,7 @@ public class PlayerController : MonoBehaviour
 //		m_SpeedRecord = rigidbody.velocity.magnitude;
 		//Instance = this;
 		//InputEventCtrl.GetInstance().ClickShaCheBtEvent += ClickShaCheBtEvent;
-		InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
+		//InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
 		Invoke("DelayCallClickShaCheBtEvent", 0.5f);
 
         StartCoroutine(GameObjectHide());   //gzknu
@@ -758,7 +758,7 @@ public class PlayerController : MonoBehaviour
         //        rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, Vector3.zero, Time.deltaTime * 3f);
         //    }
         //}
-        mSteer = pcvr.mGetSteer;
+        mSteer = pcvr.GetInstance().mGetSteer;
 
 		if (mSteer < -SteerOffset)
 		{
@@ -953,58 +953,58 @@ public class PlayerController : MonoBehaviour
 				+", m_IsOpneRightQinang "+pcvr.m_IsOpneRightQinang;
 		GUI.Box(new Rect(0f, hVal * 2f, wVal, hVal), strC);*/
 
-		if (pcvr.IsJiOuJiaoYanFailed) {
-			//JiOuJiaoYanFailed
-			string jiOuJiaoYanStr = "*********************************************************\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
-				+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68dkfgt4saf4JOJYStr45dfssd\n"
-				+ "*********************************************************";
-			GUI.Box(new Rect(0f, 0f, Screen.width, Screen.height), jiOuJiaoYanStr);
-		}
-		else if (pcvr.IsJiaMiJiaoYanFailed) {
+		//if (pcvr.IsJiOuJiaoYanFailed) {
+		//	//JiOuJiaoYanFailed
+		//	string jiOuJiaoYanStr = "*********************************************************\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4r8t416saf4bf164ve7t868\n"
+		//		+ "1489+1871624537416876467816684dtrsd3541sy3t6f654s68dkfgt4saf4JOJYStr45dfssd\n"
+		//		+ "*********************************************************";
+		//	GUI.Box(new Rect(0f, 0f, Screen.width, Screen.height), jiOuJiaoYanStr);
+		//}
+		//else if (pcvr.IsJiaMiJiaoYanFailed) {
 			
-			string JMJYStr = "*********************************************************\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
-				+ "gh4j1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4saf4JMJYStr45dfssd\n"
-				+ "*********************************************************";
-			GUI.Box(new Rect(0f, 0f, Screen.width, Screen.height), JMJYStr);
-		}
+		//	string JMJYStr = "*********************************************************\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "sdkgfksfgsdfggf64h76hg4j35dhghdga3f5sd34f3ds35135d4g5ds6g4sd6a4fg564dafg64f\n"
+		//		+ "gh4j1489+1871624537416876467816684dtrsd3541sy3t6f654s68t4saf4JMJYStr45dfssd\n"
+		//		+ "*********************************************************";
+		//	GUI.Box(new Rect(0f, 0f, Screen.width, Screen.height), JMJYStr);
+		//}
 
 		float sp = rigidbody.velocity.magnitude * 3.6f;
 		sp = Mathf.Floor( sp );
@@ -1016,7 +1016,7 @@ public class PlayerController : MonoBehaviour
 		SpeedObj = sp;
 
 #if UNITY_EDITOR
-		if (!pcvr.bIsHardWare || pcvr.IsTestGame) {
+		if (!pcvr.bIsHardWare) {
 			string strA = sp.ToString() + "km/h";
 			GUI.Box(new Rect(0f, 0f, wVal, hVal), strA);
 			
@@ -1127,7 +1127,7 @@ public class PlayerController : MonoBehaviour
 		if(other.tag == "road")
 		{
 			if (!m_IsOnRoad) {
-				pcvr.GetInstance().OpenFangXiangPanZhenDong();
+				//pcvr.GetInstance().OpenFangXiangPanZhenDong();
 			}
 			m_IsOnRoad = true;
 		}
@@ -1484,7 +1484,7 @@ public class PlayerController : MonoBehaviour
 				//pcvr.m_IsOpneLeftQinang = false;
 				//pcvr.m_IsOpneRightQinang = false;
 				if (TimeHitRock >= 2f) {
-					pcvr.CountQNZD++;
+					//pcvr.CountQNZD++;
 					TimeHitRock = 0f;
 					m_HitshakeTimmer = 0.0f;
 					m_IsHitshake = false;
@@ -1495,7 +1495,7 @@ public class PlayerController : MonoBehaviour
 //					pcvr.m_IsOpneRightQinang = false;
 				}
 			}
-			pcvr.GetInstance().OpenFangXiangPanZhenDong();
+			//pcvr.GetInstance().OpenFangXiangPanZhenDong();
 		}
 	}
 	static float TimeHitRock;

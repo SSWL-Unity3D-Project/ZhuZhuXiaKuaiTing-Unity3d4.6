@@ -26,17 +26,6 @@ public class InputEventCtrl : MonoBehaviour
 
 	#region Click Button Envent
 	public delegate void EventHandel(ButtonState val);
-	public event EventHandel ClickStartBtOneEvent;
-	public void ClickStartBtOne(ButtonState val)
-	{
-		if(ClickStartBtOneEvent != null)
-		{
-			ClickStartBtOneEvent( val );
-			//pcvr.StartBtLight = StartLightState.Mie;
-		}
-		pcvr.SetIsPlayerActivePcvr();
-	}
-
 	public event EventHandel ClickCloseDongGanBtEvent;
 	public void ClickCloseDongGanBt(ButtonState val)
 	{
@@ -44,19 +33,9 @@ public class InputEventCtrl : MonoBehaviour
 		{
 			ClickCloseDongGanBtEvent( val );
 		}
-		pcvr.SetIsPlayerActivePcvr();
+		//pcvr.SetIsPlayerActivePcvr();
 	}
 	
-	public event EventHandel ClickPlayerYouMenBtEvent;
-	public void ClickPlayerYouMenBt(ButtonState val)
-	{
-		if(ClickPlayerYouMenBtEvent != null)
-		{
-			ClickPlayerYouMenBtEvent( val );
-		}
-		pcvr.SetIsPlayerActivePcvr();
-	}
-
 	public event EventHandel ClickSetEnterBtEvent;
 	public void ClickSetEnterBt(ButtonState val)
 	{
@@ -64,7 +43,7 @@ public class InputEventCtrl : MonoBehaviour
 		{
 			ClickSetEnterBtEvent( val );
 		}
-		pcvr.SetIsPlayerActivePcvr();
+		//pcvr.SetIsPlayerActivePcvr();
 	}
 
 	public event EventHandel ClickSetMoveBtEvent;
@@ -74,55 +53,138 @@ public class InputEventCtrl : MonoBehaviour
 		{
 			ClickSetMoveBtEvent( val );
 		}
-		pcvr.SetIsPlayerActivePcvr();
+		//pcvr.SetIsPlayerActivePcvr();
 	}
 
-	public event EventHandel ClickFireBtEvent;
-	public void ClickFireBt(ButtonState val)
-	{
-		if(ClickFireBtEvent != null)
-		{
-			ClickFireBtEvent( val );
-		}
-		pcvr.SetIsPlayerActivePcvr();
-	}
-	
-	public event EventHandel ClickShaCheBtEvent;
-	public void ClickShaCheBt(ButtonState val)
-	{
-		if(ClickShaCheBtEvent != null)
-		{
-			ClickShaCheBtEvent( val );
-		}
-		pcvr.SetIsPlayerActivePcvr();
-	}
-	
-	public event EventHandel ClickLaBaBtEvent;
-	public void ClickLaBaBt(ButtonState val)
-	{
-		if(ClickLaBaBtEvent != null)
-		{
-			ClickLaBaBtEvent( val );
-		}
-		pcvr.SetIsPlayerActivePcvr();
-	}
-	#endregion
+    public event EventHandel ClickPcvrBtEvent01;
+    public void ClickPcvrBt01(ButtonState val)
+    {
+        if (ClickPcvrBtEvent01 != null)
+        {
+            ClickPcvrBtEvent01(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent02;
+    public void ClickPcvrBt02(ButtonState val)
+    {
+        if (ClickPcvrBtEvent02 != null)
+        {
+            ClickPcvrBtEvent02(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent03;
+    public void ClickPcvrBt03(ButtonState val)
+    {
+        if (ClickPcvrBtEvent03 != null)
+        {
+            ClickPcvrBtEvent03(val);
+        }
+        ClickSetEnterBt(val);
+    }
+    public event EventHandel ClickPcvrBtEvent04;
+    public void ClickPcvrBt04(ButtonState val)
+    {
+        if (ClickPcvrBtEvent04 != null)
+        {
+            ClickPcvrBtEvent04(val);
+        }
+        ClickSetMoveBt(val);
+    }
+    public event EventHandel ClickPcvrBtEvent05;
+    public void ClickPcvrBt05(ButtonState val)
+    {
+        if (ClickPcvrBtEvent05 != null)
+        {
+            ClickPcvrBtEvent05(val);
+        }
+        ClickCloseDongGanBt(val);
+    }
+    public event EventHandel ClickPcvrBtEvent06;
+    public void ClickPcvrBt06(ButtonState val)
+    {
+        if (ClickPcvrBtEvent06 != null)
+        {
+            ClickPcvrBtEvent06(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent07;
+    public void ClickPcvrBt07(ButtonState val)
+    {
+        if (ClickPcvrBtEvent07 != null)
+        {
+            ClickPcvrBtEvent07(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent08;
+    public void ClickPcvrBt08(ButtonState val)
+    {
+        if (ClickPcvrBtEvent08 != null)
+        {
+            ClickPcvrBtEvent08(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent09;
+    public void ClickPcvrBt09(ButtonState val)
+    {
+        if (ClickPcvrBtEvent09 != null)
+        {
+            ClickPcvrBtEvent09(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent10;
+    public void ClickPcvrBt10(ButtonState val)
+    {
+        if (ClickPcvrBtEvent10 != null)
+        {
+            ClickPcvrBtEvent10(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent11;
+    public void ClickPcvrBt11(ButtonState val)
+    {
+        if (ClickPcvrBtEvent11 != null)
+        {
+            ClickPcvrBtEvent11(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent12;
+    public void ClickPcvrBt12(ButtonState val)
+    {
+        if (ClickPcvrBtEvent12 != null)
+        {
+            ClickPcvrBtEvent12(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent13;
+    public void ClickPcvrBt13(ButtonState val)
+    {
+        if (ClickPcvrBtEvent13 != null)
+        {
+            ClickPcvrBtEvent13(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent14;
+    public void ClickPcvrBt14(ButtonState val)
+    {
+        if (ClickPcvrBtEvent14 != null)
+        {
+            ClickPcvrBtEvent14(val);
+        }
+    }
+    public event EventHandel ClickPcvrBtEvent15;
+    public void ClickPcvrBt15(ButtonState val)
+    {
+        if (ClickPcvrBtEvent15 != null)
+        {
+            ClickPcvrBtEvent15(val);
+        }
+    }
+    #endregion
 
-	void Update()
+    void Update()
 	{
 		if (pcvr.bIsHardWare) {
 			return;
-		}
-
-		//StartBt PlayerOne
-		if(Input.GetKeyUp(KeyCode.K))
-		{
-			ClickStartBtOne( ButtonState.UP );
-		}
-
-		if(Input.GetKeyDown(KeyCode.K))
-		{
-			ClickStartBtOne( ButtonState.DOWN );
 		}
 
 		if(Input.GetKeyUp(KeyCode.P))
@@ -133,16 +195,6 @@ public class InputEventCtrl : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.P))
 		{
 			ClickCloseDongGanBt( ButtonState.DOWN );
-		}
-
-		if(Input.GetKeyUp(KeyCode.W))
-		{
-			ClickPlayerYouMenBt( ButtonState.UP );
-		}
-
-		if(Input.GetKeyDown(KeyCode.W))
-		{
-			ClickPlayerYouMenBt( ButtonState.DOWN );
 		}
 
 		//setPanel enter button
@@ -167,39 +219,6 @@ public class InputEventCtrl : MonoBehaviour
 		{
 			ClickSetMoveBt( ButtonState.DOWN );
 			//FramesPerSecond.GetInstance().ClickSetMoveBtEvent( ButtonState.DOWN );
-		}
-
-		//Fire button
-		if(Input.GetKeyUp(KeyCode.Mouse0))
-		{
-			IsClickFireBtDown = false;
-			ClickFireBt( ButtonState.UP );
-		}
-
-		if(Input.GetKeyDown(KeyCode.Mouse0))
-		{
-			IsClickFireBtDown = true;
-			ClickFireBt( ButtonState.DOWN );
-		}
-
-		if(Input.GetKeyUp(KeyCode.Space))
-		{
-			ClickShaCheBt( ButtonState.UP );
-		}
-		
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			ClickShaCheBt( ButtonState.DOWN );
-		}
-
-		if(Input.GetKeyUp(KeyCode.G))
-		{
-			ClickLaBaBt( ButtonState.UP );
-		}
-
-		if(Input.GetKeyDown(KeyCode.G))
-		{
-			ClickLaBaBt( ButtonState.DOWN );
 		}
 	}
 }

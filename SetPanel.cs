@@ -37,8 +37,8 @@ public class SetPanel : MonoBehaviour
 		IsOpenSetPanel = true;
 		CloseAllQiNang();
 		//pcvr.ShaCheBtLight = StartLightState.Mie;
-		pcvr.CloseFangXiangPanPower();
-		pcvr.IsSlowLoopCom = false;
+		//pcvr.CloseFangXiangPanPower();
+		//pcvr.IsSlowLoopCom = false;
 		m_InserNum = Convert.ToInt32(ReadGameInfo.GetInstance().ReadInsertCoinNum());
 		UpdateInsertCoin();
 
@@ -70,9 +70,9 @@ public class SetPanel : MonoBehaviour
 		
 		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
 		InputEventCtrl.GetInstance().ClickSetMoveBtEvent += ClickSetMoveBtEvent;
-		InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
+		//InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
 		//InputEventCtrl.GetInstance().ClickShaCheBtEvent += ClickShaCheBtEvent;
-		InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
+		//InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
 		InputEventCtrl.GetInstance().ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
 
         if (PlayerPrefs.GetInt("Grade") == 0)
@@ -111,7 +111,7 @@ public class SetPanel : MonoBehaviour
 			}
 
 			//YouMenInfoLabel.text = pcvr.BikePowerCur.ToString();
-			FangXiangInfoLabel.text = pcvr.SteerValCur.ToString("X2");
+			//FangXiangInfoLabel.text = pcvr.SteerValCur.ToString("X2");
 
 			if (!IsInitJiaoZhunPcvr) {
 				//if (pcvr.mGetPower > pcvr.YouMemnMinVal) {				
@@ -119,10 +119,10 @@ public class SetPanel : MonoBehaviour
 				//}
 
 				float offsetSteer = 0.05f;
-				if (pcvr.mGetSteer < -offsetSteer) {
+				if (pcvr.GetInstance().mGetSteer < -offsetSteer) {
 					FangXiangInfoLabel.text += ", Turn Left";
 				}
-				else if (pcvr.mGetSteer > offsetSteer) {
+				else if (pcvr.GetInstance().mGetSteer > offsetSteer) {
 					FangXiangInfoLabel.text += ", Turn Right";
 				}
 				else {
@@ -135,7 +135,7 @@ public class SetPanel : MonoBehaviour
 				OnClickInsertBt();
 			}
 
-			int val = (int)(pcvr.mGetSteer * 100);
+			int val = (int)(pcvr.GetInstance().mGetSteer * 100);
 			FangXiangInfoLabel.text = val.ToString();
 			if (!IsInitJiaoZhunPcvr) {
 				if (val < 0) {
@@ -231,7 +231,7 @@ public class SetPanel : MonoBehaviour
 		if (IsInitJiaoZhunPcvr) {
 			return;
 		}
-		pcvr.GetInstance().InitFangXiangJiaoZhun();
+		//pcvr.GetInstance().InitFangXiangJiaoZhun();
 		m_ZhujiemianXingXing.gameObject.SetActive(false);
 		IsInitJiaoZhunPcvr = true;
 
@@ -543,7 +543,7 @@ public class SetPanel : MonoBehaviour
 		GameAudioVolumeLB.text = GameAudioVolume.ToString();
 
 		if (pcvr.bIsHardWare) {
-			pcvr.GetInstance().SubPlayerCoin(m_InserNum);
+			pcvr.GetInstance().mPcvrTXManage.SubPlayerCoin(m_InserNum, pcvrTXManage.PlayerCoinEnum.player01);
 		}
 		m_InserNum = 0;
 		UpdateInsertCoin();

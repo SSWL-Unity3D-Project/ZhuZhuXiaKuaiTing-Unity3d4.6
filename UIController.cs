@@ -175,7 +175,7 @@ public class UIController : MonoBehaviour
 				m_BeginDaojishiAudio.Stop();
 			}
 
-            if (Mathf.Abs(pcvr.mGetSteer) > 0f && !IsCloseYouMenTiShi)
+            if (Mathf.Abs(pcvr.GetInstance().mGetSteer) > 0f && !IsCloseYouMenTiShi)
             {
                 //关闭方向盘提示.
                 IsCloseYouMenTiShi = true;
@@ -186,7 +186,7 @@ public class UIController : MonoBehaviour
 
             if (IsCloseYouMenTiShi && m_HasTishi)
             {
-                if (Mathf.Abs(pcvr.mGetSteer) == 0f)
+                if (Mathf.Abs(pcvr.GetInstance().mGetSteer) == 0f)
                 {
                     m_YoumenTimmer += Time.deltaTime;
                     if (m_YoumenTimmer >= 5f)

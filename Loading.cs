@@ -68,8 +68,6 @@ public class Loading : MonoBehaviour
 		//pcvr.ShaCheBtLight = StartLightState.Mie;
 
 		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
-		InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
-
         if (m_InserNum >= m_CoinNumSet)
         {
             UpdateTex();
@@ -237,7 +235,7 @@ public class Loading : MonoBehaviour
 				ReadGameInfo.GetInstance().WriteInsertCoinNum(m_InserNum.ToString());
 
 				if (pcvr.bIsHardWare) {
-					pcvr.GetInstance().SubPlayerCoin(Convert.ToInt32(CoinNumSet));
+					pcvr.GetInstance().mPcvrTXManage.SubPlayerCoin(Convert.ToInt32(CoinNumSet), pcvrTXManage.PlayerCoinEnum.player01);
 				}
 			}
 			m_Tishi.SetActive(false);
