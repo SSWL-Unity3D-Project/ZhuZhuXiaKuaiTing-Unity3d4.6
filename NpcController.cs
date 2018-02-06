@@ -45,7 +45,7 @@ public class NpcController : MonoBehaviour
     void Start ()
     {
         m_playerRig = m_player.GetComponent<Rigidbody>();
-        if (NpcIndexVal >= NpcObjArray.Length)
+        if (NpcIndexVal >= NpcObjArray.Length - 1)
         {
             NpcIndexVal = -1;
         }
