@@ -4,7 +4,8 @@ using System;
 
 public class Loading : MonoBehaviour
 {
-	private string CoinNumSet = "1";
+    public LogoAnimation mLogoAni;
+    private string CoinNumSet = "1";
 	private string InsertCoinNum = "";
 
 	public UITexture m_BeginTex;
