@@ -5,8 +5,9 @@ using System.Collections.Generic;
 
 public class PlayerControllerForMoiew : MonoBehaviour
 {
-//	private bool m_IsFinished = false;
-	public CameraShake m_CameraShake;
+    //	private bool m_IsFinished = false;
+    public Loading mLoading;
+    public CameraShake m_CameraShake;
 	public AudioSource m_HitStone;
 	public GameObject m_HitEffectObj;
 	public AudioSource m_HitWater;
@@ -108,9 +109,13 @@ public class PlayerControllerForMoiew : MonoBehaviour
 	void DelayOpenPlayerCamera()
 	{
 		m_CameraShake.camera.enabled = true;
-	}
+        IsCheckUnloadUnusedAsset = false;
+    }
 
-	void ReplayStartCartoon()
+    /// <summary>
+    /// 重新播放动画.
+    /// </summary>
+	public void ReplayStartCartoon()
 	{
 		if (m_BeijingAudio.isPlaying) {
 			return;
@@ -462,11 +467,16 @@ public class PlayerControllerForMoiew : MonoBehaviour
 				if (Loading.m_HasBegin) {
 					return;
 				}
-				StartCoroutine(CheckUnloadUnusedAssets());
+                if (!IsCheckUnloadUnusedAsset)
+                {
+                    IsCheckUnloadUnusedAsset = true;
+                    StartCoroutine(CheckUnloadUnusedAssets());
+                }
 			}
 		}
 	}
 
+    bool IsCheckUnloadUnusedAsset = false;
 	IEnumerator CheckUnloadUnusedAssets()
 	{
 		bool isLoop = true;
@@ -478,7 +488,8 @@ public class PlayerControllerForMoiew : MonoBehaviour
 				yield return new WaitForSeconds(0.5f);
 			}
 			else {
-				ReplayStartCartoon();
+                mLoading.mLogoAni.OpenLogoAnimation();
+                //ReplayStartCartoon();
 				yield break;
 			}
 		} while (isLoop);
