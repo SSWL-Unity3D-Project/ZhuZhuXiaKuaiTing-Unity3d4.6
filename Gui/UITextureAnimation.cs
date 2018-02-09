@@ -36,7 +36,7 @@ public class UITextureAnimation : MonoBehaviour
             mUITexture = GetComponent<UITexture>();
         }
 
-        if (mUITexture.mainTexture != mTexture && mTexture != null)
+        if (mUITexture.mainTexture != mTexture)
         {
             mUITexture.mainTexture = mTexture;
         }
