@@ -4,6 +4,7 @@
 public class UITextureAnimation : MonoBehaviour
 {
     public Texture mTexture;
+	public Color mColor = Color.white;
     UITexture mUITexture;
     void Start()
     {
@@ -15,7 +16,12 @@ public class UITextureAnimation : MonoBehaviour
         if (mUITexture.mainTexture != mTexture)
         {
             mUITexture.mainTexture = mTexture;
-        }
+		}
+
+		if (mUITexture.color != mColor)
+		{
+			mUITexture.color = mColor;
+		}
     }
 
     /// <summary>
@@ -40,6 +46,11 @@ public class UITextureAnimation : MonoBehaviour
         {
             mUITexture.mainTexture = mTexture;
         }
+
+		if (mUITexture.color != mColor)
+		{
+			mUITexture.color = mColor;
+		}
     }
 #endif
 }
