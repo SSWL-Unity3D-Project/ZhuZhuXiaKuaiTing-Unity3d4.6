@@ -25,7 +25,7 @@ public class UITextureAnimation : MonoBehaviour
     {
         //Debug.Log("OnAnimationTrigger -> index is " + index);
         //广播消息.
-        SendMessage("OnAnimationEnvent", index);
+        SendMessage("OnAnimationEnvent", index, SendMessageOptions.DontRequireReceiver);
     }
 
 #if UNITY_EDITOR
@@ -36,7 +36,7 @@ public class UITextureAnimation : MonoBehaviour
             mUITexture = GetComponent<UITexture>();
         }
 
-        if (mUITexture.mainTexture != mTexture)
+        if (mUITexture.mainTexture != mTexture && mTexture != null)
         {
             mUITexture.mainTexture = mTexture;
         }
