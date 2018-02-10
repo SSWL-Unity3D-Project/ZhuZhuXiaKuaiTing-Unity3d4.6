@@ -134,9 +134,11 @@ public class UIController : MonoBehaviour
 
         chile = 0;
 		m_pScale.enabled = false;
+		m_pGameTime += 1;
 		m_totalTime = (int)m_pGameTime;
 		XkGameCtrl.IsLoadingLevel = false;
         ShowJiFenInfo(0);
+		UpdateGameTime();
 
         //InputEventCtrl.GetInstance().ClickPlayerYouMenBtEvent += ClickPlayerYouMenBtEvent;
     }
