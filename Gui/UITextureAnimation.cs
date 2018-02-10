@@ -13,15 +13,26 @@ public class UITextureAnimation : MonoBehaviour
 
     void Update()
     {
+        if (mUITexture != null)
+        {
+            UpdateUITextureInfo();
+        }
+    }
+
+    /// <summary>
+    /// 更新UITexture的信息.
+    /// </summary>
+    void UpdateUITextureInfo()
+    {
         if (mUITexture.mainTexture != mTexture)
         {
             mUITexture.mainTexture = mTexture;
-		}
+        }
 
-		if (mUITexture.color != mColor)
-		{
-			mUITexture.color = mColor;
-		}
+        if (mUITexture.color != mColor)
+        {
+            mUITexture.color = mColor;
+        }
     }
 
     /// <summary>
@@ -42,15 +53,10 @@ public class UITextureAnimation : MonoBehaviour
             mUITexture = GetComponent<UITexture>();
         }
 
-        if (mUITexture.mainTexture != mTexture)
+        if (mUITexture != null)
         {
-            mUITexture.mainTexture = mTexture;
+            UpdateUITextureInfo();
         }
-
-		if (mUITexture.color != mColor)
-		{
-			mUITexture.color = mColor;
-		}
     }
 #endif
 }
