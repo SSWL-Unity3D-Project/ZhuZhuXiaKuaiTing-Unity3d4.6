@@ -36,7 +36,8 @@ public class RankListUICtrl : MonoBehaviour
         int indexVal = 0;
         RankManage.RankData rankDt = null;
         for (int i = 0; i < RankTouXiangArray.Length; i++)
-        {
+		{
+			mRankDtUIArray[i].gameObject.SetActive(true);
             rankDt = PlayerController.GetInstance().RankDtManage.RankDtList[i];
             if (rankDt.IsPlayerData)
             {
@@ -52,7 +53,6 @@ public class RankListUICtrl : MonoBehaviour
 #endif
             RankTouXiangArray[i].mainTexture = TouXiangImgArray[indexVal];
             mRankDtUIArray[i].ShowTimeUsedVal((int)rankDt.TimeUsedVal);
-            mRankDtUIArray[i].gameObject.SetActive(true);
         }
         gameObject.SetActive(true);
     }

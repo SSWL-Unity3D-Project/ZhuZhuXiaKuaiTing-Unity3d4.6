@@ -184,6 +184,7 @@ public class NpcController : MonoBehaviour
     public NpcEnum NpcState = NpcEnum.Null;
 	void OnTriggerEnter(Collider other)
     {
+		//Debug.Log(gameObject.name + " -> other " + other.tag);
         if (other.tag == "finish")
         {
             mRankDt.UpdateRankDtTimeFinish(Time.time);
