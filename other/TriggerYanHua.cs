@@ -6,7 +6,8 @@ public class TriggerYanHua : MonoBehaviour
     public GameObject[] YanHuaPrefabArray;
     public Transform[] SpawnPointArray;
     int MaxYanHua = 1;
-    bool IsInitSpawnYanHua;
+    float TimeYanHuaVal = 0f;
+    //bool IsInitSpawnYanHua;
     public void InitSpawnYanHua()
     {
         MaxYanHua = SpawnPointArray.Length;
@@ -15,11 +16,16 @@ public class TriggerYanHua : MonoBehaviour
             return;
         }
 
-        if (IsInitSpawnYanHua)
+        if (Time.time - TimeYanHuaVal < 1f)
         {
             return;
         }
-        IsInitSpawnYanHua = true;
+        TimeYanHuaVal = Time.time;
+        //if (IsInitSpawnYanHua)
+        //{
+        //    return;
+        //}
+        //IsInitSpawnYanHua = true;
         StartCoroutine(LoopSpawnYanHua());
     }
 
