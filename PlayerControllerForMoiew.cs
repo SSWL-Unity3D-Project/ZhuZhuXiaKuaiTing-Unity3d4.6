@@ -120,7 +120,8 @@ public class PlayerControllerForMoiew : MonoBehaviour
 		if (m_BeijingAudio.isPlaying) {
 			return;
 		}
-
+		
+		AudioListener.volume = AudioVolume;
 		m_HasPlay = false;
 		m_CameraShake.camera.enabled = false;
 		transform.forward = Vector3.Normalize(NextPos - StartPos);
@@ -488,6 +489,8 @@ public class PlayerControllerForMoiew : MonoBehaviour
 				yield return new WaitForSeconds(0.5f);
 			}
 			else {
+				AudioVolume = AudioListener.volume;
+				AudioListener.volume = 0f;
                 mLoading.mLogoAni.OpenLogoAnimation();
                 //ReplayStartCartoon();
 				yield break;
@@ -495,6 +498,7 @@ public class PlayerControllerForMoiew : MonoBehaviour
 		} while (isLoop);
 	}
 
+	float AudioVolume = 0f;
 	public static bool IsLoadMovieLevel = false;
 	public GameObject m_EndTexture;
 	public float m_EndTextureTimmerSet = 0.2f;

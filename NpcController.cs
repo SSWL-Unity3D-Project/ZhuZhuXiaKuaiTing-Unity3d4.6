@@ -199,6 +199,7 @@ public class NpcController : MonoBehaviour
     public NpcEnum NpcState = NpcEnum.Null;
 	void OnTriggerEnter(Collider other)
     {
+		//Debug.Log(gameObject.name + " -> other " + other.tag);
         if (other.tag == "finish")
         {
             if (Time.time - TimeQuanShuVal >= 20f)
