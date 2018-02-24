@@ -4,6 +4,8 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    public MeshRenderer[] FinishRender;
+    bool IsShowZhongDian = false;
     /// <summary>
     /// 最大圈数.
     /// </summary>
@@ -393,6 +395,19 @@ public class PlayerController : MonoBehaviour
     void Awake()
 	{
 		Instance = this;
+        if (QuanShuMax > 1)
+        {
+            for (int i = 0; i < FinishRender.Length; i++)
+            {
+                FinishRender[i].enabled = false;
+            }
+            IsShowZhongDian = false;
+        }
+        else
+        {
+            IsShowZhongDian = true;
+        }
+
         if (PlayerIndexRand >= PlayerObjArray.Length - 1)
         {
             PlayerIndexRand = -1;
@@ -593,6 +608,16 @@ public class PlayerController : MonoBehaviour
 		}
 		else
         {
+            if (QuanShuCount >= QuanShuMax - 1 && Time.time - TimeQuanShuVal > 5f && !IsShowZhongDian)
+            {
+                //显示终点.
+                for (int i = 0; i < FinishRender.Length; i++)
+                {
+                    FinishRender[i].enabled = true;
+                }
+                IsShowZhongDian = true;
+            }
+
             if (IsPlayHuiTouAni)
             {
                 IsPlayHuiTouAni = false;
