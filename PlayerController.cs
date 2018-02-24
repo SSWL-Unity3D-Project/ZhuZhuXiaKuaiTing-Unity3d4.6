@@ -5,6 +5,13 @@ using System;
 public class PlayerController : MonoBehaviour
 {
     /// <summary>
+    /// 最大圈数.
+    /// </summary>
+    [Range(1, 10)]
+    public int QuanShuMax = 1;
+    int QuanShuCount = 0;
+    float TimeQuanShuVal = 0f;
+    /// <summary>
     /// 排名数据.
     /// </summary>
     RankManage.RankData mRankDt = null;
@@ -876,6 +883,14 @@ public class PlayerController : MonoBehaviour
                     transform.forward = Vector3.MoveTowards(transform.forward, moveDir, Time.deltaTime * 3.1f);
                 }
             }
+            else
+            {
+                Vector3 moveDir = PathPoint[0].position - transform.position;
+                if (moveDir.magnitude > 10f)
+                {
+                    transform.forward = Vector3.MoveTowards(transform.forward, moveDir, Time.deltaTime * 3.1f);
+                }
+            }
         }
 
         float rotSpeed = m_ParameterForRotate * mSteer * Time.smoothDeltaTime;
@@ -1111,15 +1126,24 @@ public class PlayerController : MonoBehaviour
 		}
 		if(other.tag == "finish")
 		{
-            mRankDt.UpdateRankDtTimeFinish(Time.time);
-			TouBiInfoCtrl.IsCloseQiNang = true;
-			m_IsFinished = true;
-			if (m_PlayerAnimator.gameObject.activeInHierarchy)
-			{
-				m_PlayerAnimator.SetBool("IsFinish",true);
-			}
-            SortPlayerRankList();
+            if (Time.time - TimeQuanShuVal >= 20f)
+            {
+                TimeQuanShuVal = Time.time;
+                QuanShuCount++;
+                if (QuanShuMax <= QuanShuCount)
+                {
+                    mRankDt.UpdateRankDtTimeFinish(Time.time);
+                    TouBiInfoCtrl.IsCloseQiNang = true;
+                    m_IsFinished = true;
+                    if (m_PlayerAnimator.gameObject.activeInHierarchy)
+                    {
+                        m_PlayerAnimator.SetBool("IsFinish", true);
+                    }
+                    SortPlayerRankList();
+                }
+            }
         }
+
 		if(other.tag == "water")
 		{
 			m_IsInWarter = true;
