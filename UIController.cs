@@ -140,6 +140,11 @@ public class UIController : MonoBehaviour
         ShowJiFenInfo(0);
 		UpdateGameTime();
 
+        if (pcvr.bIsHardWare)
+        {
+            pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Open);
+            pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close); //test
+        }
         //InputEventCtrl.GetInstance().ClickPlayerYouMenBtEvent += ClickPlayerYouMenBtEvent;
     }
 
@@ -269,6 +274,7 @@ public class UIController : MonoBehaviour
                 {
                     //pcvr.GetInstance().mPcvrTXManage.GamePlayCount = 500; //test
                     pcvr.GetInstance().mPcvrTXManage.GameJiaoYanJiaMiXinPian();
+                    pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close);
                 }
             }
 			if(m_IsCongratulate)

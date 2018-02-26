@@ -82,7 +82,20 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		}
 		IsCloseDongGan = !IsCloseDongGan;
 		HandleDongGanUI();
-	}
+
+        if (pcvr.bIsHardWare)
+        {
+            if (IsCloseDongGan)
+            {
+                pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close);
+            }
+            else
+            {
+                pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Open);
+                pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close); //test
+            }
+        }
+    }
 
 	void HandleDongGanUI()
 	{
