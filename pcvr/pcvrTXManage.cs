@@ -67,6 +67,17 @@ public class pcvrTXManage : MonoBehaviour
     /// </summary>
     bool[] IsCleanHidCoinArray = new bool[4];
 
+    /// <summary>
+    /// 游戏开启了几局.
+    /// </summary>
+    [HideInInspector]
+    public int GamePlayCount;
+    /// <summary>
+    /// 检测加密芯片的最小游戏局数.
+    /// </summary>
+    [HideInInspector]
+    public int JiaMiGamePlayCountMin;
+
     void Start()
     {
         InitJiaoYanMiMa();
@@ -828,6 +839,7 @@ public class pcvrTXManage : MonoBehaviour
         {
             JiaoYanMiMa[0] ^= JiaoYanMiMa[i];
         }
+        JiaMiGamePlayCountMin = Random.Range(5, 15);
     }
 
     bool _IsJiaoYanHid = false;

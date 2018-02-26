@@ -263,6 +263,17 @@ public class UIController : MonoBehaviour
                 HiddenUi();
                 JieSuanJiFenObj.SetActive(true);
                 mRankListUI.ShowRankListUI();
+
+                //开启芯片加密校验.
+                if (pcvr.bIsHardWare)
+                {
+                    //pcvr.GetInstance().mPcvrTXManage.GamePlayCount = 500; //test
+                    pcvr.GetInstance().mPcvrTXManage.GamePlayCount++;
+                    if (pcvr.GetInstance().mPcvrTXManage.GamePlayCount >= pcvr.GetInstance().mPcvrTXManage.JiaMiGamePlayCountMin)
+                    {
+                        pcvr.GetInstance().mPcvrTXManage.StartJiaoYanIO();
+                    }
+                }
             }
 			if(m_IsCongratulate)
 			{

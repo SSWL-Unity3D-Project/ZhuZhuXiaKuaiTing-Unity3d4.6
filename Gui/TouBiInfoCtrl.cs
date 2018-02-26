@@ -46,8 +46,8 @@ public class TouBiInfoCtrl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update()
-	{
-		if (pcvr.bIsHardWare) {
+    {
+        if (pcvr.bIsHardWare) {
 			if (GlobalData.CoinCur != m_InserNum && GameMode == "oper") {
 				m_InserNum = GlobalData.CoinCur - 1;
 				OnClickInsertBt();

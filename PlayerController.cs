@@ -399,7 +399,10 @@ public class PlayerController : MonoBehaviour
         {
             for (int i = 0; i < FinishRender.Length; i++)
             {
-                FinishRender[i].enabled = false;
+                if (FinishRender[i] != null)
+                {
+                    FinishRender[i].enabled = false;
+                }
             }
             IsShowZhongDian = false;
         }
