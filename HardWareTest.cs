@@ -9,8 +9,13 @@ public class HardWareTest : MonoBehaviour
 	public UILabel AnJianLabel;
 	public UILabel FangXiangLabel;
 	public static bool IsTestHardWare;
-	public static HardWareTest Instance;
-	void Start ()
+	static HardWareTest Instance;
+    public static HardWareTest GetInstance()
+    {
+        return Instance;
+    }
+
+    void Start ()
 	{
 		Instance = this;
 		JiaMiJiaoYanCtrlObj.SetActive(IsJiaMiTest);
@@ -22,15 +27,22 @@ public class HardWareTest : MonoBehaviour
 		//pcvr.GetInstance();
 	}
 	public UILabel BeiYongYouMenLabel;
-	void Update () 
+    
+    public void CheckReadComMsg(byte[] buffer)
+    {
+        UpdatePcvrInfo(buffer);
+    }
+
+    void UpdatePcvrInfo(byte[] buffer)
 	{
 		TouBiLabel.text = GlobalData.CoinCur.ToString();
         if (pcvr.bIsHardWare)
         {
-            FangXiangLabel.text = MyCOMDevice.ComThreadClass.ReadByteMsg[30].ToString("X2");
+            FangXiangLabel.text = buffer[30].ToString("X2");
         }
 	}
-	void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
+
+    void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
 		if (val == InputEventCtrl.ButtonState.DOWN) {
 			AnJianLabel.text = "SetEnter Down 按键3（开始1）";

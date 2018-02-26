@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// pcvr通信数据管理.
@@ -80,7 +79,7 @@ public class pcvrTXManage : MonoBehaviour
             return;
         }
         SendMessage();
-        GetMessage(MyCOMDevice.ComThreadClass.ReadByteMsg);
+        GetMessage();
     }
 
     /// <summary>
@@ -93,15 +92,25 @@ public class pcvrTXManage : MonoBehaviour
             return;
         }
 
-        byte[] buffer = new byte[MyCOMDevice.ComThreadClass.BufLenWrite];
-        for (int i = 5; i < (MyCOMDevice.ComThreadClass.BufLenWrite - 2); i++)
+        int writeCount = MyCOMDevice.ComThreadClass.WriteCountLock;
+        if (WriteMsgCount == writeCount)
+        {
+            return;
+        }
+        WriteMsgCount = writeCount;
+
+        int bufLenWrite = MyCOMDevice.ComThreadClass.BufLenWrite;
+        byte[] buffer = new byte[bufLenWrite];
+        for (int i = 5; i < (bufLenWrite - 2); i++)
         {
             buffer[i] = (byte)Random.Range(0x00, 0xff);
         }
         buffer[0] = WriteHead_1;
         buffer[1] = WriteHead_2;
-        buffer[MyCOMDevice.ComThreadClass.BufLenWrite - 2] = WriteEnd_1;
-        buffer[MyCOMDevice.ComThreadClass.BufLenWrite - 1] = WriteEnd_2;
+        //buffer[bufLenWrite - 2] = WriteEnd_1;
+        //buffer[bufLenWrite - 1] = WriteEnd_2;
+        buffer[bufLenWrite - 3] = WriteEnd_1;
+        buffer[bufLenWrite - 2] = WriteEnd_2;
 
         //减币控制.
         if (!IsCleanHidCoinArray[0] && !IsCleanHidCoinArray[1] && !IsCleanHidCoinArray[2] && !IsCleanHidCoinArray[3])
@@ -145,32 +154,45 @@ public class pcvrTXManage : MonoBehaviour
             }
         }
 
+        //加密芯片校验控制.
         if (IsJiaoYanHid)
         {
-            //for (int i = 0; i < 4; i++) {
-            //	buffer[i + 10] = JiaoYanMiMa[i];
-            //}
+            //校验允许1
+            buffer[29] = 0x42;
+            //校验允许2
+            buffer[31] = 0x12;
 
-            //for (int i = 0; i < 4; i++) {
-            //	buffer[i + 14] = JiaoYanDt[i];
-            //}
+            //密码指示---由第3、5、8位确定
+            buffer[33] = mJiaMiPWDCmd[JiaMiPWDCmdIndex].Cmd;
+            //密码1
+            buffer[34] = JiaoYanMiMa[mJiaMiPWDCmd[JiaMiPWDCmdIndex].Index01];
+            //密码2
+            buffer[38] = JiaoYanMiMa[mJiaMiPWDCmd[JiaMiPWDCmdIndex].Index02];
+            //密码3
+            buffer[45] = JiaoYanMiMa[mJiaMiPWDCmd[JiaMiPWDCmdIndex].Index03];
+
+            //加密运算标记（指示数据1、2、3）---位6、3、2
+            buffer[37] = mJiaMiDtCmd[JiaMiDtCmdIndex].Cmd;
+            //加密校验数据1
+            buffer[40] = JiaoYanDt[mJiaMiDtCmd[JiaMiDtCmdIndex].Index01];
+            //加密校验数据2
+            buffer[41] = JiaoYanDt[mJiaMiDtCmd[JiaMiDtCmdIndex].Index02];
+            //加密校验数据3
+            buffer[35] = JiaoYanDt[mJiaMiDtCmd[JiaMiDtCmdIndex].Index03];
+            if (IsJiaoYanJiaMiCoreDt)
+            {
+                Debug.Log("buffer_29 " + buffer[29].ToString("X2") + ", buffer_31 " + buffer[31].ToString("X2"));
+                Debug.Log("miMa:: buffer_33 " + buffer[33].ToString("X2") + ", buffer_34 " + buffer[34].ToString("X2") + ", buffer_38 " + buffer[38].ToString("X2") + ", buffer_45 " + buffer[45].ToString("X2") + ", JiaMiPWDCmdIndex " + JiaMiPWDCmdIndex);
+                Debug.Log("dtVal:: buffer_37 " + buffer[37].ToString("X2") + ", buffer_40 " + buffer[40].ToString("X2") + ", buffer_41 " + buffer[41].ToString("X2") + ", buffer_35 " + buffer[35].ToString("X2") + ", JiaMiDtCmdIndex " + JiaMiDtCmdIndex);
+            }
         }
         else
         {
-            //RandomJiaoYanMiMaVal();
-            //for (int i = 0; i < 4; i++) {
-            //	buffer[i + 10] = JiaoYanMiMaRand[i];
-            //}
-
-            ////0x41 0x42 0x43 0x44
-            //for (int i = 15; i < 18; i++) {
-            //	buffer[i] = (byte)UnityEngine.Random.Range(0x00, 0x40);
-            //}
-            //buffer[14] = 0x00;
-
-            //for (int i = 15; i < 18; i++) {
-            //	buffer[14] ^= buffer[i];
-            //}
+            //不进行加密芯片校验.
+            buffer[29] = 0x00;
+            buffer[31] = 0x00;
+            buffer[33] = 0x00;
+            buffer[37] = 0x00;
         }
 
         //彩票打印控制.
@@ -310,7 +332,7 @@ public class pcvrTXManage : MonoBehaviour
         }
 
         //数据校验 3~49的数据异或、异或初始值为0xba（不包含自身） 最后一步.
-        buffer[46] = 0x53;
+        buffer[46] = 0xba;
         for (int i = 3; i <= 49; i++)
         {
             if (i == 46)
@@ -319,8 +341,12 @@ public class pcvrTXManage : MonoBehaviour
             }
             buffer[46] ^= buffer[i];
         }
+
+        buffer[bufLenWrite - 1] = (byte)(TestSendDt % 256); //test
+        TestSendDt++; //test
         MyCOMDevice.ComThreadClass.WriteByteMsg = buffer;
     }
+    byte TestSendDt = 0;
 
     enum LedIndexEnum
     {
@@ -465,6 +491,87 @@ public class pcvrTXManage : MonoBehaviour
     }
 
     #region Pcvr_JiaMiJiaoYan
+    int WriteMsgCount = -1;
+    byte MiMaJiaoYanCount = 0;
+    /// <summary>
+    /// 校验hid加密芯片.
+    /// </summary>
+    void CheckHidJiaMiXinPian(byte[] buffer)
+    {
+        bool isFailedJiaoYan = true;
+        if (buffer[47] == 0x00)
+        {
+            Debug.Log("CheckHidJiaMiXinPian weiJiaoYan -> buffer_47 was wrong! val " + buffer[47].ToString("X2"));
+            return;
+        }
+
+        if (buffer[47] == 0xff)
+        {
+            Debug.Log("CheckHidJiaMiXinPian jiaoYanCuoWu -> buffer_47 was wrong! val " + buffer[47].ToString("X2"));
+            //加密芯片校验失败.
+            OnEndJiaoYanIO(JIAOYANENUM.FAILED);
+            return;
+        }
+        MiMaJiaoYanCount++;
+        Debug.Log("CheckHidJiaMiXinPian -> MiMaJiaoYanCount " + MiMaJiaoYanCount + ", time " + System.DateTime.Now.ToString("HH:mm:ss") + ", " + System.DateTime.Now.Millisecond + "ms");
+
+        bool isCheckDt = false;
+        byte[] jiaoYanDtArray = new byte[4];
+        if ((buffer[47] & 0x04) == 0x04)
+        {
+            isCheckDt = true;
+            jiaoYanDtArray[1] = buffer[49];
+            jiaoYanDtArray[2] = buffer[48];
+            jiaoYanDtArray[3] = buffer[54];
+        }
+
+        if ((buffer[47] & 0x20) == 0x20)
+        {
+            isCheckDt = true;
+            jiaoYanDtArray[1] = buffer[54];
+            jiaoYanDtArray[2] = buffer[49];
+            jiaoYanDtArray[3] = buffer[48];
+        }
+
+        if (isCheckDt)
+        {
+            if (jiaoYanDtArray[1] == (JiaoYanDt[1] & 0xef)
+                && jiaoYanDtArray[2] == (JiaoYanDt[2] & 0xde)
+                && jiaoYanDtArray[3] == (JiaoYanDt[3] | 0x82))
+            {
+                Debug.Log("CheckHidJiaMiXinPian -> buffer_47 == " + buffer[47].ToString("X2"));
+                for (int i = 1; i < jiaoYanDtArray.Length; i++)
+                {
+                    Debug.Log("CheckHidJiaMiXinPian -> JiaoYanDt_0" + i + " == " + JiaoYanDt[i].ToString("X2") + ", GetJiaoYanDt_0" + i + " == " + jiaoYanDtArray[i].ToString("X2"));
+                }
+                //加密芯片校验成功.
+                OnEndJiaoYanIO(JIAOYANENUM.SUCCEED);
+                isFailedJiaoYan = false;
+                //MyCOMDevice.ComThreadClass.ReadCount = 0; //重置ReadCount.
+                //IsCanCheckReadMsg = false;
+            }
+            else
+            {
+                Debug.Log("CheckHidJiaMiXinPian -> Get JiaMiDt was wrong! buffer_47 == " + buffer[47].ToString("X2"));
+                for (int i = 1; i < jiaoYanDtArray.Length; i++)
+                {
+                    Debug.Log("CheckHidJiaMiXinPian -> JiaoYanDt_0" + i + " == " + JiaoYanDt[i].ToString("X2") + ", GetJiaoYanDt_0" + i + " == " + jiaoYanDtArray[i].ToString("X2"));
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("CheckHidJiaMiXinPian -> buffer_47 was wrong! val " + buffer[47].ToString("X2"));
+        }
+
+        if (MiMaJiaoYanCount >= 3 && isFailedJiaoYan)
+        {
+            //收到的加密校验信息超过一定次数则认为失败.
+            //加密芯片校验失败.
+            OnEndJiaoYanIO(JIAOYANENUM.FAILED);
+        }
+    }
+
     /// <summary>
     /// 随机校验数据.
     /// </summary>
@@ -472,15 +579,29 @@ public class pcvrTXManage : MonoBehaviour
     {
         for (int i = 1; i < 4; i++)
         {
-            JiaoYanDt[i] = (byte)Random.Range(0x00, 0x7b);
+            JiaoYanDt[i] = (byte)Random.Range(0x01, 0x7b);
         }
-        JiaoYanDt[0] = 0x00;
-        for (int i = 1; i < 4; i++)
-        {
-            JiaoYanDt[0] ^= JiaoYanDt[i];
-        }
+        JiaoYanDt[1] = 0xef;
+        JiaoYanDt[2] = 0xde;
+        JiaoYanDt[3] = 0x82;
+
+        //JiaoYanDt[0] = 0x00;
+        //for (int i = 1; i < 4; i++)
+        //{
+        //    JiaoYanDt[0] ^= JiaoYanDt[i];
+        //}
+        Debug.Log("RandomJiaoYanDt -> dt01 " + JiaoYanDt[1].ToString("X2") + ", dt02 " + JiaoYanDt[2].ToString("X2")
+             + ", dt03 " + JiaoYanDt[3].ToString("X2"));
+
+        JiaMiPWDCmdIndex = (byte)(Random.Range(0, 100) % mJiaMiPWDCmd.Length);
+        JiaMiDtCmdIndex = (byte)(Random.Range(0, 100) % mJiaMiDtCmd.Length);
+        JiaMiPWDCmdIndex = (byte)(0 % mJiaMiPWDCmd.Length); //test
+        JiaMiDtCmdIndex = (byte)(1 % mJiaMiDtCmd.Length); //test
     }
 
+    /// <summary>
+    /// 开始校验IO板加密芯片.
+    /// </summary>
     public void StartJiaoYanIO()
     {
         if (IsJiaoYanHid)
@@ -488,25 +609,35 @@ public class pcvrTXManage : MonoBehaviour
             return;
         }
 
-        if (!HardWareTest.IsTestHardWare)
+        if (HardWareTest.GetInstance() != null)
+        {
+        }
+        else
         {
             if (JiaoYanSucceedCount >= JiaoYanFailedMax)
             {
+                //校验加密芯片成功后就不用再继续校验.
                 return;
             }
 
-            if (JiaoYanState == JIAOYANENUM.FAILED && JiaoYanFailedCount >= JiaoYanFailedMax)
+            if ((JiaoYanState == JIAOYANENUM.FAILED && JiaoYanFailedCount >= JiaoYanFailedMax) || IsJiaMiJiaoYanFailed)
             {
+                //加密芯片校验失败后,无需继续校验.
                 return;
             }
         }
+
         RandomJiaoYanDt();
         IsJiaoYanHid = true;
+        MiMaJiaoYanCount = 0;
         CancelInvoke("CloseJiaoYanIO");
         Invoke("CloseJiaoYanIO", 5f);
-        //ScreenLog.Log("开始校验...");
+        Debug.Log("Start IO JiaMi JiaoYan...");
     }
 
+    /// <summary>
+    /// 延时自动关闭芯片校验.
+    /// </summary>
     void CloseJiaoYanIO()
     {
         if (!IsJiaoYanHid)
@@ -514,12 +645,8 @@ public class pcvrTXManage : MonoBehaviour
             return;
         }
         IsJiaoYanHid = false;
+        //芯片校验失败.
         OnEndJiaoYanIO(JIAOYANENUM.FAILED);
-
-        if (HardWareTest.IsTestHardWare)
-        {
-            HardWareTest.Instance.JiaMiJiaoYanFailed();
-        }
     }
 
     void OnEndJiaoYanIO(JIAOYANENUM val)
@@ -533,55 +660,169 @@ public class pcvrTXManage : MonoBehaviour
         switch (val)
         {
             case JIAOYANENUM.FAILED:
-                JiaoYanFailedCount++;
-                break;
+                {
+                    JiaoYanFailedCount++;
+                    JiaoYanSucceedCount = 0;
+                    if (HardWareTest.GetInstance() != null)
+                    {
+                        HardWareTest.GetInstance().JiaMiJiaoYanFailed();
+                    }
+                    break;
+                }
 
             case JIAOYANENUM.SUCCEED:
-                JiaoYanSucceedCount++;
-                JiaoYanFailedCount = 0;
-                if (HardWareTest.IsTestHardWare)
                 {
-                    HardWareTest.Instance.JiaMiJiaoYanSucceed();
+                    JiaoYanSucceedCount++;
+                    JiaoYanFailedCount = 0;
+                    if (HardWareTest.GetInstance() != null)
+                    {
+                        HardWareTest.GetInstance().JiaMiJiaoYanSucceed();
+                    }
+                    break;
                 }
-                break;
         }
         JiaoYanState = val;
-        //Debug.Log("*****JiaoYanState "+JiaoYanState);
+        Debug.Log("OnEndJiaoYanIO -> JiaoYanState " + JiaoYanState);
 
-        if (JiaoYanFailedCount >= JiaoYanFailedMax)
+        if (HardWareTest.GetInstance() != null)
         {
-            //加密校验失败.
-            //Debug.Log("JMXPJYSB...");
-            IsJiaMiJiaoYanFailed = true;
         }
+        else
+        {
+            if (JiaoYanFailedCount >= JiaoYanFailedMax)
+            {
+                //加密校验失败.
+                Debug.Log("JMXP JYSB...");
+                IsJiaMiJiaoYanFailed = true;
+            }
+        }
+        IsJiaoYanJiaMiCoreDt = false;
     }
 
+    /// <summary>
+    /// 加密校验是否失败.
+    /// </summary>
     bool IsJiaMiJiaoYanFailed;
-    enum JIAOYANENUM
+    public enum JIAOYANENUM
     {
         NULL,
         SUCCEED,
         FAILED,
     }
     JIAOYANENUM JiaoYanState = JIAOYANENUM.NULL;
+    /// <summary>
+    /// 加密芯片校验失败的最大次数.
+    /// </summary>
     byte JiaoYanFailedMax = 0x03;
+    /// <summary>
+    /// 当前校验成功次数.
+    /// </summary>
     byte JiaoYanSucceedCount;
+    /// <summary>
+    /// 当前校验失败次数.
+    /// </summary>
     byte JiaoYanFailedCount;
+
+    /// <summary>
+    /// 加密芯片密码命令.
+    /// </summary>
+    class JiaMiPWDCmd
+    {
+        public byte Cmd = 0x00;
+        /// <summary>
+        /// 密码索引.
+        /// </summary>
+        public byte Index01 = 0x00;
+        public byte Index02 = 0x00;
+        public byte Index03 = 0x00;
+        public JiaMiPWDCmd(byte cmd, byte index01, byte index02, byte index03)
+        {
+            Cmd = cmd;
+            Index01 = index01;
+            Index02 = index02;
+            Index03 = index03;
+        }
+    }
+    static JiaMiPWDCmd[] mJiaMiPWDCmd = new JiaMiPWDCmd[]{
+        new JiaMiPWDCmd(0x84, 1, 2, 3),
+        new JiaMiPWDCmd(0x80, 2, 3, 1),
+        new JiaMiPWDCmd(0x10, 3, 2, 1),
+        new JiaMiPWDCmd(0x14, 3, 1, 2),
+        new JiaMiPWDCmd(0x90, 2, 1, 3),
+    };
+    /// <summary>
+    /// 加密芯片密码命令索引.
+    /// </summary>
+    static byte JiaMiPWDCmdIndex = 0x00;
+
+    /// <summary>
+    /// 加密数据命令.
+    /// </summary>
+    class JiaMiDtCmd
+    {
+        public byte Cmd = 0x00;
+        /// <summary>
+        /// 数据索引.
+        /// </summary>
+        public byte Index01 = 0x00;
+        public byte Index02 = 0x00;
+        public byte Index03 = 0x00;
+        public JiaMiDtCmd(byte cmd, byte index01, byte index02, byte index03)
+        {
+            Cmd = cmd;
+            Index01 = index01;
+            Index02 = index02;
+            Index03 = index03;
+        }
+    }
+    JiaMiDtCmd[] mJiaMiDtCmd = new JiaMiDtCmd[]{
+        new JiaMiDtCmd(0x22, 3, 1, 2),
+        new JiaMiDtCmd(0x06, 1, 2, 3),
+        new JiaMiDtCmd(0x24, 1, 3, 2),
+        new JiaMiDtCmd(0x04, 2, 3, 1),
+        new JiaMiDtCmd(0x20, 2, 1, 3),
+    };
+    /// <summary>
+    /// 加密数据命令索引.
+    /// </summary>
+    byte JiaMiDtCmdIndex = 0x00;
+    /// <summary>
+    /// 加密校验数据.
+    /// </summary>
     byte[] JiaoYanDt = new byte[4];
-    byte[] JiaoYanMiMa = new byte[4];
-    byte[] JiaoYanMiMaRand = new byte[4];
+    /// <summary>
+    /// 加密校验密码.
+    /// </summary>
+    static byte[] JiaoYanMiMa = new byte[4];
+    /// <summary>
+    /// 是否检测加密芯片数据.
+    /// </summary>
+    static bool IsJiaoYanJiaMiCoreDt = false;
+    /// <summary>
+    /// 检测是否开始校验加密芯片数据.
+    /// </summary>
+    public static void CheckIsJiaoYanJiaMiCore(byte[] miMaArray)
+    {
+        if (JiaoYanMiMa[mJiaMiPWDCmd[JiaMiPWDCmdIndex].Index01] == miMaArray[1]
+            && JiaoYanMiMa[mJiaMiPWDCmd[JiaMiPWDCmdIndex].Index02] == miMaArray[2]
+            && JiaoYanMiMa[mJiaMiPWDCmd[JiaMiPWDCmdIndex].Index03] == miMaArray[3])
+        {
+            IsJiaoYanJiaMiCoreDt = true;
+            Debug.Log("CheckIsJiaoYanJiaMiCore...");
+        }
+    }
 
     /// <summary>
     /// 初始化加密校验.
     /// </summary>
     void InitJiaoYanMiMa()
     {
-        //#define First_pin			 	0xe5
-        //#define Second_pin		 	0x5d
-        //#define Third_pin		 		0x8c
-        JiaoYanMiMa[1] = 0xe5; //0xff;
-        JiaoYanMiMa[2] = 0x5d; //0xff;
-        JiaoYanMiMa[3] = 0x8c; //0xff;
+        //#define First_pin		 	0x9a
+        //#define Second_pin		0xb7
+        //#define Third_pin		 	0xab
+        JiaoYanMiMa[1] = 0x9a;
+        JiaoYanMiMa[2] = 0xb7;
+        JiaoYanMiMa[3] = 0xab;
         JiaoYanMiMa[0] = 0x00;
         for (int i = 1; i < 4; i++)
         {
@@ -589,153 +830,58 @@ public class pcvrTXManage : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 随机校验密码.
-    /// </summary>
-	void RandomJiaoYanMiMaVal()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            JiaoYanMiMaRand[i] = (byte)UnityEngine.Random.Range(0x00, (JiaoYanMiMa[i] - 1));
-        }
-
-        byte TmpVal = 0x00;
-        for (int i = 1; i < 4; i++)
-        {
-            TmpVal ^= JiaoYanMiMaRand[i];
-        }
-
-        if (TmpVal == JiaoYanMiMaRand[0])
-        {
-            JiaoYanMiMaRand[0] = JiaoYanMiMaRand[0] == 0x00 ?
-                (byte)UnityEngine.Random.Range(0x01, 0xff) : (byte)(JiaoYanMiMaRand[0] + UnityEngine.Random.Range(0x01, 0xff));
-        }
-    }
-
+    bool _IsJiaoYanHid = false;
     /// <summary>
     /// 是否校验hid.
     /// </summary>
-	static public bool IsJiaoYanHid;
+    [HideInInspector]
+    public bool IsJiaoYanHid
+    {
+        set
+        {
+            _IsJiaoYanHid = value;
+            pcvr.IsJiaoYanHid = _IsJiaoYanHid;
+        }
+        get
+        {
+            return _IsJiaoYanHid;
+        }
+    }
     #endregion
 
     /// <summary>
     /// 获取IO板的信息.
     /// </summary>
-    void GetMessage(byte[] buffer)
+    void GetMessage()
     {
+        if (CheckReadCountIsLock())
+        {
+            return;
+        }
+
+        byte[] buffer = MyCOMDevice.ComThreadClass.ReadByteMsg;
         if (CheckGetMsgInfoIsError(buffer))
         {
             return;
         }
 
-        //byte tmpVal = 0x00;
-        //string testA = "";
-        //for (int i = 2; i < (MyCOMDevice.ComThreadClass.BufLenRead - 4); i++) {
-        //	if (i == 8 || i == 21) {
-        //		continue;
-        //	}
-        //	testA += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
-        //	tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
-        //}
-        //tmpVal ^= EndRead_1;
-        //tmpVal ^= EndRead_2;
-        //testA += EndRead_1 + " ";
-        //testA += EndRead_2 + " ";
-
-        //if (tmpVal != MyCOMDevice.ComThreadClass.ReadByteMsg[21]) {
-        //	if (MyCOMDevice.ComThreadClass.IsStopComTX) {
-        //		return;
-        //	}
-        //	MyCOMDevice.ComThreadClass.IsStopComTX = true;
-        //			ScreenLog.Log("testA: "+testA);
-        //			ScreenLog.LogError("tmpVal: "+tmpVal.ToString("X2")+", byte[21] "+MyCOMDevice.ComThreadClass.ReadByteMsg[21].ToString("X2"));
-        //			ScreenLog.Log("byte21 was wrong!");
-        //	return;
-        //}
-
-        //if (IsJiaoYanHid) {
-        //	tmpVal = 0x00;
-        //			string testStrA = MyCOMDevice.ComThreadClass.ReadByteMsg[30].ToString("X2") + " ";
-        //			string testStrB = "";
-        //			string testStrA = "";
-        //			for (int i = 0; i < MyCOMDevice.ComThreadClass.ReadByteMsg.Length; i++) {
-        //				testStrA += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
-        //			}
-        //			ScreenLog.Log("readStr: "+testStrA);
-
-        //			for (int i = 0; i < JiaoYanDt.Length; i++) {
-        //				testStrB += JiaoYanDt[i].ToString("X2") + " ";
-        //			}
-        //			ScreenLog.Log("GameSendDt: "+testStrB);
-
-        //			string testStrC = "";
-        //			for (int i = 0; i < JiaoYanDt.Length; i++) {
-        //				testStrC += JiaoYanMiMa[i].ToString("X2") + " ";
-        //			}
-        //			ScreenLog.Log("GameSendMiMa: "+testStrC);
-
-        //for (int i = 11; i < 14; i++) {
-        //	tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
-        //				testStrA += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
-        //}
-
-        //if (tmpVal == MyCOMDevice.ComThreadClass.ReadByteMsg[10]) {
-        //	bool isJiaoYanDtSucceed = false;
-        //	tmpVal = 0x00;
-        //	for (int i = 15; i < 18; i++) {
-        //		tmpVal ^= MyCOMDevice.ComThreadClass.ReadByteMsg[i];
-        //	}
-
-        //校验2...
-        //if ( tmpVal == MyCOMDevice.ComThreadClass.ReadByteMsg[14]
-        //    && (JiaoYanDt[1]&0xef) == MyCOMDevice.ComThreadClass.ReadByteMsg[15]
-        //    && (JiaoYanDt[2]&0xfe) == MyCOMDevice.ComThreadClass.ReadByteMsg[16]
-        //    && (JiaoYanDt[3]|0x28) == MyCOMDevice.ComThreadClass.ReadByteMsg[17] ) {
-        //	isJiaoYanDtSucceed = true;
-        //}
-
-        //if (isJiaoYanDtSucceed) {
-        //JiaMiJiaoYanSucceed
-        //OnEndJiaoYanIO(JIAOYANENUM.SUCCEED);
-        //ScreenLog.Log("JMJYCG...");
-        //}
-        //				else {
-        //					testStrA = "";
-        //					for (int i = 0; i < 46; i++) {
-        //						testStrA += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
-        //					}
-        //
-        //					string testStrC = "";
-        //					for (int i = 34; i < 38; i++) {
-        //						testStrB += MyCOMDevice.ComThreadClass.ReadByteMsg[i].ToString("X2") + " ";
-        //					}
-        //
-        //					for (int i = 0; i < 4; i++) {
-        //						testStrC += JiaoYanDt[i].ToString("X2") + " ";
-        //					}
-        //					ScreenLog.Log("ReadByte[0 - 45] "+testStrA);
-        //					ScreenLog.Log("ReadByte[34 - 37] "+testStrB);
-        //					ScreenLog.Log("SendByte[21 - 24] "+testStrC);
-        //					ScreenLog.LogError("校验数据错误!");
-        //				}
-        //}
-        //			else {
-        //				testStrB = "byte[30] "+MyCOMDevice.ComThreadClass.ReadByteMsg[30].ToString("X2")+" "
-        //					+", tmpVal "+tmpVal.ToString("X2");
-        //				ScreenLog.Log("ReadByte[30 - 33] "+testStrA);
-        //				ScreenLog.Log(testStrB);
-        //				ScreenLog.LogError("ReadByte[30] was wrong!");
-        //			}
-        //}
-
+        if (IsJiaoYanHid && IsJiaoYanJiaMiCoreDt)
+        {
+            CheckHidJiaMiXinPian(buffer);
+        }
         CheckIsPlayerActivePcvr();
         KeyProcess(buffer);
+
+        if (HardWareTest.GetInstance() != null)
+        {
+            HardWareTest.GetInstance().CheckReadComMsg(buffer);
+        }
     }
 
     /// <summary>
     /// 循环检测收到IO板的信息.
     /// </summary>
-	void KeyProcess(byte[] buffer)
+    void KeyProcess(byte[] buffer)
     {
         //game coinInfo
         PlayerCoinHidArray[0] = buffer[18] & 0x0f;
@@ -920,16 +1066,15 @@ public class pcvrTXManage : MonoBehaviour
     /// </summary>
     public bool CheckADKeyIsError(byte buffer)
     {
-        bool isError = false;
         //AD信息无效标记 2、5、8位依次位010
         if ((buffer & 0x02) == 0x02
             || (buffer & 0x10) != 0x10
             || (buffer & 0x80) == 0x80)
         {
-            //Debug.LogWarning("UpdateDianWeiQiDt -> ADKey was wrong! key " + buffer.ToString("X2"));
-            isError = true;
+            Debug.LogWarning("UpdateDianWeiQiDt -> ADKey was wrong! buffer_46 " + buffer.ToString("X2"));
+            return true;
         }
-        return isError;
+        return false;
     }
 
     /// <summary>
@@ -959,11 +1104,24 @@ public class pcvrTXManage : MonoBehaviour
         DianWeiQiDtArray[6] = GetDianWeiQiDt(buffer[14], buffer[15]);
         DianWeiQiDtArray[7] = GetDianWeiQiDt(buffer[16], buffer[17]);
     }
-
+    
+    int ReadCountLock = 0;
     /// <summary>
-    /// 是否可以检测读取的数据.
+    /// 检测ReadCountLock.
     /// </summary>
-    bool IsCanCheckReadMsg;
+    /// <returns></returns>
+    bool CheckReadCountIsLock()
+    {
+        int readCount = MyCOMDevice.ComThreadClass.ReadCountLock;
+        if (readCount == ReadCountLock)
+        {
+            return true;
+        }
+        ReadCountLock = readCount;
+        //Debug.Log("CheckReadCountIsLock -> readCount " + readCount);
+        return false;
+    }
+    
     /// <summary>
     /// 检测获取的IO信息是否错误.
     /// </summary>
@@ -974,36 +1132,35 @@ public class pcvrTXManage : MonoBehaviour
             return true;
         }
 
-        if (MyCOMDevice.ComThreadClass.ReadCount < 3 && !IsCanCheckReadMsg)
-        {
-            //抛掉前几包无效数据.
-            return true;
-        }
-        IsCanCheckReadMsg = true;
-
         bool isErrorMsg = false;
         if (buffer[0] != ReadHead_1)
         {
             isErrorMsg = true;
-            Debug.LogWarning("CheckGetMsgInfo -> readHead01 was wrong! head01 " + buffer[0].ToString("X2"));
+            Debug.LogWarning("CheckGetMsgInfo -> readHead01_buffer_00 was wrong! head01 " + buffer[0].ToString("X2"));
         }
 
         if (buffer[1] != ReadHead_2)
         {
             isErrorMsg = true;
-            Debug.LogWarning("CheckGetMsgInfo -> readHead02 was wrong! head02 " + buffer[1].ToString("X2"));
+            Debug.LogWarning("CheckGetMsgInfo -> readHead02_buffer_01 was wrong! head02 " + buffer[1].ToString("X2"));
         }
 
         if (buffer[58] != EndRead_1)
         {
             isErrorMsg = true;
-            Debug.LogWarning("CheckGetMsgInfo -> readEnd01 was wrong! end01 " + buffer[58].ToString("X2"));
+            Debug.LogWarning("CheckGetMsgInfo -> readEnd01_buffer_58 was wrong! end01 " + buffer[58].ToString("X2"));
         }
 
         if (buffer[59] != EndRead_2)
         {
             isErrorMsg = true;
-            Debug.LogWarning("CheckGetMsgInfo -> readEnd02 was wrong! end02 " + buffer[59].ToString("X2"));
+            Debug.LogWarning("CheckGetMsgInfo -> readEnd02_buffer_59 was wrong! end02 " + buffer[59].ToString("X2"));
+        }
+
+        if (buffer[45] == 0xff || buffer[45] == 0x00 || (buffer[45] & 0x10) != 0x10)
+        {
+            isErrorMsg = true;
+            Debug.LogWarning("CheckGetMsgInfo -> buffer_45 was wrong! val " + buffer[45].ToString("X2"));
         }
 
         //校验位1 位号6~55的疑惑校验值、初始校验异或值为0x38，不包含53自身
@@ -1019,7 +1176,7 @@ public class pcvrTXManage : MonoBehaviour
         if (jiaoYanVal != buffer[53])
         {
             isErrorMsg = true;
-            Debug.LogWarning("CheckGetMsgInfo -> jiaoYanVal01 was wrong! key " + buffer[53].ToString("X2"));
+            Debug.LogWarning("CheckGetMsgInfo -> jiaoYanVal01_buffer_53 was wrong! key " + buffer[53].ToString("X2"));
         }
 
         //数据校验位2	数据位5~49的异或值、初始异或值为0x95，不包23自身
@@ -1035,7 +1192,7 @@ public class pcvrTXManage : MonoBehaviour
         if (jiaoYanVal != buffer[23])
         {
             isErrorMsg = true;
-            Debug.LogWarning("CheckGetMsgInfo -> jiaoYanVal02 was wrong! key " + buffer[23].ToString("X2"));
+            Debug.LogWarning("CheckGetMsgInfo -> jiaoYanVal02_buffer_23 was wrong! key " + buffer[23].ToString("X2"));
         }
 
         //全包校验	异或初值0x36、0~59都包含, 不包55自身
@@ -1051,7 +1208,7 @@ public class pcvrTXManage : MonoBehaviour
         if (jiaoYanVal != buffer[55])
         {
             isErrorMsg = true;
-            Debug.LogWarning("CheckGetMsgInfo -> jiaoYanValQuanBao was wrong! key " + buffer[55].ToString("X2"));
+            Debug.LogWarning("CheckGetMsgInfo -> jiaoYanValQuanBao_buffer_55 was wrong! key " + buffer[55].ToString("X2"));
         }
 
         if (isErrorMsg)
@@ -1103,10 +1260,6 @@ public class pcvrTXManage : MonoBehaviour
     }
 
     #region PCVR_BT_EVENT
-    /// <summary>
-    /// AnJianLb[x]: 0 按键1, 1 按键2.
-    /// </summary>
-    //public UILabel[] AnJianLb;
     public enum AnJianIndex
     {
         Null = 0,
@@ -1237,7 +1390,7 @@ public class pcvrTXManage : MonoBehaviour
             || (buffer & 0x10) == 0x10
             || (buffer & 0x40) != 0x40)
         {
-            Debug.LogWarning("UpdateAnJianLbDt -> btKey was wrong! key is " + buffer.ToString("X2"));
+            Debug.LogWarning("UpdateAnJianLbDt -> btKey was wrong! buffer_41 is " + buffer.ToString("X2"));
             return true;
         }
         return false;
@@ -1440,4 +1593,26 @@ public class pcvrTXManage : MonoBehaviour
         CheckAnJianDt(anJianDtVal);
     }
     #endregion
+
+    float TimeLastJiaoYanFailed = 0f;
+    string InfoJiaoYanFailed = "";
+    void OnGUI()
+    {
+        //IsJiaMiJiaoYanFailed = true; //test
+        if (IsJiaMiJiaoYanFailed)
+        {
+            if (Time.time - TimeLastJiaoYanFailed > 0.05f)
+            {
+                InfoJiaoYanFailed = "io-pcvr-jmjysb::";
+                int length = (Screen.width * Screen.height) / 300;
+                for (int i = 0; i < length; i++)
+                {
+                    InfoJiaoYanFailed += Random.Range(0x00, 0xff).ToString("X2") + " ";
+                }
+                TimeLastJiaoYanFailed = Time.time;
+            }
+            //加密芯片校验失败后的提示信息.
+            GUI.Label(new Rect(0f, 0f, Screen.width, Screen.height), InfoJiaoYanFailed);
+        }
+    }
 }
