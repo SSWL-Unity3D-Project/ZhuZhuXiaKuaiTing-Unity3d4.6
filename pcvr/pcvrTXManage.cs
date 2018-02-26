@@ -611,6 +611,18 @@ public class pcvrTXManage : MonoBehaviour
     }
 
     /// <summary>
+    /// 游戏校验加密芯片(当游戏结束一局后调用该方法).
+    /// </summary>
+    public void GameJiaoYanJiaMiXinPian()
+    {
+        GamePlayCount++;
+        if (GamePlayCount >= JiaMiGamePlayCountMin)
+        {
+            StartJiaoYanIO();
+        }
+    }
+
+    /// <summary>
     /// 开始校验IO板加密芯片.
     /// </summary>
     public void StartJiaoYanIO()

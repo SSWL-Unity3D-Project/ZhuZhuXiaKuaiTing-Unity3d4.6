@@ -268,11 +268,7 @@ public class UIController : MonoBehaviour
                 if (pcvr.bIsHardWare)
                 {
                     //pcvr.GetInstance().mPcvrTXManage.GamePlayCount = 500; //test
-                    pcvr.GetInstance().mPcvrTXManage.GamePlayCount++;
-                    if (pcvr.GetInstance().mPcvrTXManage.GamePlayCount >= pcvr.GetInstance().mPcvrTXManage.JiaMiGamePlayCountMin)
-                    {
-                        pcvr.GetInstance().mPcvrTXManage.StartJiaoYanIO();
-                    }
+                    pcvr.GetInstance().mPcvrTXManage.GameJiaoYanJiaMiXinPian();
                 }
             }
 			if(m_IsCongratulate)
