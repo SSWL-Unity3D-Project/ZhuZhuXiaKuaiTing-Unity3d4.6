@@ -1,7 +1,4 @@
-﻿#define SHI_ZI_QI_NANG
-
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 public class pcvr : MonoBehaviour
 {
