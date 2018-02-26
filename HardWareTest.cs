@@ -8,7 +8,11 @@ public class HardWareTest : MonoBehaviour
 	public UILabel TouBiLabel;
 	public UILabel AnJianLabel;
 	public UILabel FangXiangLabel;
-	public static bool IsTestHardWare;
+    /// <summary>
+    /// 继电器控制.
+    /// </summary>
+    public UILabel JiDianQiLb;
+    public static bool IsTestHardWare;
 	static HardWareTest Instance;
     public static HardWareTest GetInstance()
     {
@@ -24,9 +28,7 @@ public class HardWareTest : MonoBehaviour
 		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
 		InputEventCtrl.GetInstance().ClickSetMoveBtEvent += ClickSetMoveBtEvent;
 		InputEventCtrl.GetInstance().ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
-		//pcvr.GetInstance();
 	}
-	public UILabel BeiYongYouMenLabel;
     
     public void CheckReadComMsg(byte[] buffer)
     {
@@ -41,6 +43,27 @@ public class HardWareTest : MonoBehaviour
             FangXiangLabel.text = buffer[30].ToString("X2");
         }
 	}
+
+    public void OnClickJiDianQiBt()
+    {
+        byte indexVal = 0;
+        string lbHead = "继电器";
+        switch (pcvr.GetInstance().mPcvrTXManage.JiDianQiCmdArray[indexVal])
+        {
+            case pcvrTXManage.JiDianQiCmd.Close:
+                {
+                    pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(indexVal, pcvrTXManage.JiDianQiCmd.Open);
+                    JiDianQiLb.text = lbHead + "打开";
+                    break;
+                }
+            case pcvrTXManage.JiDianQiCmd.Open:
+                {
+                    pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(indexVal, pcvrTXManage.JiDianQiCmd.Close);
+                    JiDianQiLb.text = lbHead + "关闭";
+                    break;
+                }
+        }
+    }
 
     void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
