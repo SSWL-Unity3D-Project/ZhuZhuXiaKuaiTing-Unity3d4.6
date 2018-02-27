@@ -99,4 +99,42 @@ public class pcvr : MonoBehaviour
                 }
         }
     }
+
+    /// <summary>
+    /// 闪光灯控制命令.
+    /// </summary>
+    [System.Serializable]
+    public class ShanGuangDengCmd
+    {
+        public bool[] LedCmd = new bool[7];
+    }
+
+    /// <summary>
+    /// 改变闪关灯.
+    /// </summary>
+    public void ChangeShanGuangDeng(ShanGuangDengCmd shanGuangDengCmd)
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            mPcvrTXManage.LedState[i] = shanGuangDengCmd.LedCmd[i];
+        }
+    }
+
+    public void CloseShanGuangDeng()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            mPcvrTXManage.LedState[i] = false;
+        }
+    }
+
+    void OnGUI()
+    {
+        string info = "ledState:  ";
+        for (int i = 0; i < 7; i++)
+        {
+            info += mPcvrTXManage.LedState[i] == true ? "1  " : "0  ";
+        }
+        GUI.Box(new Rect(10f, 100f, Screen.width - 20f, 30f), info);
+    }
 }

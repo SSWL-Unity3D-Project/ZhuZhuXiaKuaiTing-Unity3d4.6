@@ -4,6 +4,7 @@ using System;
 
 public class Loading : MonoBehaviour
 {
+    public SSLedByAudioCtrl mLedAudioScript;
     public LogoAnimation mLogoAni;
     private string CoinNumSet = "1";
 	private string InsertCoinNum = "";

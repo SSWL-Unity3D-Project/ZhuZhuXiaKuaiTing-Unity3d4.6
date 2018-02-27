@@ -83,7 +83,11 @@ public class PlayerControllerForMoiew : MonoBehaviour
         }
 
 		m_BeijingAudio.Play();
-		Instance = this;
+        if (mLoading.mLedAudioScript != null)
+        {
+            mLoading.mLedAudioScript.OpenChangeLedState();
+        }
+        Instance = this;
 		XkGameCtrl.IsLoadingLevel = false;
 		PlayerYinQingAd.Play();
 		m_HuanjingSenlin.Play();
@@ -128,10 +132,16 @@ public class PlayerControllerForMoiew : MonoBehaviour
 		transform.position = StartPos;
 		m_EndTextureTimmer = 0f;
 		m_LiangTimmer = 0f;
-		if (!m_BeijingAudio.isPlaying) {
-			m_BeijingAudio.Play();
-		}
-		ShowAllDaoJuListObj();
+        if (!m_BeijingAudio.isPlaying)
+        {
+            m_BeijingAudio.Play();
+        }
+
+        if (mLoading.mLedAudioScript != null)
+        {
+            mLoading.mLedAudioScript.OpenChangeLedState();
+        }
+        ShowAllDaoJuListObj();
 		ResetEndTextureScale();
 
 		m_HuiEffect.saturation = HuiEffectSaturation;
@@ -449,6 +459,10 @@ public class PlayerControllerForMoiew : MonoBehaviour
 			{
 				PlayTweenScale(m_EndTextrues[4]);
 				m_BeijingAudio.Stop();
+                if (mLoading.mLedAudioScript != null)
+                {
+                    mLoading.mLedAudioScript.CloseChangeLedState();
+                }
 			}
 			m_LiangTimmer+=Time.deltaTime;
 			if(m_LiangTimmer<m_LiangTimmerSet)

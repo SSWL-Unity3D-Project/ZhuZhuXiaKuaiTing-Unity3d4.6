@@ -676,11 +676,17 @@ public class PlayerController : MonoBehaviour
 					//pcvr.m_IsOpneBehindQinang = false;
 				}
 			}
-			if(!m_BeijingAudio.isPlaying)
+
+            if (!m_BeijingAudio.isPlaying)
 			{
                 m_BeijingAudio.clip = mBeiJingAdClip[(Application.loadedLevel - 1) % 4];
                 m_BeijingAudio.Play();
+                if (m_UIController.mLedAudioScript != null)
+                {
+                    m_UIController.mLedAudioScript.OpenChangeLedState();
+                }
 			}
+
 			CalculateState();
 			if(!m_IsFinished && !m_UIController.m_IsGameOver )
 			{
@@ -698,9 +704,14 @@ public class PlayerController : MonoBehaviour
 				m_ShuihuaAudio.Stop();
 				m_YinqingAudio.Stop();
 				if(m_UIController.m_IsGameOver)
-				{					
-					m_BeijingAudio.Stop();
-				}
+				{
+                    if (m_UIController.mLedAudioScript != null)
+                    {
+                        m_UIController.mLedAudioScript.CloseChangeLedState();
+                    }
+                    m_BeijingAudio.Stop();
+                }
+
 				m_ErrorDirectionAudio.Stop();
 				m_OutHedao.SetActive(false);
 				m_ErrorDirection.SetActive(false);

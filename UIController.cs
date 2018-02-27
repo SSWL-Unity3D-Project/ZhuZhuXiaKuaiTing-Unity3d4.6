@@ -4,6 +4,7 @@ using System;
 
 public class UIController : MonoBehaviour
 {
+    public SSLedByAudioCtrl mLedAudioScript;
     /// <summary>
     /// 积分动画控制.
     /// </summary>
