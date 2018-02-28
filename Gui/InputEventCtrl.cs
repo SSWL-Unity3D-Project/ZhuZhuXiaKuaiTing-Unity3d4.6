@@ -79,7 +79,6 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent03(val);
         }
-        ClickSetEnterBt(val);
     }
     public event EventHandel ClickPcvrBtEvent04;
     public void ClickPcvrBt04(ButtonState val)
@@ -88,7 +87,6 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent04(val);
         }
-        ClickSetMoveBt(val);
     }
     public event EventHandel ClickPcvrBtEvent05;
     public void ClickPcvrBt05(ButtonState val)
@@ -97,7 +95,6 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent05(val);
         }
-        ClickCloseDongGanBt(val);
     }
     public event EventHandel ClickPcvrBtEvent06;
     public void ClickPcvrBt06(ButtonState val)
@@ -114,6 +111,8 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent07(val);
         }
+        //ÉèÖÃ°´¼ü.
+        ClickSetEnterBt(val);
     }
     public event EventHandel ClickPcvrBtEvent08;
     public void ClickPcvrBt08(ButtonState val)
@@ -122,6 +121,8 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent08(val);
         }
+        //ÒÆ¶¯°´¼ü.
+        ClickSetMoveBt(val);
     }
     public event EventHandel ClickPcvrBtEvent09;
     public void ClickPcvrBt09(ButtonState val)
@@ -138,6 +139,8 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent10(val);
         }
+        //½ô¼±Í£Ö¹°´¼ü(²ÊÆ±2).
+        ClickCloseDongGanBt(val);
     }
     public event EventHandel ClickPcvrBtEvent11;
     public void ClickPcvrBt11(ButtonState val)
