@@ -37,7 +37,7 @@ public class HardWareTest : MonoBehaviour
 
     void UpdatePcvrInfo(byte[] buffer)
 	{
-		TouBiLabel.text = GlobalData.CoinCur.ToString();
+		TouBiLabel.text = GlobalData.GetInstance().CoinCur.ToString();
         if (pcvr.bIsHardWare)
         {
             FangXiangLabel.text = buffer[30].ToString("X2");

@@ -83,8 +83,9 @@ public class Loading : MonoBehaviour
 		}
         
         if (pcvr.bIsHardWare) {
-			if (GlobalData.CoinCur != m_InserNum && GameMode == "oper") {
-				m_InserNum = GlobalData.CoinCur - 1;
+			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == "oper")
+            {
+				m_InserNum = GlobalData.GetInstance().CoinCur - 1;
 				OnClickInsertBt();
 			}
 

@@ -1,32 +1,40 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿
 public class GlobalData
 {
-	public static GameTextType GameTextVal = GameTextType.Chinese;
-	public static int CoinCur;
-	private static  GlobalData Instance;
+    /// <summary>
+    /// 游戏中英文界面控制.
+    /// </summary>
+	public GameTextType GameTextMode = GameTextType.Chinese;
+    /// <summary>
+    /// 游戏当前币值信息.
+    /// </summary>
+	public int CoinCur;
+    /// <summary>
+    /// 当前游戏要出的彩票数据.
+    /// </summary>
+    public int CaiPiaoCur;
+	private static  GlobalData _Instance;
 	public static GlobalData GetInstance()
 	{
-		if (Instance == null) {
+		if (_Instance == null) {
 			bool isChineseGame = false;
 			if (!isChineseGame) {
-				GameTextVal = GameTextType.English;
+                _Instance.GameTextMode = GameTextType.English;
 			}
 			else {
-				GameTextVal = GameTextType.Chinese;
+                _Instance.GameTextMode = GameTextType.Chinese;
 			}
-			Instance = new GlobalData();
+			_Instance = new GlobalData();
 		}
-		return Instance;
+		return _Instance;
 	}
 
 	public static GameTextType GetGameTextMode()
 	{
-		if (Instance == null) {
+		if (_Instance == null) {
 			GetInstance();
 		}
-		return GameTextVal;
+		return _Instance.GameTextMode;
 	}
 }
 

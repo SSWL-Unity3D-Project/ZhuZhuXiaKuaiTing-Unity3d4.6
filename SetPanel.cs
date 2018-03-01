@@ -105,8 +105,9 @@ public class SetPanel : MonoBehaviour
 	void Update () 
 	{
 		if (pcvr.bIsHardWare) {
-			if (GlobalData.CoinCur > m_InserNum) {
-				m_InserNum = GlobalData.CoinCur - 1;
+			if (GlobalData.GetInstance().CoinCur > m_InserNum)
+            {
+				m_InserNum = GlobalData.GetInstance().CoinCur - 1;
 				OnClickInsertBt();
 			}
 

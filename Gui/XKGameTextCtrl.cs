@@ -16,7 +16,7 @@ public class XKGameTextCtrl : MonoBehaviour {
 	public MeshRenderer MeshRenderCom;
 	public Material Material_Ch;
 	public Material Material_En;
-	GameTextType GameTextVal = GlobalData.GameTextVal;
+	GameTextType GameTextVal = GlobalData.GetInstance().GameTextMode;
 	// Use this for initialization
 	void Start()
 	{

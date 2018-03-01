@@ -270,6 +270,13 @@ public class UIController : MonoBehaviour
                 JieSuanJiFenObj.SetActive(true);
                 mRankListUI.ShowRankListUI();
 
+                if (ReadGameInfo.GetInstance().ReadGameIsPrintCaiPiao())
+                {
+                    int caiPiaoNum = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
+                    GlobalData.GetInstance().CaiPiaoCur = caiPiaoNum;
+                    pcvr.GetInstance().mPcvrTXManage.SetCaiPiaoPrintCmd(pcvrTXManage.CaiPiaoPrintCmd.QuanPiaoPrint, pcvrTXManage.CaiPiaoJi.Num01, caiPiaoNum);
+                }
+
                 //开启芯片加密校验.
                 if (pcvr.bIsHardWare)
                 {

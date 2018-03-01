@@ -16,9 +16,17 @@ public class ReadGameInfo : MonoBehaviour
 	 * 游戏音量(0-10).
 	 */
 	int GameAudioVolume;
-	#if USE_HANDLE_JSON
-	static HandleJson PHandleJson;
-	static string FileName = "XKGameConfig.xml";
+    /// <summary>
+    /// 是否出彩票.
+    /// </summary>
+    public bool IsPrintCaiPiao = false;
+    /// <summary>
+    /// 彩票数量(1局游戏可以出多少彩票) CaiPiaoNum = [1, 10].
+    /// </summary>
+    public int CaiPiaoNum = 1;
+#if USE_HANDLE_JSON
+    static HandleJson PHandleJson;
+	static string FileName = "SSGameConfig.xml";
 	#endif
 	static public ReadGameInfo GetInstance()
 	{
@@ -63,9 +71,9 @@ public class ReadGameInfo : MonoBehaviour
 			PlayerPrefs.SetInt("GameAudioVolume", 7);
 			PlayerPrefs.Save();
 		}
-
 		
-		#if USE_HANDLE_JSON
+#if USE_HANDLE_JSON
+        //游戏音量信息.
 		string readInfo = PHandleJson.ReadFromFileXml(FileName, "GameAudioVolume");
 		if (readInfo == null || readInfo == "") {
 			readInfo = "7";
@@ -76,18 +84,52 @@ public class ReadGameInfo : MonoBehaviour
 		if (value < 0 || value > 10) {
 			value = 7;
 			PHandleJson.WriteToFileXml(FileName, "GameAudioVolume", value.ToString());
-		}
-		#else
+        }
+        GameAudioVolume = value;
+
+        //游戏出彩票信息.
+        readInfo = PHandleJson.ReadFromFileXml(FileName, "IsPrintCaiPiao");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "1";
+            PHandleJson.WriteToFileXml(FileName, "IsPrintCaiPiao", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value == 1)
+        {
+            IsPrintCaiPiao = true;
+        }
+        else
+        {
+            IsPrintCaiPiao = false;
+        }
+
+        readInfo = PHandleJson.ReadFromFileXml(FileName, "CaiPiaoNum");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "5";
+            PHandleJson.WriteToFileXml(FileName, "CaiPiaoNum", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value < 0)
+        {
+            value = 5;
+            PHandleJson.WriteToFileXml(FileName, "CaiPiaoNum", value.ToString());
+        }
+        CaiPiaoNum = value;
+#else
 		value = PlayerPrefs.GetInt("GameAudioVolume");
 		if (value < 0 || value > 10) {
 			value = 7;
 			PlayerPrefs.SetInt("GameAudioVolume", value);
 			PlayerPrefs.Save();
 		}
-		#endif
-		GameAudioVolume = value;
-	}
-	public void FactoryReset()
+        GameAudioVolume = value;
+#endif
+    }
+    public void FactoryReset()
 	{
 		WriteStarCoinNumSet("1");
 		WriteGameStarMode("oper");
@@ -95,8 +137,47 @@ public class ReadGameInfo : MonoBehaviour
 		WriteGameRecord(180);
 		WritePlayerMinSpeedVal(0);
 		WriteGameAudioVolume(7);
-	}
-	public int ReadGameAudioVolume()
+        WriteGameIsPrintCaiPiao(true);
+        WriteGamePrintCaiPiaoNum(5);
+    }
+
+    /// <summary>
+    /// 读取游戏一局可以出多少彩票.
+    /// </summary>
+    public int ReadGamePrintCaiPiaoNum()
+    {
+        return CaiPiaoNum;
+    }
+
+    /// <summary>
+    /// 修改游戏一局可以出多少彩票.
+    /// </summary>
+    public void WriteGamePrintCaiPiaoNum(int num)
+    {
+        int value = num;
+        CaiPiaoNum = value;
+        PHandleJson.WriteToFileXml(FileName, "CaiPiaoNum", value.ToString());
+    }
+
+    /// <summary>
+    /// 读取游戏是否可以出彩票.
+    /// </summary>
+    public bool ReadGameIsPrintCaiPiao()
+    {
+        return IsPrintCaiPiao;
+    }
+
+    /// <summary>
+    /// 修改游戏是否可以出彩票.
+    /// </summary>
+    public void WriteGameIsPrintCaiPiao(bool isPrint)
+    {
+        int value = isPrint == true ? 1 : 0;
+        IsPrintCaiPiao = isPrint;
+        PHandleJson.WriteToFileXml(FileName, "IsPrintCaiPiao", value.ToString());
+    }
+
+    public int ReadGameAudioVolume()
 	{
 		return GameAudioVolume;
 	}

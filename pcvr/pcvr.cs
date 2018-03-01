@@ -44,9 +44,9 @@ public class pcvr : MonoBehaviour
     {
         if (bIsHardWare)
         {
-            if (GlobalData.CoinCur != mPcvrTXManage.PlayerCoinArray[0])
+            if (GlobalData.GetInstance().CoinCur != mPcvrTXManage.PlayerCoinArray[0])
             {
-                GlobalData.CoinCur = mPcvrTXManage.PlayerCoinArray[0];
+                GlobalData.GetInstance().CoinCur = mPcvrTXManage.PlayerCoinArray[0];
             }
         }
     }
