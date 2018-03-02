@@ -69,7 +69,7 @@ public class Loading : MonoBehaviour
 		m_Loading.SetActive(false);
 		//pcvr.ShaCheBtLight = StartLightState.Mie;
 
-		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
         if (m_InserNum >= m_CoinNumSet)
         {
             UpdateTex();

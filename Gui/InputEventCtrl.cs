@@ -7,17 +7,22 @@ public class InputEventCtrl : MonoBehaviour
         UP = 1,
         DOWN = -1
     }
-
-	static private InputEventCtrl Instance = null;
-	static public InputEventCtrl GetInstance()
+    /// <summary>
+    /// 监听电脑按键响应.
+    /// </summary>
+    [HideInInspector]
+    public ListenPcInputEvent mListenPcInputEvent;
+    static InputEventCtrl _Instance = null;
+    public static InputEventCtrl GetInstance()
 	{
-		if(Instance == null)
+		if(_Instance == null)
 		{
 			GameObject obj = new GameObject("_InputEventCtrl");
-			Instance = obj.AddComponent<InputEventCtrl>();
+			_Instance = obj.AddComponent<InputEventCtrl>();
+            _Instance.mListenPcInputEvent = obj.AddComponent<ListenPcInputEvent>();
             pcvr.GetInstance();
         }
-		return Instance;
+		return _Instance;
 	}
 
     #region CaiPiaoJi Event
@@ -53,33 +58,6 @@ public class InputEventCtrl : MonoBehaviour
     /// 按键响应事件.
     /// </summary>
     public delegate void EventHandel(ButtonState val);
-	public event EventHandel ClickCloseDongGanBtEvent;
-	public void ClickCloseDongGanBt(ButtonState val)
-	{
-		if(ClickCloseDongGanBtEvent != null)
-		{
-			ClickCloseDongGanBtEvent( val );
-		}
-	}
-	
-	public event EventHandel ClickSetEnterBtEvent;
-	public void ClickSetEnterBt(ButtonState val)
-	{
-		if(ClickSetEnterBtEvent != null)
-		{
-			ClickSetEnterBtEvent( val );
-		}
-	}
-
-	public event EventHandel ClickSetMoveBtEvent;
-	public void ClickSetMoveBt(ButtonState val)
-	{
-		if(ClickSetMoveBtEvent != null)
-		{
-			ClickSetMoveBtEvent( val );
-		}
-	}
-
     public event EventHandel ClickPcvrBtEvent01;
     public void ClickPcvrBt01(ButtonState val)
     {
@@ -135,8 +113,6 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent07(val);
         }
-        //设置按键.
-        ClickSetEnterBt(val);
     }
     public event EventHandel ClickPcvrBtEvent08;
     public void ClickPcvrBt08(ButtonState val)
@@ -145,8 +121,6 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent08(val);
         }
-        //移动按键.
-        ClickSetMoveBt(val);
     }
     public event EventHandel ClickPcvrBtEvent09;
     public void ClickPcvrBt09(ButtonState val)
@@ -163,8 +137,6 @@ public class InputEventCtrl : MonoBehaviour
         {
             ClickPcvrBtEvent10(val);
         }
-        //紧急停止按键(彩票2).
-        ClickCloseDongGanBt(val);
     }
     public event EventHandel ClickPcvrBtEvent11;
     public void ClickPcvrBt11(ButtonState val)
@@ -207,45 +179,4 @@ public class InputEventCtrl : MonoBehaviour
         }
     }
     #endregion
-
-    void Update()
-	{
-		if (pcvr.bIsHardWare) {
-			return;
-		}
-
-		if(Input.GetKeyUp(KeyCode.P))
-		{
-			ClickCloseDongGanBt( ButtonState.UP );
-		}
-		
-		if(Input.GetKeyDown(KeyCode.P))
-		{
-			ClickCloseDongGanBt( ButtonState.DOWN );
-		}
-
-		//setPanel enter button
-		if(Input.GetKeyUp(KeyCode.F4))
-		{
-			ClickSetEnterBt( ButtonState.UP );
-		}
-		
-		if(Input.GetKeyDown(KeyCode.F4))
-		{
-			ClickSetEnterBt( ButtonState.DOWN );
-		}
-
-		//setPanel move button
-		if(Input.GetKeyUp(KeyCode.F5))
-		{
-			ClickSetMoveBt( ButtonState.UP );
-			//FramesPerSecond.GetInstance().ClickSetMoveBtEvent( ButtonState.UP );
-		}
-		
-		if(Input.GetKeyDown(KeyCode.F5))
-		{
-			ClickSetMoveBt( ButtonState.DOWN );
-			//FramesPerSecond.GetInstance().ClickSetMoveBtEvent( ButtonState.DOWN );
-		}
-	}
 }

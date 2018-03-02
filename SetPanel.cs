@@ -68,12 +68,12 @@ public class SetPanel : MonoBehaviour
 			JiaoZhunObj.SetActive(false);
 		}
 		
-		InputEventCtrl.GetInstance().ClickSetEnterBtEvent += ClickSetEnterBtEvent;
-		InputEventCtrl.GetInstance().ClickSetMoveBtEvent += ClickSetMoveBtEvent;
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetMoveBtEvent += ClickSetMoveBtEvent;
 		//InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
 		//InputEventCtrl.GetInstance().ClickShaCheBtEvent += ClickShaCheBtEvent;
 		//InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
-		InputEventCtrl.GetInstance().ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
 
         if (PlayerPrefs.GetInt("Grade") == 0)
         {
