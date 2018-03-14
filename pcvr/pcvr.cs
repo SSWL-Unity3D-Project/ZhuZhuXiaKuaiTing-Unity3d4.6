@@ -128,13 +128,13 @@ public class pcvr : MonoBehaviour
         }
     }
 
-    void OnGUI()
-    {
-        string info = "ledState:  ";
-        for (int i = 0; i < 7; i++)
-        {
-            info += mPcvrTXManage.LedState[i] == true ? "1  " : "0  ";
-        }
-        GUI.Box(new Rect(10f, 100f, Screen.width - 20f, 30f), info);
-    }
+    //void OnGUI()
+    //{
+    //    string info = "ledState:  ";
+    //    for (int i = 0; i < 7; i++)
+    //    {
+    //        info += mPcvrTXManage.LedState[i] == true ? "1  " : "0  ";
+    //    }
+    //    GUI.Box(new Rect(10f, 100f, Screen.width - 20f, 30f), info);
+    //}
 }

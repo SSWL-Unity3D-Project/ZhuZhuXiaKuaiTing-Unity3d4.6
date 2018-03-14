@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 using System.Diagnostics;
 
 public class HardWareTest : MonoBehaviour 
 {
 	public UILabel TouBiLabel;
-	public UILabel AnJianLabel;
+    public UILabel AnJianLabel;
 	public UILabel FangXiangLabel;
+    /// <summary>
+    /// 彩票打印状态.
+    /// </summary>
+	public UILabel CaiPiaoJiLabel;
     /// <summary>
     /// 继电器控制.
     /// </summary>
@@ -28,7 +30,8 @@ public class HardWareTest : MonoBehaviour
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetMoveBtEvent += ClickSetMoveBtEvent;
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
-	}
+		InputEventCtrl.GetInstance().OnCaiPiaJiWuPiaoEvent += OnCaiPiaJiWuPiaoEvent;
+    }
     
     public void CheckReadComMsg(byte[] buffer)
     {
@@ -41,6 +44,7 @@ public class HardWareTest : MonoBehaviour
         if (pcvr.bIsHardWare)
         {
             FangXiangLabel.text = buffer[30].ToString("X2");
+            UpdateCaiPiaJiChuPiaoEvent(buffer);
         }
 	}
 
@@ -60,6 +64,44 @@ public class HardWareTest : MonoBehaviour
                 {
                     pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(indexVal, pcvrTXManage.JiDianQiCmd.Close);
                     JiDianQiLb.text = lbHead + "关闭";
+                    break;
+                }
+        }
+    }
+    
+    public void OnClickCaiPiaJiChuPiao()
+    {
+        if (pcvr.bIsHardWare)
+        {
+            //打印1张彩票.
+            pcvr.GetInstance().mPcvrTXManage.SetCaiPiaoPrintCmd(pcvrTXManage.CaiPiaoPrintCmd.QuanPiaoPrint, pcvrTXManage.CaiPiaoJi.Num01, 1);
+            CaiPiaoJiLabel.text = "";
+        }
+    }
+
+    void OnCaiPiaJiWuPiaoEvent(pcvrTXManage.CaiPiaoJi val)
+    {
+       UnityEngine.Debug.Log("彩票机无票!");
+    }
+
+    void UpdateCaiPiaJiChuPiaoEvent(byte[] buffer)
+    {
+        pcvrTXManage.CaiPiaoPrintState caiPiaoPrintSt01 = (pcvrTXManage.CaiPiaoPrintState)buffer[44];
+        switch (caiPiaoPrintSt01)
+        {
+            case pcvrTXManage.CaiPiaoPrintState.Failed:
+                {
+                    CaiPiaoJiLabel.text = "打印失败";
+                    break;
+                }
+            case pcvrTXManage.CaiPiaoPrintState.Succeed:
+                {
+                    CaiPiaoJiLabel.text = "打印成功";
+                    break;
+                }
+            case pcvrTXManage.CaiPiaoPrintState.WuXiao:
+                {
+                    CaiPiaoJiLabel.text = "打印无效";
                     break;
                 }
         }
