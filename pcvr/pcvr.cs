@@ -33,7 +33,8 @@ public class pcvr : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		UpdatePcvrSteerVal();
+        byte[] readBuf = MyCOMDevice.ComThreadClass.ReadByteMsg;
+        UpdatePcvrSteerVal(readBuf[30]);
         UpdatePlayerCoinDt();
     }
 
@@ -62,11 +63,13 @@ public class pcvr : MonoBehaviour
 
     [HideInInspector]
     public float mGetSteer = 0f;
+    [HideInInspector]
+    public byte mPcvrSteerCur = 0;
     float TimeLastSteer = 0f;
     /// <summary>
     /// 更新转向信息.
     /// </summary>
-	public void UpdatePcvrSteerVal()
+	public void UpdatePcvrSteerVal(byte pcvrSteerVal)
     {
         if (!bIsHardWare)
         {
@@ -74,7 +77,8 @@ public class pcvr : MonoBehaviour
             return;
         }
 
-        SteerEnum steerState = (SteerEnum)(MyCOMDevice.ComThreadClass.ReadByteMsg[30]);
+        mPcvrSteerCur = pcvrSteerVal;
+        SteerEnum steerState = (SteerEnum)(mPcvrSteerCur);
         switch (steerState)
         {
             case SteerEnum.Left:

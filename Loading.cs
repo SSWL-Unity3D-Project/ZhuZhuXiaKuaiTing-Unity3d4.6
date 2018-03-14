@@ -129,7 +129,7 @@ public class Loading : MonoBehaviour
 
 	void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.UP) {
 			return;
 		}
 

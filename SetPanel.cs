@@ -111,14 +111,9 @@ public class SetPanel : MonoBehaviour
 				OnClickInsertBt();
 			}
 
-			//YouMenInfoLabel.text = pcvr.BikePowerCur.ToString();
-			//FangXiangInfoLabel.text = pcvr.SteerValCur.ToString("X2");
-
-			if (!IsInitJiaoZhunPcvr) {
-				//if (pcvr.mGetPower > pcvr.YouMemnMinVal) {				
-				//	YouMenInfoLabel.text += ", Throttle Response";
-				//}
-
+			FangXiangInfoLabel.text = pcvr.GetInstance().mPcvrSteerCur.ToString("X2");
+			if (!IsInitJiaoZhunPcvr)
+            {
 				float offsetSteer = 0.05f;
 				if (pcvr.GetInstance().mGetSteer < -offsetSteer) {
 					FangXiangInfoLabel.text += ", Turn Left";
@@ -183,7 +178,7 @@ public class SetPanel : MonoBehaviour
 
 	void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.UP) {
 			return;
 		}
 		OnClickSelectBtInZhujiemian();

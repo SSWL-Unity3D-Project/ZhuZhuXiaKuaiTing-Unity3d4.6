@@ -123,9 +123,9 @@ public class SSLedByAudioCtrl : MonoBehaviour
         pcvr.GetInstance().CloseShanGuangDeng();
     }
 
-    void OnGUI()
-    {
-        string info = "ValueIndex:  " + ValueIndex;
-        GUI.Box(new Rect(10f, 50f, Screen.width - 20f, 30f), info);
-    }
+    //void OnGUI()
+    //{
+    //    string info = "ValueIndex:  " + ValueIndex;
+    //    GUI.Box(new Rect(10f, 50f, Screen.width - 20f, 30f), info);
+    //}
 }
