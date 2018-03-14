@@ -75,8 +75,22 @@ public class Loading : MonoBehaviour
             UpdateTex();
             ClickStartBtOneEvent(InputEventCtrl.ButtonState.UP);
         }
+        InputEventCtrl.GetInstance().OnCaiPiaJiChuPiaoEvent += OnCaiPiaJiChuPiaoEvent;
+        InputEventCtrl.GetInstance().OnCaiPiaJiWuPiaoEvent += OnCaiPiaJiWuPiaoEvent;
     }
-	void Update ()
+
+    void OnCaiPiaJiWuPiaoEvent(pcvrTXManage.CaiPiaoJi val)
+    {
+        Debug.Log(val + ":: CaiPiaoJi wuPiao!");
+    }
+
+    void OnCaiPiaJiChuPiaoEvent(pcvrTXManage.CaiPiaoJi val)
+    {
+        GlobalData.GetInstance().CaiPiaoCur--;
+        Debug.Log("CaiPiaoCur == " + GlobalData.GetInstance().CaiPiaoCur);
+    }
+
+    void Update ()
 	{
 		if (!m_IsStartGame) {
 			UpdateTex();

@@ -146,10 +146,22 @@ public class UIController : MonoBehaviour
             pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Open);
             pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close); //test
         }
-        //InputEventCtrl.GetInstance().ClickPlayerYouMenBtEvent += ClickPlayerYouMenBtEvent;
+        InputEventCtrl.GetInstance().OnCaiPiaJiChuPiaoEvent += OnCaiPiaJiChuPiaoEvent;
+        InputEventCtrl.GetInstance().OnCaiPiaJiWuPiaoEvent += OnCaiPiaJiWuPiaoEvent;
     }
 
-	bool IsCloseYouMenTiShi;
+    void OnCaiPiaJiWuPiaoEvent(pcvrTXManage.CaiPiaoJi val)
+    {
+        Debug.Log(val + ":: CaiPiaoJi wuPiao!");
+    }
+
+    void OnCaiPiaJiChuPiaoEvent(pcvrTXManage.CaiPiaoJi val)
+    {
+        GlobalData.GetInstance().CaiPiaoCur--;
+        Debug.Log(val + ":: CaiPiaoCur == " + GlobalData.GetInstance().CaiPiaoCur);
+    }
+
+    bool IsCloseYouMenTiShi;
 	/*void ClickPlayerYouMenBtEvent(ButtonState val)
 	{
 		if (val == ButtonState.UP) {
