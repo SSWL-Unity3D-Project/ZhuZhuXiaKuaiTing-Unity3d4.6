@@ -71,16 +71,23 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		GC.Collect();
 		Application.LoadLevel(5);
 	}
-
+    
 	void ClickCloseDongGanBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.UP)
+        {
 			return;
 		}
 
 		if (DongGanCtrl.GetInstance() == null) {
 			return;
 		}
+
+        if (IsCloseDongGan)
+        {
+            //动感已经关闭,不允许再次打开.
+            return;
+        }
 		IsCloseDongGan = !IsCloseDongGan;
 		HandleDongGanUI();
 
@@ -93,7 +100,7 @@ public class TouBiInfoCtrl : MonoBehaviour {
             else
             {
                 pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Open);
-                pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close); //test 为了安全暂时不打开继电器(即摇摇机).
+                //pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close); //test 为了安全暂时不打开继电器(即摇摇机).
             }
         }
     }
