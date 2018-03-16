@@ -170,7 +170,7 @@ public class SetPanel : MonoBehaviour
 
 	void ClickSetMoveBtEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.UP) {
 			return;
 		}
 		OnClickMoveBtInZhujiemian();
