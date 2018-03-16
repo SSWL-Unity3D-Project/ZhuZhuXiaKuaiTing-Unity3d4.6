@@ -110,28 +110,28 @@ public class HardWareTest : MonoBehaviour
     void ClickSetEnterBtEvent(InputEventCtrl.ButtonState val)
 	{
 		if (val == InputEventCtrl.ButtonState.DOWN) {
-			AnJianLabel.text = "SetEnter Down 按键3（开始1）";
+			AnJianLabel.text = "设置按下 (按键7)";
 		}
 		else {
-			AnJianLabel.text = "SetEnter Up 按键3（开始1）";
+			AnJianLabel.text = "设置弹起 (按键7)";
 		}
 	}
 	void ClickSetMoveBtEvent(InputEventCtrl.ButtonState val)
 	{
 		if (val == InputEventCtrl.ButtonState.DOWN) {
-			AnJianLabel.text = "SetMove Down 按键4（开始2）";
+			AnJianLabel.text = "移动按下 (按键8)";
 		}
 		else {
-			AnJianLabel.text = "SetMove Up 按键4（开始2）";
+			AnJianLabel.text = "移动弹起 (按键8)";
 		}
 	}
 	void ClickCloseDongGanBtEvent(InputEventCtrl.ButtonState val)
 	{
 		if (val == InputEventCtrl.ButtonState.DOWN) {
-			AnJianLabel.text = "DongGanBt Down 按键5（开始3）";
+			AnJianLabel.text = "动感按下 按键10（彩票2）";
 		}
 		else {
-			AnJianLabel.text = "DongGanBt Up 按键5（开始3）";
+			AnJianLabel.text = "动感弹起 按键10（彩票2）";
 		}
 	}
 	public void OnClickSubCoinBt()
