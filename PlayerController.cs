@@ -1182,7 +1182,8 @@ public class PlayerController : MonoBehaviour
     float TimeLastIceHit = 0f;
 	void OnTriggerEnter(Collider other)
 	{
-        if (other.material != null)
+        TerrainCollider terrainCol = other.GetComponent<TerrainCollider>();
+        if (terrainCol == null && other.material != null)
         {
             if ("Ice (Instance)" == other.material.name)
             {

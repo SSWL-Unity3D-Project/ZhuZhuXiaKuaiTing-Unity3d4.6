@@ -62,7 +62,7 @@ public class Loading : MonoBehaviour
 		else
 		{
 			m_ToubiObj.SetActive(false);
-			m_IsBeginOk = true;
+			//m_IsBeginOk = true;
 			m_FreeTexture.enabled = true;
 		}
 		//Invoke("OnClickBeginBt", UnityEngine.Random.Range(1f, 5f)); //test
@@ -70,10 +70,15 @@ public class Loading : MonoBehaviour
 		//pcvr.ShaCheBtLight = StartLightState.Mie;
 
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
-        if (m_InserNum >= m_CoinNumSet)
+        if (GameMode == "FREE")
+        {
+            InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickStartBtOneEvent;
+        }
+
+        if (m_InserNum >= m_CoinNumSet && GameMode == "oper")
         {
             UpdateTex();
-            ClickStartBtOneEvent(InputEventCtrl.ButtonState.UP);
+            ClickStartBtOneEvent(InputEventCtrl.ButtonState.DOWN);
         }
         InputEventCtrl.GetInstance().OnCaiPiaJiChuPiaoEvent += OnCaiPiaJiChuPiaoEvent;
         InputEventCtrl.GetInstance().OnCaiPiaJiWuPiaoEvent += OnCaiPiaJiWuPiaoEvent;
@@ -96,7 +101,8 @@ public class Loading : MonoBehaviour
 			UpdateTex();
 		}
         
-        if (pcvr.bIsHardWare) {
+        if (pcvr.bIsHardWare)
+        {
 			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == "oper")
             {
 				m_InserNum = GlobalData.GetInstance().CoinCur - 1;
@@ -110,7 +116,8 @@ public class Loading : MonoBehaviour
             //}
             //test
         }
-		else {
+		else
+        {
 			if(Input.GetKeyDown(KeyCode.T) && GameMode == "oper")
 			{
 				OnClickInsertBt();
@@ -121,7 +128,8 @@ public class Loading : MonoBehaviour
 
 	void ClickStartBtOneEvent(InputEventCtrl.ButtonState val)
 	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
+		if (val == InputEventCtrl.ButtonState.UP)
+        {
 			return;
 		}
 		OnClickBeginBt();
@@ -239,7 +247,7 @@ public class Loading : MonoBehaviour
         if (m_InserNum >= m_CoinNumSet)
         {
             UpdateTex();
-            ClickStartBtOneEvent(InputEventCtrl.ButtonState.UP);
+            ClickStartBtOneEvent(InputEventCtrl.ButtonState.DOWN);
         }
     }
 	void OnClickBeginBt()
