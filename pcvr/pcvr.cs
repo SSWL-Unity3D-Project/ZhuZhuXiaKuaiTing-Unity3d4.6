@@ -34,8 +34,19 @@ public class pcvr : MonoBehaviour
 	void FixedUpdate()
 	{
         byte[] readBuf = MyCOMDevice.ComThreadClass.ReadByteMsg;
-        UpdatePcvrSteerVal(readBuf[30]);
+        if (bIsHardWare)
+        {
+            UpdatePcvrSteerVal(readBuf[30]);
+        }
         UpdatePlayerCoinDt();
+    }
+
+    void Update()
+    {
+        if (!bIsHardWare)
+        {
+            UpdatePcvrSteerVal(0);
+        }
     }
 
     /// <summary>
@@ -66,15 +77,59 @@ public class pcvr : MonoBehaviour
     [HideInInspector]
     public byte mPcvrSteerCur = 0;
     float TimeLastSteer = 0f;
+    InputEventCtrl.ButtonState KeyBtA = InputEventCtrl.ButtonState.UP;
+    InputEventCtrl.ButtonState KeyBtD = InputEventCtrl.ButtonState.UP;
     /// <summary>
     /// 更新转向信息.
     /// </summary>
-	public void UpdatePcvrSteerVal(byte pcvrSteerVal)
+    public void UpdatePcvrSteerVal(byte pcvrSteerVal)
     {
         if (!bIsHardWare)
         {
-            mGetSteer = Input.GetAxis("Horizontal");
-            return;
+            //mGetSteer = Input.GetAxis("Horizontal");
+            //return;
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                KeyBtA = InputEventCtrl.ButtonState.DOWN;
+                pcvrSteerVal = (byte)SteerEnum.Left;
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                KeyBtD = InputEventCtrl.ButtonState.DOWN;
+                pcvrSteerVal = (byte)SteerEnum.Right;
+            }
+
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                KeyBtA = InputEventCtrl.ButtonState.UP;
+            }
+
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                KeyBtD = InputEventCtrl.ButtonState.UP;
+            }
+
+            if (KeyBtA == InputEventCtrl.ButtonState.UP && KeyBtD == InputEventCtrl.ButtonState.UP)
+            {
+                //A和D按键都弹起.
+                pcvrSteerVal = (byte)SteerEnum.Center;
+            }
+            else
+            {
+                if (KeyBtA == InputEventCtrl.ButtonState.DOWN && KeyBtD == InputEventCtrl.ButtonState.DOWN)
+                {
+                    //A和D按键都按下.
+                }
+                else if (KeyBtA == InputEventCtrl.ButtonState.DOWN)
+                {
+                    pcvrSteerVal = (byte)SteerEnum.Left;
+                }
+                else if (KeyBtD == InputEventCtrl.ButtonState.DOWN)
+                {
+                    pcvrSteerVal = (byte)SteerEnum.Right;
+                }
+            }
         }
 
         mPcvrSteerCur = pcvrSteerVal;
@@ -89,7 +144,7 @@ public class pcvr : MonoBehaviour
                 }
             case SteerEnum.Center:
                 {
-                    if (Time.time - TimeLastSteer > 0.2f)
+                    if (Time.time - TimeLastSteer > 0.34f)
                     {
                         mGetSteer = 0f;
                     }

@@ -285,7 +285,8 @@ public class PlayerController : MonoBehaviour
 	public Transform m_BehindPos;
 	private Vector3 m_ForwradHitPos;
 	private Vector3 m_BehindHitPos;
-	public float timmerstar = 0.0f;
+    [HideInInspector]
+    public float timmerstar = 0.0f;
 
 	//lujingchuli
 	public static Transform[] PathPoint;
@@ -656,7 +657,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-			if(SpeedObj > 105f && !m_IsFinished)
+			if(mPlayerSpeed > 105f && !m_IsFinished)
 			{
 				if (!m_IsHitshake) {
 					//if (pcvr.m_IsOpneLeftQinang || pcvr.m_IsOpneRightQinang) {
@@ -812,7 +813,7 @@ public class PlayerController : MonoBehaviour
 			{
 				m_PlayerAnimator.SetBool("IsTurnleft",true);
 			}
-			if (SpeedObj > 15f && !m_IsHitshake) {
+			if (mPlayerSpeed > 15f && !m_IsHitshake) {
 				//pcvr.m_IsOpneRightQinang = true;
 			}
 		}
@@ -833,7 +834,7 @@ public class PlayerController : MonoBehaviour
 			{
 				m_PlayerAnimator.SetBool("IsTurnRight",true);
 			}
-			if (SpeedObj > 15f && !m_IsHitshake) {
+			if (mPlayerSpeed > 15f && !m_IsHitshake) {
 				//pcvr.m_IsOpneLeftQinang = true;
 			}
 		}
@@ -862,6 +863,7 @@ public class PlayerController : MonoBehaviour
 				m_PlayerAnimator.SetBool("IsRoot",false);
 			}
 		}
+
 		if(canDrive && !m_IsPubu)
 		{
 			if(Physics.Raycast(m_ForfwardPos.position,-Vector3.up,out hit,100.0f,mask.value))
@@ -874,6 +876,7 @@ public class PlayerController : MonoBehaviour
 				//Debug.DrawLine(m_BehindPos.position,hit.point,Color.red);
 				m_BehindHitPos = hit.point;
 			}
+
 			float ytemp = Mathf.Abs( m_BehindHitPos.y - m_ForwradHitPos.y);
 			if(ytemp<=5.0f)
 			{
@@ -893,6 +896,7 @@ public class PlayerController : MonoBehaviour
 			m_pChuan.localEulerAngles = new Vector3(-m_ParameterForXangle*90.0f*90.0f
 			                                        ,m_pChuan.localEulerAngles.y,m_pChuan.localEulerAngles.z);
 		}
+
 		if(!canDrive)
 		{
 			//Debug.Log("transform.localEulerAngles.x" + transform.localEulerAngles.x);
@@ -907,12 +911,14 @@ public class PlayerController : MonoBehaviour
 			//Debug.Log("transform.localEulerAngles.x" + transform.localEulerAngles.x);
 			//transform.localEulerAngles = new Vector3(30.0f,transform.localEulerAngles.y,transform.localEulerAngles.z);
 		}
+
 		if(Mathf.Abs(mSteer) < 0.05f)
 		{
 			mSteer = 0f;
 		}
 
-        if (mSteer == 0f)
+        //控制船自动转向河道中央.
+        if (mSteer == 0f || Time.time - TimeLastIceHit < 0.6f)
         {
             if (PathNum + 1 < PathPoint.Length)
             {
@@ -932,12 +938,32 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        float rotSpeed = m_ParameterForRotate * mSteer * Time.smoothDeltaTime;
-        transform.Rotate(0, rotSpeed, 0);
-        float angleZ = 0f;
-        if (rigidbody.velocity.magnitude * 3.6f >= m_SpeedForZangle)
+        //控制船的左右转向.
+        //float rotSpeed = m_ParameterForRotate * mSteer * Time.smoothDeltaTime;
+        if (Time.time - TimeLastIceHit > 0.6f)
         {
-            angleZ = Mathf.MoveTowards(mChuanAngleCurZ, -42f * mSteer, Time.deltaTime * m_ParameterForZangle * SpeedObj);
+            float rotSpeed = 0f;
+            if (Mathf.Abs(mSteer) > 0.01f)
+            {
+                rotSpeed = m_ParameterForRotate * Mathf.Sign(mSteer) * Time.smoothDeltaTime;
+            }
+            transform.Rotate(0, rotSpeed, 0);
+        }
+        
+        //控制船的左右倾斜.
+        float angleZ = 0f;
+        if (rigidbody.velocity.magnitude * 3.6f >= m_SpeedForZangle && Time.time - TimeLastIceHit > 1f)
+        {
+            //angleZ = Mathf.MoveTowards(mChuanAngleCurZ, -42f * mSteer, Time.deltaTime * m_ParameterForZangle * mPlayerSpeed);
+            float valTime = 0.3f * Time.deltaTime * m_ParameterForZangle * mPlayerSpeed;
+            if (Mathf.Abs(mSteer) <= 0.1f)
+            {
+                angleZ = Mathf.MoveTowards(mChuanAngleCurZ, 0f, valTime);
+            }
+            else
+            {
+                angleZ = Mathf.MoveTowards(mChuanAngleCurZ, -42f * Mathf.Sign(mSteer), valTime);
+            }
             angleZ = Mathf.Clamp(angleZ, -42f, 42f);
             mChuanAngleCurZ = angleZ;
         }
@@ -945,7 +971,7 @@ public class PlayerController : MonoBehaviour
         {
             if (mChuanAngleCurZ != 0f)
             {
-                angleZ = Mathf.MoveTowards(mChuanAngleCurZ, 0f, Time.deltaTime * m_ParameterForZangle * SpeedObj);
+                angleZ = Mathf.MoveTowards(mChuanAngleCurZ, 0f, Time.deltaTime * m_ParameterForZangle * mPlayerSpeed);
                 mChuanAngleCurZ = angleZ;
             }
         }
@@ -996,7 +1022,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	float SpeedObj;
+	float mPlayerSpeed;
 	void OnGUI()
 	{
 		float wVal = Screen.width;
@@ -1062,12 +1088,12 @@ public class PlayerController : MonoBehaviour
 
 		float sp = rigidbody.velocity.magnitude * 3.6f;
 		sp = Mathf.Floor( sp );
-		float dSpeed = SpeedObj - sp;
+		float dSpeed = mPlayerSpeed - sp;
 		if (dSpeed > 30f) {
 			m_IsHitshake = true;
 			//pcvr.GetInstance().OpenFangXiangPanZhenDong();
 		}
-		SpeedObj = sp;
+		mPlayerSpeed = sp;
 
 #if UNITY_EDITOR
 		if (!pcvr.bIsHardWare) {
@@ -1084,7 +1110,7 @@ public class PlayerController : MonoBehaviour
 	void CalculateEnginePower(bool canDrive)
 	{
 		//if(throttle > 0f && SpeedObj <= m_pTopSpeed && !m_IsPubu) {
-		if(SpeedObj <= m_pTopSpeed && !m_IsPubu) {
+		if(mPlayerSpeed <= m_pTopSpeed && !m_IsPubu) {
 			//float speedVal = (m_pTopSpeed * throttle);
 			float speedVal = m_pTopSpeed;
 			//float tmp = (m_pTopSpeed - PlayerMinSpeedVal) / (1f - pcvr.YouMemnMinVal);
@@ -1149,9 +1175,22 @@ public class PlayerController : MonoBehaviour
         Debug.Log("SortPlayerRankList...");
         RankDtManage.SortRankDtList();
     }
-    
+
+    /// <summary>
+    /// 碰上河道碰撞的时间.
+    /// </summary>
+    float TimeLastIceHit = 0f;
 	void OnTriggerEnter(Collider other)
 	{
+        if (other.material != null)
+        {
+            if ("Ice (Instance)" == other.material.name)
+            {
+                TimeLastIceHit = Time.time;
+                //Debug.Log("***************************** TimeLastIceHit == " + TimeLastIceHit);
+            }
+        }
+
         DaoJuCtrl daoJuCom = other.GetComponent<DaoJuCtrl>();
         if (daoJuCom != null)
         {
