@@ -91,13 +91,8 @@ public class SetPanel : MonoBehaviour
         bool isPrintCaiPiao = ReadGameInfo.GetInstance().ReadGameIsPrintCaiPiao();
         ChuPiaoDuiGou[0].enabled = isPrintCaiPiao;
         ChuPiaoDuiGou[1].enabled = !isPrintCaiPiao;
-
-        if (PlayerPrefs.GetInt("Grade") == 0)
-        {
-            PlayerPrefs.SetInt("Grade", 2);
-        }
-
-        int grade = PlayerPrefs.GetInt("Grade");
+        
+        int grade = ReadGameInfo.GetInstance().ReadGrade();
         GameGradeDuiGou[0].enabled = grade == 1 ? true : false;
         GameGradeDuiGou[1].enabled = grade == 2 ? true : false;
         GameGradeDuiGou[2].enabled = grade == 3 ? true : false;
@@ -392,7 +387,7 @@ public class SetPanel : MonoBehaviour
                     GameGradeDuiGou[0].enabled = true;
                     GameGradeDuiGou[1].enabled = false;
                     GameGradeDuiGou[2].enabled = false;
-                    PlayerPrefs.SetInt("Grade", 1);
+                    ReadGameInfo.GetInstance().WriteGrade(1);
                     break;
                 }
             case SetEnum.Grade2:
@@ -400,7 +395,7 @@ public class SetPanel : MonoBehaviour
                     GameGradeDuiGou[0].enabled = false;
                     GameGradeDuiGou[1].enabled = true;
                     GameGradeDuiGou[2].enabled = false;
-                    PlayerPrefs.SetInt("Grade", 2);
+                    ReadGameInfo.GetInstance().WriteGrade(2);
                     break;
                 }
             case SetEnum.Grade3:
@@ -408,7 +403,7 @@ public class SetPanel : MonoBehaviour
                     GameGradeDuiGou[0].enabled = false;
                     GameGradeDuiGou[1].enabled = false;
                     GameGradeDuiGou[2].enabled = true;
-                    PlayerPrefs.SetInt("Grade", 3);
+                    ReadGameInfo.GetInstance().WriteGrade(3);
                     break;
                 }
             case SetEnum.Reset:
@@ -433,8 +428,8 @@ public class SetPanel : MonoBehaviour
 		ReadGameInfo.GetInstance().FactoryReset();
 		m_CoinForStar.text = "1";
 
-		m_GameModeDuigou1.enabled = true;
-		m_GameModeDuigou2.enabled = false;
+		m_GameModeDuigou1.enabled = false;
+		m_GameModeDuigou2.enabled = true;
 
 		GameAudioVolume = 7;
 		GameAudioVolumeLB.text = GameAudioVolume.ToString();
@@ -458,6 +453,5 @@ public class SetPanel : MonoBehaviour
         GameGradeDuiGou[0].enabled = false;
         GameGradeDuiGou[1].enabled = true;
         GameGradeDuiGou[2].enabled = false;
-        PlayerPrefs.SetInt("Grade", 2);
     }
 }

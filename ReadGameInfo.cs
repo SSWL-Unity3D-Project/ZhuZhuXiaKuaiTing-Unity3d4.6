@@ -8,12 +8,18 @@ public class ReadGameInfo : MonoBehaviour
 	public string m_pStarCoinNum = "";
 	public string m_pGameMode = "";
 	public string m_pInsertCoinNum = "0";
-	int GameRecordVal;
-	int PlayerMinSpeedVal = 0;
-	/**
+    /// <summary>
+    /// 游戏最高记录.
+    /// </summary>
+    int GameRecordVal;
+    /// <summary>
+    /// 游戏难度.
+    /// </summary>
+    int mGrade = 1;
+    /**
 	 * 游戏音量(0-10).
 	 */
-	int GameAudioVolume;
+    int GameAudioVolume;
     /// <summary>
     /// 是否出彩票.
     /// </summary>
@@ -39,37 +45,11 @@ public class ReadGameInfo : MonoBehaviour
 		}
 		return Instance;
 	}
+
 	void InitGameInfo()
     {
         mHandleJson = HandleJson.GetInstance();
         m_pInsertCoinNum = "0";
-		
-		int gameModeSt = PlayerPrefs.GetInt("GAME_MODE");
-		if (gameModeSt != 0 && gameModeSt != 1) {
-			gameModeSt = 1; //0->运营模式, 1->免费模式.
-			PlayerPrefs.SetInt("GAME_MODE", gameModeSt);
-		}
-		m_pGameMode = gameModeSt == 0 ? "oper" : "FREE";
-
-		int coinStart = PlayerPrefs.GetInt("START_COIN");
-		if (coinStart == 0) {
-			coinStart = 1;
-			PlayerPrefs.SetInt("START_COIN", coinStart);
-		}
-		m_pStarCoinNum = coinStart.ToString();
-
-		GameRecordVal = PlayerPrefs.GetInt("GAME_RECORD");
-		
-		int value = PlayerPrefs.GetInt("PlayerMinSpeedVal");
-		if (value < 0) {
-			value = 0;
-		}
-		PlayerMinSpeedVal = value;
-
-		if (!PlayerPrefs.HasKey("GameAudioVolume")) {
-			PlayerPrefs.SetInt("GameAudioVolume", 7);
-			PlayerPrefs.Save();
-		}
 		
         //游戏音量信息.
 		string readInfo = mHandleJson.ReadFromFileXml(mFileName, "GameAudioVolume");
@@ -78,7 +58,7 @@ public class ReadGameInfo : MonoBehaviour
 			mHandleJson.WriteToFileXml(mFileName, "GameAudioVolume", readInfo);
 		}
 
-		value = Convert.ToInt32(readInfo);
+		int value = Convert.ToInt32(readInfo);
 		if (value < 0 || value > 10) {
 			value = 7;
 			mHandleJson.WriteToFileXml(mFileName, "GameAudioVolume", value.ToString());
@@ -118,6 +98,7 @@ public class ReadGameInfo : MonoBehaviour
         }
         CaiPiaoNum = value;
 
+        //出票率.
         readInfo = mHandleJson.ReadFromFileXml(mFileName, "ChuPiaoLv");
         if (readInfo == null || readInfo == "")
         {
@@ -132,11 +113,76 @@ public class ReadGameInfo : MonoBehaviour
             mHandleJson.WriteToFileXml(mFileName, "ChuPiaoLv", value.ToString());
         }
         ChuPiaoLv = value;
+
+        //游戏难度.
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "Grade");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "2";
+            mHandleJson.WriteToFileXml(mFileName, "Grade", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value < 1 || value > 3)
+        {
+            value = 2;
+            mHandleJson.WriteToFileXml(mFileName, "Grade", value.ToString());
+        }
+        mGrade = value;
+        
+        //游戏运营模式.
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "GAME_MODE");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "1";
+            mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value != 0 && value != 1)
+        {
+            value = 1; //0->运营模式, 1->免费模式.
+            mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", value.ToString());
+        }
+        m_pGameMode = value == 0 ? "oper" : "FREE";
+
+        //游戏启动币数.
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "START_COIN");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "1";
+            mHandleJson.WriteToFileXml(mFileName, "START_COIN", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value < 0 || value > 10)
+        {
+            value = 1;
+            mHandleJson.WriteToFileXml(mFileName, "START_COIN", value.ToString());
+        }
+        m_pStarCoinNum = value.ToString();
+        
+        //游戏最高记录.
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "GAME_RECORD");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "180";
+            mHandleJson.WriteToFileXml(mFileName, "GAME_RECORD", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value < 0)
+        {
+            value = 180;
+            mHandleJson.WriteToFileXml(mFileName, "GAME_RECORD", value.ToString());
+        }
+        GameRecordVal = value;
     }
+
     public void FactoryReset()
 	{
 		WriteStarCoinNumSet("1");
-		WriteGameStarMode("oper");
+		WriteGameStarMode("FREE");
 		WriteInsertCoinNum("0");
 		WriteGameRecord(180);
 		WriteGameAudioVolume(7);
@@ -144,6 +190,25 @@ public class ReadGameInfo : MonoBehaviour
         WriteGameIsPrintCaiPiao(false);
         WriteGamePrintCaiPiaoNum(5);
         WriteChuPiaoLv(100);
+
+        WriteGrade(2);
+    }
+
+    /// <summary>
+    /// 读取游戏难度.
+    /// </summary>
+    public int ReadGrade()
+    {
+        return mGrade;
+    }
+
+    /// <summary>
+    /// 修改游戏难度.
+    /// </summary>
+    public void WriteGrade(int val)
+    {
+        mGrade = val;
+        mHandleJson.WriteToFileXml(mFileName, "Grade", val.ToString());
     }
 
     /// <summary>
@@ -207,7 +272,7 @@ public class ReadGameInfo : MonoBehaviour
 	{
 		mHandleJson.WriteToFileXml(mFileName, "GameAudioVolume", value.ToString());
 		GameAudioVolume = value;
-		AudioListener.volume = (float)value / 10f;
+		AudioListener.volume = value / 10f;
 	}
 	public string ReadStarCoinNumSet()
 	{
@@ -227,15 +292,13 @@ public class ReadGameInfo : MonoBehaviour
 	}
 	public void WriteStarCoinNumSet(string value)
 	{
-		int coinStart = Convert.ToInt32(value);
-		PlayerPrefs.SetInt("START_COIN", coinStart);
-		m_pStarCoinNum = coinStart.ToString();
+        mHandleJson.WriteToFileXml(mFileName, "START_COIN", value);
+        m_pStarCoinNum = value;
 	}
 	public void WriteGameStarMode(string value)
 	{
-		int gameModeSt = value == "oper" ? 0 : 1;
-		PlayerPrefs.SetInt("GAME_MODE", gameModeSt);
-		m_pGameMode = value;
+        mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", value == "oper" ? "0" : "1");
+        m_pGameMode = value;
 	}
 	public void WriteInsertCoinNum(string value)
 	{
@@ -243,16 +306,7 @@ public class ReadGameInfo : MonoBehaviour
 	}
 	public void WriteGameRecord(int value)
 	{
-		PlayerPrefs.SetInt("GAME_RECORD", value);
-		GameRecordVal = value;
-	}
-	public int ReadPlayerMinSpeedVal()
-	{
-		return PlayerMinSpeedVal;
-	}
-	public void WritePlayerMinSpeedVal(int value)
-	{
-		PlayerPrefs.SetInt("PlayerMinSpeedVal", value);
-		PlayerMinSpeedVal = value;
+        mHandleJson.WriteToFileXml(mFileName, "GAME_RECORD", value.ToString());
+        GameRecordVal = value;
 	}
 }

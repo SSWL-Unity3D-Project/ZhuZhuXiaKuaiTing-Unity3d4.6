@@ -136,7 +136,7 @@ public class UIController : MonoBehaviour
         chile = 0;
 		m_pScale.enabled = false;
 
-        int gradeVal = PlayerPrefs.GetInt("Grade");
+        int gradeVal = ReadGameInfo.GetInstance().ReadGrade();
         switch (gradeVal)
         {
             case 1: //低.
