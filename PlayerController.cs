@@ -448,13 +448,8 @@ public class PlayerController : MonoBehaviour
         npc2Pos = npc2.transform;
         npc3Pos = npc3.transform;
         m_StartForEfferct = m_ParameterForEfferct;
-        PlayerMinSpeedVal = (float)ReadGameInfo.GetInstance().ReadPlayerMinSpeedVal();
-		Loading.m_HasBegin = false;
-		//pcvr.ShaCheBtLight = StartLightState.Liang;
-		//pcvr.IsSlowLoopCom = false;
-		//pcvr.CountFXZD = 0;
-		//pcvr.CountQNZD = 0;
-		//pcvr.OpenFangXiangPanPower();
+        PlayerMinSpeedVal = 0f;
+        Loading.m_HasBegin = false;
 		Screen.showCursor = false;
 		Time.timeScale = 1f;
 
@@ -465,7 +460,6 @@ public class PlayerController : MonoBehaviour
 		mask = 1<<( LayerMask.NameToLayer("shexianjiance"));
 
 		PathPoint = new Transform[Path.childCount];
-//		Debug.Log (Path.childCount);
 		for(int i = 0;i<Path.childCount;i++)
 		{
 			string str = (i+1).ToString();
@@ -474,92 +468,9 @@ public class PlayerController : MonoBehaviour
 		transform.position = PathPoint[0].position;
 		transform.eulerAngles = new Vector3(PathPoint[0].eulerAngles.x,PathPoint[0].eulerAngles.y,PathPoint[0].eulerAngles.z);
 		m_WaterDirection = m_OldWaterDirection = PathPoint[1].position - PathPoint[0].position;
-//		m_SpeedRecord = rigidbody.velocity.magnitude;
-		//Instance = this;
-		//InputEventCtrl.GetInstance().ClickShaCheBtEvent += ClickShaCheBtEvent;
-		//InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
 		Invoke("DelayCallClickShaCheBtEvent", 0.5f);
-
-        StartCoroutine(GameObjectHide());   //gzknu
 	}
-
-	public static int GameGradeVal = 2;
-    IEnumerator GameObjectHide()        //gzknu
-    {
-        yield return new WaitForSeconds(1.0f);
-
-		GameGradeVal = PlayerPrefs.GetInt("Grade");
-		switch (GameGradeVal)
-        {
-            case 1: //¼òµ¥
-                {
-                    string[] ObjNameToHide = {
-                    "Obstacle/Stone_1/_newCreation_Tris537_201",
-                    "Obstacle/Stone_1/_newCreation_Tris601_p",
-                    "Obstacle/Stone_2/UC_SmallRock_05_p",
-                    "Obstacle/Stone_2/_newCreation_Tris537_p",
-                    "Obstacle/wood_3/_newCreation_Tris537_p",
-                    "Obstacle/Stone_3/O2/_newCreation_Tris537_p",
-                    "Obstacle/Stone_4/_newCreation_Tris537_p",
-                    "Obstacle/Stone_4/_newCreation_Tris601_p",
-
-                    "Obstacle/wood_2",
-                    "Obstacle/wood_3",
-                    "Obstacle/Stone_4",
-                    "Obstacle/Stone_5",
-                    "Obstacle/Stone_6",
-                    "Obstacle/Stone_7",
-                    "Obstacle/Stone_8",
-                    "Obstacle/Stone_9",
-                    "Obstacle/Stone_10",
-
-                                              };
-
-                    foreach (string go in ObjNameToHide)
-                    {
-                        GameObject game_obj = GameObject.Find(go);
-                        if (game_obj != null)
-                        {
-                            game_obj.SetActive(false);
-                        }
-                    }
-                }
-                break;
-            case 2: //Õý³£
-                {
-                    string[] ObjNameToHide = {
-                    "Obstacle/Stone_1/_newCreation_Tris537_201",
-                    "Obstacle/Stone_1/_newCreation_Tris601_p",
-                    "Obstacle/Stone_2/UC_SmallRock_05_p",
-                    "Obstacle/Stone_2/_newCreation_Tris537_p",
-                    "Obstacle/wood_3/_newCreation_Tris537_p",
-                    "Obstacle/Stone_3/O2/_newCreation_Tris537_p",
-                    "Obstacle/Stone_4/_newCreation_Tris537_p",
-                    "Obstacle/Stone_4/_newCreation_Tris601_p",
-
-                                              };
-
-                    foreach (string go in ObjNameToHide)
-                    {
-                        GameObject game_obj = GameObject.Find(go);
-                        if (game_obj != null)
-                        {
-                            game_obj.SetActive(false);
-                        }
-                    }
-                }
-
-                break;
-            case 3: //À§ÄÑ
-                //Ô­°æ
-                break;
-
-            default:
-                break;
-        }
-
-    }
-
+    
 	void DelayCallClickShaCheBtEvent()
 	{
 		ClickShaCheBtEvent(InputEventCtrl.ButtonState.UP);

@@ -1,6 +1,4 @@
-﻿#define USE_HANDLE_JSON
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 using System;
 
 public class ReadGameInfo : MonoBehaviour 
@@ -24,16 +22,16 @@ public class ReadGameInfo : MonoBehaviour
     /// 彩票数量(1局游戏可以出多少彩票) CaiPiaoNum = [1, 10].
     /// </summary>
     public int CaiPiaoNum = 1;
-#if USE_HANDLE_JSON
-    static HandleJson PHandleJson;
-	static string FileName = "SSGameConfig.xml";
-	#endif
+    /// <summary>
+    /// 出票率.
+    /// </summary>
+    public int ChuPiaoLv = 100;
+    HandleJson mHandleJson;
+	string mFileName = "SSGameConfig.xml";
 	static public ReadGameInfo GetInstance()
 	{
-		if (Instance == null) {
-			#if USE_HANDLE_JSON
-			PHandleJson = HandleJson.GetInstance();
-			#endif
+		if (Instance == null)
+        {
 			GameObject obj = new GameObject("_ReadGameInfo");
 			DontDestroyOnLoad(obj);
 			Instance = obj.AddComponent<ReadGameInfo>();
@@ -42,8 +40,9 @@ public class ReadGameInfo : MonoBehaviour
 		return Instance;
 	}
 	void InitGameInfo()
-	{
-		m_pInsertCoinNum = "0";
+    {
+        mHandleJson = HandleJson.GetInstance();
+        m_pInsertCoinNum = "0";
 		
 		int gameModeSt = PlayerPrefs.GetInt("GAME_MODE");
 		if (gameModeSt != 0 && gameModeSt != 1) {
@@ -72,27 +71,26 @@ public class ReadGameInfo : MonoBehaviour
 			PlayerPrefs.Save();
 		}
 		
-#if USE_HANDLE_JSON
         //游戏音量信息.
-		string readInfo = PHandleJson.ReadFromFileXml(FileName, "GameAudioVolume");
+		string readInfo = mHandleJson.ReadFromFileXml(mFileName, "GameAudioVolume");
 		if (readInfo == null || readInfo == "") {
 			readInfo = "7";
-			PHandleJson.WriteToFileXml(FileName, "GameAudioVolume", readInfo);
+			mHandleJson.WriteToFileXml(mFileName, "GameAudioVolume", readInfo);
 		}
 
 		value = Convert.ToInt32(readInfo);
 		if (value < 0 || value > 10) {
 			value = 7;
-			PHandleJson.WriteToFileXml(FileName, "GameAudioVolume", value.ToString());
+			mHandleJson.WriteToFileXml(mFileName, "GameAudioVolume", value.ToString());
         }
         GameAudioVolume = value;
 
         //游戏出彩票信息.
-        readInfo = PHandleJson.ReadFromFileXml(FileName, "IsPrintCaiPiao");
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "IsPrintCaiPiao");
         if (readInfo == null || readInfo == "")
         {
             readInfo = "1";
-            PHandleJson.WriteToFileXml(FileName, "IsPrintCaiPiao", readInfo);
+            mHandleJson.WriteToFileXml(mFileName, "IsPrintCaiPiao", readInfo);
         }
 
         value = Convert.ToInt32(readInfo);
@@ -105,29 +103,35 @@ public class ReadGameInfo : MonoBehaviour
             IsPrintCaiPiao = false;
         }
 
-        readInfo = PHandleJson.ReadFromFileXml(FileName, "CaiPiaoNum");
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "CaiPiaoNum");
         if (readInfo == null || readInfo == "")
         {
             readInfo = "5";
-            PHandleJson.WriteToFileXml(FileName, "CaiPiaoNum", readInfo);
+            mHandleJson.WriteToFileXml(mFileName, "CaiPiaoNum", readInfo);
         }
 
         value = Convert.ToInt32(readInfo);
         if (value < 0)
         {
             value = 5;
-            PHandleJson.WriteToFileXml(FileName, "CaiPiaoNum", value.ToString());
+            mHandleJson.WriteToFileXml(mFileName, "CaiPiaoNum", value.ToString());
         }
         CaiPiaoNum = value;
-#else
-		value = PlayerPrefs.GetInt("GameAudioVolume");
-		if (value < 0 || value > 10) {
-			value = 7;
-			PlayerPrefs.SetInt("GameAudioVolume", value);
-			PlayerPrefs.Save();
-		}
-        GameAudioVolume = value;
-#endif
+
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "ChuPiaoLv");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "100";
+            mHandleJson.WriteToFileXml(mFileName, "ChuPiaoLv", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value < 0)
+        {
+            value = 100;
+            mHandleJson.WriteToFileXml(mFileName, "ChuPiaoLv", value.ToString());
+        }
+        ChuPiaoLv = value;
     }
     public void FactoryReset()
 	{
@@ -135,14 +139,15 @@ public class ReadGameInfo : MonoBehaviour
 		WriteGameStarMode("oper");
 		WriteInsertCoinNum("0");
 		WriteGameRecord(180);
-		WritePlayerMinSpeedVal(0);
 		WriteGameAudioVolume(7);
-        WriteGameIsPrintCaiPiao(true);
+
+        WriteGameIsPrintCaiPiao(false);
         WriteGamePrintCaiPiaoNum(5);
+        WriteChuPiaoLv(100);
     }
 
     /// <summary>
-    /// 读取游戏一局可以出多少彩票.
+    /// 读取游戏一币可以出多少彩票.
     /// </summary>
     public int ReadGamePrintCaiPiaoNum()
     {
@@ -150,13 +155,30 @@ public class ReadGameInfo : MonoBehaviour
     }
 
     /// <summary>
-    /// 修改游戏一局可以出多少彩票.
+    /// 修改游戏一币可以出多少彩票.
     /// </summary>
     public void WriteGamePrintCaiPiaoNum(int num)
     {
         int value = num;
         CaiPiaoNum = value;
-        PHandleJson.WriteToFileXml(FileName, "CaiPiaoNum", value.ToString());
+        mHandleJson.WriteToFileXml(mFileName, "CaiPiaoNum", value.ToString());
+    }
+
+    /// <summary>
+    /// 读取出票率.
+    /// </summary>
+    public int ReadChuPiaoLv()
+    {
+        return ChuPiaoLv;
+    }
+
+    /// <summary>
+    /// 修改出票率.
+    /// </summary>
+    public void WriteChuPiaoLv(int val)
+    {
+        ChuPiaoLv = val;
+        mHandleJson.WriteToFileXml(mFileName, "ChuPiaoLv", val.ToString());
     }
 
     /// <summary>
@@ -174,7 +196,7 @@ public class ReadGameInfo : MonoBehaviour
     {
         int value = isPrint == true ? 1 : 0;
         IsPrintCaiPiao = isPrint;
-        PHandleJson.WriteToFileXml(FileName, "IsPrintCaiPiao", value.ToString());
+        mHandleJson.WriteToFileXml(mFileName, "IsPrintCaiPiao", value.ToString());
     }
 
     public int ReadGameAudioVolume()
@@ -183,12 +205,7 @@ public class ReadGameInfo : MonoBehaviour
 	}
 	public void WriteGameAudioVolume(int value)
 	{
-		#if USE_HANDLE_JSON
-		PHandleJson.WriteToFileXml(FileName, "GameAudioVolume", value.ToString());
-		#else
-		PlayerPrefs.SetInt("GameAudioVolume", value);
-		PlayerPrefs.Save();
-		#endif
+		mHandleJson.WriteToFileXml(mFileName, "GameAudioVolume", value.ToString());
 		GameAudioVolume = value;
 		AudioListener.volume = (float)value / 10f;
 	}
@@ -238,10 +255,4 @@ public class ReadGameInfo : MonoBehaviour
 		PlayerPrefs.SetInt("PlayerMinSpeedVal", value);
 		PlayerMinSpeedVal = value;
 	}
-//	void OnGUI()
-//	{
-//		string strA = "StarCoinNum "+m_pStarCoinNum
-//						+", GameMode "+m_pGameMode;
-//		GUI.Box(new Rect(0f, 0f, Screen.width, 30f), strA);
-//	}
 }

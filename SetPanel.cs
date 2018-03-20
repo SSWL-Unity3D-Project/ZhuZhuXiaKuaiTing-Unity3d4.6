@@ -1,57 +1,74 @@
-﻿#define GAME_GRADE
-//gzknu
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 using System;
 
 public class SetPanel : MonoBehaviour
 {
-	//zhujiemian
-//	private bool m_IsZhujiemian = true;
+    enum SetEnum
+    {
+        CoinStart,  //启动币数.
+        OperMode,   //运营模式.
+        FreeMode,   //免费模式.
+        CaiPiao,    //彩票设置.
+        ChuPiaoLv1,        //出票率1.
+        ChuPiaoLv2,        //出票率2.
+        ChuPiaoLv3,        //出票率3.
+        PrintCaiPiao,      //打印彩票.
+        NoPrintCaiPiao,    //不打印彩票.
+        Audio,      //音量设置.
+        ResetAudio, //音量重置.
+        Grade1,     //难度低.
+        Grade2,     //难度中.
+        Grade3,     //难度高.
+        Reset,      //恢复出厂设置.
+        Exit,       //退出.
+    }
+
 	public GameObject m_ZhujiemianObject;
 	public Transform m_ZhujiemianXingXing;
 	private int m_IndexZhujiemian = 0;
+    /// <summary>
+    /// 游戏版本.
+    /// </summary>
+    public UILabel mGameVersionLb;
 	public UILabel m_CoinForStar;
-	public UILabel PlayerMinSpeed;
+    public UILabel PlayerMinSpeed;
 	public UITexture m_GameModeDuigou1;
 	public UITexture m_GameModeDuigou2;
 	public UITexture[] GameGradeDuiGou;
-	public UILabel InsertCoinNumLabel;
+	public UITexture[] ChuPiaoLvDuiGou;
+	public UITexture[] ChuPiaoDuiGou;
+    public UILabel InsertCoinNumLabel;
 	public UILabel BtInfoLabel;
-	public UILabel YouMenInfoLabel;
 	public UILabel FangXiangInfoLabel;
-	private int m_InserNum = 0;
-	public UITexture JiaoZhunTexture;
-	public Texture[] JiaoZhunTextureArray;
-	bool IsInitJiaoZhunPcvr;
-	int JiaoZhunCount;
-	GameObject JiaoZhunObj;
-	public static bool IsOpenSetPanel = false;
+    /// <summary>
+    /// 彩票信息.
+    /// </summary>
+    public UILabel CaiPiaoInfoLb;
+    private int m_InserNum = 0;
 	int GameAudioVolume;
-	void Start () 
-	{
-		XkGameCtrl.IsLoadingLevel = false;
-		GameAudioVolume = ReadGameInfo.GetInstance().ReadGameAudioVolume();
+	void Start ()
+    {
+        mGameVersionLb.text = "Version: V1.0-20180320";
+        XkGameCtrl.IsLoadingLevel = false;
+        if (pcvr.bIsHardWare)
+        {
+            pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close);
+        }
+        GameAudioVolume = ReadGameInfo.GetInstance().ReadGameAudioVolume();
 		GameAudioVolumeLB.text = GameAudioVolume.ToString();
-
-		IsOpenSetPanel = true;
-		CloseAllQiNang();
-		//pcvr.ShaCheBtLight = StartLightState.Mie;
-		//pcvr.CloseFangXiangPanPower();
-		//pcvr.IsSlowLoopCom = false;
+        
 		m_InserNum = Convert.ToInt32(ReadGameInfo.GetInstance().ReadInsertCoinNum());
 		UpdateInsertCoin();
 
 		BtInfoLabel.text = "";
-		m_ZhujiemianXingXing.localPosition = new Vector3(-510.0f,212.0f,0.0f);
+        m_ZhujiemianXingXing.localPosition = new Vector3(-515f, 140f, 0f);
 		string GameMode = ReadGameInfo.GetInstance().ReadGameStarMode();
-		if (GameMode == "" || GameMode == null) {
+		if (GameMode == "" || GameMode == null)
+        {
 			GameMode = "oper";
 		}
 
 		m_CoinForStar.text = ReadGameInfo.GetInstance().ReadStarCoinNumSet();
-		int minSpeedPlayer = (int)ReadGameInfo.GetInstance().ReadPlayerMinSpeedVal();
-		PlayerMinSpeed.text = minSpeedPlayer.ToString();
 		if(GameMode == "oper")
 		{
 			m_GameModeDuigou1.enabled = true;
@@ -63,48 +80,37 @@ public class SetPanel : MonoBehaviour
 			m_GameModeDuigou2.enabled = true;
 		}
 
-		if (JiaoZhunTexture != null) {
-			JiaoZhunObj = JiaoZhunTexture.gameObject;
-			JiaoZhunObj.SetActive(false);
-		}
-		
-		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
-		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetMoveBtEvent += ClickSetMoveBtEvent;
-		//InputEventCtrl.GetInstance().ClickStartBtOneEvent += ClickStartBtOneEvent;
-		//InputEventCtrl.GetInstance().ClickShaCheBtEvent += ClickShaCheBtEvent;
-		//InputEventCtrl.GetInstance().ClickLaBaBtEvent += ClickLaBaBtEvent;
-		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
+        int caiPiaoNum = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
+        CaiPiaoInfoLb.text = caiPiaoNum.ToString();
+
+        int chuPiaoLv = ReadGameInfo.GetInstance().ReadChuPiaoLv();
+        ChuPiaoLvDuiGou[0].enabled = chuPiaoLv == 80 ? true : false;
+        ChuPiaoLvDuiGou[1].enabled = chuPiaoLv == 100 ? true : false;
+        ChuPiaoLvDuiGou[2].enabled = chuPiaoLv == 120 ? true : false;
+
+        bool isPrintCaiPiao = ReadGameInfo.GetInstance().ReadGameIsPrintCaiPiao();
+        ChuPiaoDuiGou[0].enabled = isPrintCaiPiao;
+        ChuPiaoDuiGou[1].enabled = !isPrintCaiPiao;
 
         if (PlayerPrefs.GetInt("Grade") == 0)
         {
             PlayerPrefs.SetInt("Grade", 2);
         }
 
-        switch (PlayerPrefs.GetInt("Grade"))
-        {
-            case 1:
-				GameGradeDuiGou[0].enabled = true;
-				GameGradeDuiGou[1].enabled = false;
-				GameGradeDuiGou[2].enabled = false;
-                break;
-			case 2:
-				GameGradeDuiGou[0].enabled = false;
-				GameGradeDuiGou[1].enabled = true;
-				GameGradeDuiGou[2].enabled = false;
-                break;
-			case 3:
-				GameGradeDuiGou[0].enabled = false;
-				GameGradeDuiGou[1].enabled = false;
-				GameGradeDuiGou[2].enabled = true;
-                break;
-            default:
-                break;
-        }
+        int grade = PlayerPrefs.GetInt("Grade");
+        GameGradeDuiGou[0].enabled = grade == 1 ? true : false;
+        GameGradeDuiGou[1].enabled = grade == 2 ? true : false;
+        GameGradeDuiGou[2].enabled = grade == 3 ? true : false;
+
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetMoveBtEvent += ClickSetMoveBtEvent;
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
     }
 
 	void Update () 
 	{
-		if (pcvr.bIsHardWare) {
+		if (pcvr.bIsHardWare)
+        {
 			if (GlobalData.GetInstance().CoinCur > m_InserNum)
             {
 				m_InserNum = GlobalData.GetInstance().CoinCur - 1;
@@ -112,47 +118,42 @@ public class SetPanel : MonoBehaviour
 			}
 
 			FangXiangInfoLabel.text = pcvr.GetInstance().mPcvrSteerCur.ToString("X2");
-			if (!IsInitJiaoZhunPcvr)
+            float offsetSteer = 0.05f;
+            if (pcvr.GetInstance().mGetSteer < -offsetSteer)
             {
-				float offsetSteer = 0.05f;
-				if (pcvr.GetInstance().mGetSteer < -offsetSteer) {
-					FangXiangInfoLabel.text += ", Turn Left";
-				}
-				else if (pcvr.GetInstance().mGetSteer > offsetSteer) {
-					FangXiangInfoLabel.text += ", Turn Right";
-				}
-				else {
-					FangXiangInfoLabel.text += ", Turn Middle";
-				}
-			}
-		}
-		else {
-			if (Input.GetKeyDown(KeyCode.T)) {
+                FangXiangInfoLabel.text += ", Turn Left";
+            }
+            else if (pcvr.GetInstance().mGetSteer > offsetSteer)
+            {
+                FangXiangInfoLabel.text += ", Turn Right";
+            }
+            else
+            {
+                FangXiangInfoLabel.text += ", Turn Middle";
+            }
+        }
+		else
+        {
+			if (Input.GetKeyDown(KeyCode.T))
+            {
 				OnClickInsertBt();
 			}
 
 			int val = (int)(pcvr.GetInstance().mGetSteer * 100);
 			FangXiangInfoLabel.text = val.ToString();
-			if (!IsInitJiaoZhunPcvr) {
-				if (val < 0) {
-					FangXiangInfoLabel.text += ", Turn Left";
-				}
-				else if (val > 0) {
-					FangXiangInfoLabel.text += ", Turn Right";
-				}
-				else {
-					FangXiangInfoLabel.text += ", Turn Middle";
-				}
-			}
-
-			//val = (int)(pcvr.mGetPower * 100);
-			YouMenInfoLabel.text = val.ToString();
-			if (!IsInitJiaoZhunPcvr) {
-				if (val > 0) {				
-					YouMenInfoLabel.text += ", Throttle Response";
-				}
-			}
-		}
+            if (val < 0)
+            {
+                FangXiangInfoLabel.text += ", Turn Left";
+            }
+            else if (val > 0)
+            {
+                FangXiangInfoLabel.text += ", Turn Right";
+            }
+            else
+            {
+                FangXiangInfoLabel.text += ", Turn Middle";
+            }
+        }
 	}
 
 	void OnClickInsertBt()
@@ -164,7 +165,6 @@ public class SetPanel : MonoBehaviour
 	
 	void UpdateInsertCoin()
 	{
-		//Debug.Log("m_InserNum "+m_InserNum);
 		InsertCoinNumLabel.text = m_InserNum.ToString();
 	}
 
@@ -184,177 +184,105 @@ public class SetPanel : MonoBehaviour
 		OnClickSelectBtInZhujiemian();
 	}
 
-	void ClickStartBtOneEvent(InputEventCtrl.ButtonState val)
-	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
-			BtInfoLabel.text = "StartBtDown";
-		}
-		else {
-			BtInfoLabel.text = "StartBtUp";
-			if (IsInitJiaoZhunPcvr) {
-				if (JiaoZhunCount > 2) {
-					ResetJiaoZhunPcvr();
-				}
-				else {
-					UpdataJiaoZhunTexture();
-				}
-			}
-		}
-	}
-
 	void ClickCloseDongGanBtEvent(InputEventCtrl.ButtonState val)
 	{
 		if (val == InputEventCtrl.ButtonState.DOWN) {
-			BtInfoLabel.text = "DongGanBtDown";
+			BtInfoLabel.text = "动感按键按下";
 		}
 		else {
-			BtInfoLabel.text = "DongGanBtUp";
+			BtInfoLabel.text = "动感按键弹起";
 		}
 	}
 
-	void ResetJiaoZhunPcvr()
-	{
-		if (!IsInitJiaoZhunPcvr) {
-			return;
-		}
-		m_ZhujiemianXingXing.gameObject.SetActive(true);
-		IsInitJiaoZhunPcvr = false;
-		JiaoZhunObj.SetActive(false);
-	}
-
-	void InitJiaoZhunPcvr()
-	{
-		if (IsInitJiaoZhunPcvr) {
-			return;
-		}
-		//pcvr.GetInstance().InitFangXiangJiaoZhun();
-		m_ZhujiemianXingXing.gameObject.SetActive(false);
-		IsInitJiaoZhunPcvr = true;
-
-		JiaoZhunCount = 0;
-		JiaoZhunTexture.mainTexture = JiaoZhunTextureArray[0];
-		JiaoZhunObj.SetActive(true);
-	}
-
-	void UpdataJiaoZhunTexture()
-	{
-		JiaoZhunCount++;
-		JiaoZhunTexture.mainTexture = JiaoZhunTextureArray[JiaoZhunCount];
-	}
-
-#if GAME_GRADE
     void OnClickMoveBtInZhujiemian()
 	{
-        if (IsInitJiaoZhunPcvr)
+        m_IndexZhujiemian++;
+        if (m_IndexZhujiemian > (int)SetEnum.Exit)
         {
-            return;
+            m_IndexZhujiemian = (int)SetEnum.CoinStart;
         }
 
-        m_IndexZhujiemian++;
-        if (m_IndexZhujiemian > 18)
+        SetEnum enumSet = (SetEnum)m_IndexZhujiemian;
+        switch (enumSet)
         {
-            m_IndexZhujiemian = 0;
-        }
-        switch (m_IndexZhujiemian)
-        {
-            case 0:
+            case SetEnum.CoinStart:
                 {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-510.0f, 212.0f, 0.0f);
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-515f, 140f, 0f);
                     break;
                 }
-            case 1:
+            case SetEnum.OperMode:
                 {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-640.0f, 139.0f, 0.0f);
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-640f, 60f, 0f);
                     break;
                 }
-            case 2:
+            case SetEnum.FreeMode:
                 {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-278.0f, 139.0f, 0.0f);
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-280f, 60f, 0f);
                     break;
                 }
-            case 3:
+            case SetEnum.CaiPiao:
                 {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-510.0f, 66.0f, 0.0f);
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-535f, -10f, 0f);
                     break;
                 }
-            case 4:
+            case SetEnum.ChuPiaoLv1:
                 {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-510.0f, -4.5f, 0.0f);
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-510f, -80f, 0f);
                     break;
                 }
-            case 5:
+            case SetEnum.ChuPiaoLv2:
                 {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-385.0f, -4.5f, 0.0f);
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-410f, -80f, 0f);
                     break;
                 }
-            case 6:
+            case SetEnum.ChuPiaoLv3:
                 {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-253.0f, -4.5f, 0.0f);
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-310f, -80f, 0f);
                     break;
                 }
-            case 7:
+            case SetEnum.PrintCaiPiao:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-510f, -150f, 0f);
+                    break;
+                }
+            case SetEnum.NoPrintCaiPiao:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-310f, -150f, 0f);
+                    break;
+                }
+            case SetEnum.Audio:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-530f, -230f, 0f);
+                    break;
+                }
+            case SetEnum.ResetAudio:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-350f, -230f, 0f);
+                    break;
+                }
+            case SetEnum.Grade1:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(40f, 135f, 0f);
+                    break;
+                }
+            case SetEnum.Grade2:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(180f, 135f, 0f);
+                    break;
+                }
+            case SetEnum.Grade3:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(360f, 135f, 0f);
+                    break;
+                }
+            case SetEnum.Reset:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(135f, -155f, 0f);
+                    break;
+                }
+            case SetEnum.Exit:
 				{
-					CloseAllQiNang();
-					m_ZhujiemianXingXing.localPosition = new Vector3(-620.0f, -93.0f, 0.0f);
-                    break;
-                }
-            case 8:
-				{
-					CloseAllQiNang();
-					m_ZhujiemianXingXing.localPosition = new Vector3(-620.0f, -125.0f, 0.0f);
-                    break;
-                }
-            case 9:
-				{
-					CloseAllQiNang();
-					m_ZhujiemianXingXing.localPosition = new Vector3(-620.0f, -165.0f, 0.0f);
-                    break;
-                }
-            case 10:
-				{
-					CloseAllQiNang();
-					m_ZhujiemianXingXing.localPosition = new Vector3(-620.0f, -200.0f, 0.0f);
-                    break;
-                }
-            case 11:
-				{
-                    CloseAllQiNang();
-					m_ZhujiemianXingXing.localPosition = new Vector3(-575.0f, -285.0f, 0.0f);
-                    break;
-                }
-            case 12:
-                {
-					m_ZhujiemianXingXing.localPosition = new Vector3(-270.0f, -285.0f, 0.0f);
-                    break;
-                }
-            case 13:
-                {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(-510.0f, -358.0f, 0.0f);
-                    break;
-                }
-            case 14:
-                {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(56.0f, -81.0f, 0.0f);
-                    break;
-                }
-            case 15:
-                {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(35.0f, -285.0f, 0.0f);
-                    break;
-                }
-            case 16:
-                {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(235.0f, -285.0f, 0.0f);
-                    break;
-                }
-            case 17:
-                {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(450.0f, -285.0f, 0.0f);
-                    break;
-                }
-            case 18:
-                {
-                    m_ZhujiemianXingXing.localPosition = new Vector3(56.0f, -358.0f, 0.0f);
+					m_ZhujiemianXingXing.localPosition = new Vector3(135f, -220f, 0f);
                     break;
                 }
         }
@@ -362,9 +290,10 @@ public class SetPanel : MonoBehaviour
 
     void OnClickSelectBtInZhujiemian()
     {
-        switch (m_IndexZhujiemian)
+        SetEnum enumSet = (SetEnum)m_IndexZhujiemian;
+        switch (enumSet)
         {
-            case 0:
+            case SetEnum.CoinStart:
                 {
                     int CoinNum = Convert.ToInt32(m_CoinForStar.text);
                     CoinNum++;
@@ -376,140 +305,120 @@ public class SetPanel : MonoBehaviour
                     ReadGameInfo.GetInstance().WriteStarCoinNumSet(CoinNum.ToString());
                     break;
                 }
-            case 1:
+            case SetEnum.OperMode:
                 {
                     m_GameModeDuigou1.enabled = true;
                     m_GameModeDuigou2.enabled = false;
                     ReadGameInfo.GetInstance().WriteGameStarMode("oper");
                     break;
                 }
-            case 2:
+            case SetEnum.FreeMode:
                 {
                     m_GameModeDuigou1.enabled = false;
                     m_GameModeDuigou2.enabled = true;
                     ReadGameInfo.GetInstance().WriteGameStarMode("FREE");
                     break;
                 }
-            case 3:
+            case SetEnum.CaiPiao:
+                {
+                    int caiPiaoNum = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
+                    caiPiaoNum++;
+                    if (caiPiaoNum > 10)
+                    {
+                        caiPiaoNum = 1;
+                    }
+                    CaiPiaoInfoLb.text = caiPiaoNum.ToString();
+                    ReadGameInfo.GetInstance().WriteGamePrintCaiPiaoNum(caiPiaoNum);
+                    break;
+                }
+            case SetEnum.ChuPiaoLv1:
+                {
+                    ChuPiaoLvDuiGou[0].enabled = true;
+                    ChuPiaoLvDuiGou[1].enabled = false;
+                    ChuPiaoLvDuiGou[2].enabled = false;
+                    ReadGameInfo.GetInstance().WriteChuPiaoLv(80);
+                    break;
+                }
+            case SetEnum.ChuPiaoLv2:
+                {
+                    ChuPiaoLvDuiGou[0].enabled = false;
+                    ChuPiaoLvDuiGou[1].enabled = true;
+                    ChuPiaoLvDuiGou[2].enabled = false;
+                    ReadGameInfo.GetInstance().WriteChuPiaoLv(100);
+                    break;
+                }
+            case SetEnum.ChuPiaoLv3:
+                {
+                    ChuPiaoLvDuiGou[0].enabled = false;
+                    ChuPiaoLvDuiGou[1].enabled = false;
+                    ChuPiaoLvDuiGou[2].enabled = true;
+                    ReadGameInfo.GetInstance().WriteChuPiaoLv(120);
+                    break;
+                }
+            case SetEnum.PrintCaiPiao:
+                {
+                    ChuPiaoDuiGou[0].enabled = true;
+                    ChuPiaoDuiGou[1].enabled = false;
+                    ReadGameInfo.GetInstance().WriteGameIsPrintCaiPiao(true);
+                    break;
+                }
+            case SetEnum.NoPrintCaiPiao:
+                {
+                    ChuPiaoDuiGou[0].enabled = false;
+                    ChuPiaoDuiGou[1].enabled = true;
+                    ReadGameInfo.GetInstance().WriteGameIsPrintCaiPiao(false);
+                    break;
+                }
+            case SetEnum.Audio:
+                {
+                    GameAudioVolume++;
+                    if (GameAudioVolume > 10)
+                    {
+                        GameAudioVolume = 0;
+                    }
+                    GameAudioVolumeLB.text = GameAudioVolume.ToString();
+                    ReadGameInfo.GetInstance().WriteGameAudioVolume(GameAudioVolume);
+                    break;
+                }
+            case SetEnum.ResetAudio:
+                {
+                    GameAudioVolume = 7;
+                    GameAudioVolumeLB.text = GameAudioVolume.ToString();
+                    ReadGameInfo.GetInstance().WriteGameAudioVolume(GameAudioVolume);
+                    break;
+                }
+            case SetEnum.Grade1:
+                {
+                    GameGradeDuiGou[0].enabled = true;
+                    GameGradeDuiGou[1].enabled = false;
+                    GameGradeDuiGou[2].enabled = false;
+                    PlayerPrefs.SetInt("Grade", 1);
+                    break;
+                }
+            case SetEnum.Grade2:
+                {
+                    GameGradeDuiGou[0].enabled = false;
+                    GameGradeDuiGou[1].enabled = true;
+                    GameGradeDuiGou[2].enabled = false;
+                    PlayerPrefs.SetInt("Grade", 2);
+                    break;
+                }
+            case SetEnum.Grade3:
+                {
+                    GameGradeDuiGou[0].enabled = false;
+                    GameGradeDuiGou[1].enabled = false;
+                    GameGradeDuiGou[2].enabled = true;
+                    PlayerPrefs.SetInt("Grade", 3);
+                    break;
+                }
+            case SetEnum.Reset:
                 {
                     ResetFactory();
                     break;
                 }
-            case 4:
+            case SetEnum.Exit:
                 {
-                    //pcvr.StartBtLight = StartLightState.Liang;
-                    break;
-                }
-            case 5:
-                {
-                    //pcvr.StartBtLight = StartLightState.Shan;
-                    break;
-                }
-            case 6:
-                {
-                    //pcvr.StartBtLight = StartLightState.Mie;
-                    break;
-                }
-            case 7:
-                {
-                    //pcvr.m_IsOpneForwardQinang = true;
-                    //pcvr.m_IsOpneBehindQinang = false;
-                    //pcvr.m_IsOpneLeftQinang = false;
-                    //pcvr.m_IsOpneRightQinang = false;
-                    break;
-                }
-            case 8:
-                {
-                    //pcvr.m_IsOpneForwardQinang = false;
-                    //pcvr.m_IsOpneBehindQinang = true;
-                    //pcvr.m_IsOpneLeftQinang = false;
-                    //pcvr.m_IsOpneRightQinang = false;
-                    break;
-                }
-            case 9:
-                {
-                    //pcvr.m_IsOpneForwardQinang = false;
-                    //pcvr.m_IsOpneBehindQinang = false;
-                    //pcvr.m_IsOpneLeftQinang = true;
-                    //pcvr.m_IsOpneRightQinang = false;
-                    break;
-                }
-            case 10:
-                {
-                    //pcvr.m_IsOpneForwardQinang = false;
-                    //pcvr.m_IsOpneBehindQinang = false;
-                    //pcvr.m_IsOpneLeftQinang = false;
-                    //pcvr.m_IsOpneRightQinang = true;
-                    break;
-                }
-			case 11:
-				{
-					GameAudioVolume++;
-					if (GameAudioVolume > 10) {
-						GameAudioVolume = 0;
-					}
-					GameAudioVolumeLB.text = GameAudioVolume.ToString();
-					ReadGameInfo.GetInstance().WriteGameAudioVolume(GameAudioVolume);
-					break;
-				}
-			case 12:
-				{
-					GameAudioVolume = 7;
-					GameAudioVolumeLB.text = GameAudioVolume.ToString();
-					ReadGameInfo.GetInstance().WriteGameAudioVolume(GameAudioVolume);
-					break;
-				}
-            case 13:
-                {
-                    int speedVal = Convert.ToInt32(PlayerMinSpeed.text);
-                    speedVal += 10;
-                    if (speedVal > 80)
-                    {
-                        speedVal = 0;
-                    }
-                    PlayerMinSpeed.text = speedVal.ToString();
-                    ReadGameInfo.GetInstance().WritePlayerMinSpeedVal(speedVal);
-                    break;
-                }
-            case 14:
-                {
-                    InitJiaoZhunPcvr();
-                    break;
-                }
-
-            case 15:
-				{
-					GameGradeDuiGou[0].enabled = true;
-					GameGradeDuiGou[1].enabled = false;
-					GameGradeDuiGou[2].enabled = false;
-                    PlayerPrefs.SetInt("Grade", 1);
-                    break;
-                }
-
-            case 16:
-				{
-					GameGradeDuiGou[0].enabled = false;
-					GameGradeDuiGou[1].enabled = true;
-					GameGradeDuiGou[2].enabled = false;
-                    PlayerPrefs.SetInt("Grade", 2);
-                    break;
-                }
-
-            case 17:                
-				{
-					GameGradeDuiGou[0].enabled = false;
-					GameGradeDuiGou[1].enabled = false;
-					GameGradeDuiGou[2].enabled = true;
-                    PlayerPrefs.SetInt("Grade", 3);
-                    break;
-                }
-
-            case 18:
-                {
-                    CloseAllQiNang();
-					//pcvr.StartBtLight = StartLightState.Mie;
-					XkGameCtrl.IsLoadingLevel = true;
-                    IsOpenSetPanel = false;
+                    XkGameCtrl.IsLoadingLevel = true;
                     Resources.UnloadUnusedAssets();
                     GC.Collect();
                     Application.LoadLevel(0);
@@ -517,59 +426,38 @@ public class SetPanel : MonoBehaviour
                 }
         }
     }
-#endif
 
 	public UILabel GameAudioVolumeLB;
-	void CloseAllQiNang()
-	{
-		//pcvr.m_IsOpneForwardQinang = false;
-		//pcvr.m_IsOpneBehindQinang = false;
-		//pcvr.m_IsOpneLeftQinang = false;
-		//pcvr.m_IsOpneRightQinang = false;
-	}
-
 	void ResetFactory()
 	{
 		ReadGameInfo.GetInstance().FactoryReset();
-		PlayerMinSpeed.text = "0";
 		m_CoinForStar.text = "1";
+
 		m_GameModeDuigou1.enabled = true;
 		m_GameModeDuigou2.enabled = false;
+
 		GameAudioVolume = 7;
 		GameAudioVolumeLB.text = GameAudioVolume.ToString();
 
-		if (pcvr.bIsHardWare) {
+		if (pcvr.bIsHardWare)
+        {
 			pcvr.GetInstance().mPcvrTXManage.SubPlayerCoin(m_InserNum, pcvrTXManage.PlayerCoinEnum.player01);
 		}
 		m_InserNum = 0;
 		UpdateInsertCoin();
-	}
 
-	void ClickShaCheBtEvent(InputEventCtrl.ButtonState val)
-	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
-			BtInfoLabel.text = "BrakeBtDown";
-		}
-		else {
-			BtInfoLabel.text = "BrakeBtUp";
-		}
-	}
+        CaiPiaoInfoLb.text = "5";
 
-	void ClickLaBaBtEvent(InputEventCtrl.ButtonState val)
-	{
-		if (val == InputEventCtrl.ButtonState.DOWN) {
-			BtInfoLabel.text = "SpeakerBtDown";
-		}
-		else {
-			BtInfoLabel.text = "SpeakerBtUp";
-		}
-	}
+        ChuPiaoLvDuiGou[0].enabled = false;
+        ChuPiaoLvDuiGou[1].enabled = true;
+        ChuPiaoLvDuiGou[2].enabled = false;
 
-//    void OnGUI()
-//    {
-//        GUI.Box(new Rect(Screen.width / 1.8f, Screen.height / 1.5f, 400f, 30f), "难度(GRADE)");
-//        GUI.Box(new Rect(Screen.width / 1.8f, Screen.height / 1.4f, 100f, 30f), "简单(EASY)");
-//        GUI.Box(new Rect(Screen.width / 1.5f, Screen.height / 1.4f, 100f, 30f), "正常(NORMAL)");
-//        GUI.Box(new Rect(Screen.width / 1.285f, Screen.height / 1.4f, 100f, 30f), "困难(HARD)");
-//    }
+        ChuPiaoDuiGou[0].enabled = false;
+        ChuPiaoDuiGou[1].enabled = true;
+
+        GameGradeDuiGou[0].enabled = false;
+        GameGradeDuiGou[1].enabled = true;
+        GameGradeDuiGou[2].enabled = false;
+        PlayerPrefs.SetInt("Grade", 2);
+    }
 }

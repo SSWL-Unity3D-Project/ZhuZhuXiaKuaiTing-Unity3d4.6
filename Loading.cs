@@ -41,11 +41,11 @@ public class Loading : MonoBehaviour
 	public bool IsLuPingTest;
 	void Start ()
 	{
-		if (IsLuPingTest) {
+		if (IsLuPingTest)
+        {
 			gameObject.SetActive(false);
 		}
-		//m_MovieTex.loop = true;
-		//m_MovieTex.Play();
+
 		m_HasBegin = false;
 		GameMode = ReadGameInfo.GetInstance ().ReadGameStarMode();
 		if(GameMode == "oper")
@@ -62,12 +62,9 @@ public class Loading : MonoBehaviour
 		else
 		{
 			m_ToubiObj.SetActive(false);
-			//m_IsBeginOk = true;
 			m_FreeTexture.enabled = true;
 		}
-		//Invoke("OnClickBeginBt", UnityEngine.Random.Range(1f, 5f)); //test
 		m_Loading.SetActive(false);
-		//pcvr.ShaCheBtLight = StartLightState.Mie;
 
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
         if (GameMode == "FREE")

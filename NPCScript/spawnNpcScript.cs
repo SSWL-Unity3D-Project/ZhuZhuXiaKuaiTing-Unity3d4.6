@@ -24,18 +24,18 @@ public class spawnNpcScript : MonoBehaviour {
 
 	public void readyToSspawn(float timeT)
 	{
-		switch (PlayerController.GameGradeVal) {
-		case 1:
-			if (GameDiffSt <= 2) {
-				return;
-			}
-			break;
-		case 2:
-			if (GameDiffSt == 2) {
-				return;
-			}
-			break;
-		}
+		//switch (PlayerController.GameGradeVal) {
+		//case 1:
+		//	if (GameDiffSt <= 2) {
+		//		return;
+		//	}
+		//	break;
+		//case 2:
+		//	if (GameDiffSt == 2) {
+		//		return;
+		//	}
+		//	break;
+		//}
 
 		if (!NPCPrefab)
 		{

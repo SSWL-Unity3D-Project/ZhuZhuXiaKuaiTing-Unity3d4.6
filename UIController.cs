@@ -135,7 +135,31 @@ public class UIController : MonoBehaviour
 
         chile = 0;
 		m_pScale.enabled = false;
-		m_pGameTime += 1;
+
+        int gradeVal = PlayerPrefs.GetInt("Grade");
+        switch (gradeVal)
+        {
+            case 1: //低.
+                {
+                    m_pGameTime += 15f;
+                    break;
+                }
+            case 2: //中.
+                {
+                    break;
+                }
+            case 3: //高.
+                {
+                    m_pGameTime -= 10f;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+
+        m_pGameTime += 1;
 		m_totalTime = (int)m_pGameTime;
 		XkGameCtrl.IsLoadingLevel = false;
         ShowJiFenInfo(0);
@@ -174,17 +198,6 @@ public class UIController : MonoBehaviour
 	{
 		if(PlayerController.GetInstance().timmerstar < 5.0f)
 		{
-            //Debug.Log("11111111111111111111111111111111111111111111");
-
-            //gzkun void CloseAllQiNang()
-            if (!SetPanel.IsOpenSetPanel)
-            {
-                //pcvr.m_IsOpneForwardQinang = false;
-                //pcvr.m_IsOpneBehindQinang = false;
-                //pcvr.m_IsOpneLeftQinang = false;
-                //pcvr.m_IsOpneRightQinang = false;
-            }
-
             UpdateBeginDaojishi();
 		}
 		else
