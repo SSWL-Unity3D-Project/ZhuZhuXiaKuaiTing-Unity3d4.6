@@ -24,7 +24,7 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		IsCloseQiNang = false;
 		IsCloseDongGan = false;
 		GameMode = ReadGameInfo.GetInstance ().ReadGameStarMode();
-		if(GameMode == "oper")
+		if(GameMode == ReadGameInfo.GameMode.Oper.ToString())
 		{
 			CoinNumSet = ReadGameInfo.GetInstance ().ReadStarCoinNumSet();
 			InsertCoinNum = ReadGameInfo.GetInstance ().ReadInsertCoinNum();
@@ -48,14 +48,14 @@ public class TouBiInfoCtrl : MonoBehaviour {
 	void Update()
     {
         if (pcvr.bIsHardWare) {
-			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == "oper")
+			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == ReadGameInfo.GameMode.Oper.ToString())
             {
 				m_InserNum = GlobalData.GetInstance().CoinCur - 1;
 				OnClickInsertBt();
 			}
 		}
 		else {
-			if (Input.GetKeyDown(KeyCode.T) && GameMode == "oper") {
+			if (Input.GetKeyDown(KeyCode.T) && GameMode == ReadGameInfo.GameMode.Oper.ToString()) {
 				OnClickInsertBt();
 			}
 		}

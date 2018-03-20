@@ -48,7 +48,7 @@ public class Loading : MonoBehaviour
 
 		m_HasBegin = false;
 		GameMode = ReadGameInfo.GetInstance ().ReadGameStarMode();
-		if(GameMode == "oper")
+		if(GameMode == ReadGameInfo.GameMode.Oper.ToString())
 		{
 			m_FreeTexture.enabled = false;
 			CoinNumSet = ReadGameInfo.GetInstance ().ReadStarCoinNumSet();
@@ -67,12 +67,12 @@ public class Loading : MonoBehaviour
 		m_Loading.SetActive(false);
 
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
-        if (GameMode == "FREE")
+        if (GameMode == ReadGameInfo.GameMode.Free.ToString())
         {
             InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickStartBtOneEvent;
         }
 
-        if (m_InserNum >= m_CoinNumSet && GameMode == "oper")
+        if (m_InserNum >= m_CoinNumSet && GameMode == ReadGameInfo.GameMode.Oper.ToString())
         {
             UpdateTex();
             ClickStartBtOneEvent(InputEventCtrl.ButtonState.DOWN);
@@ -100,22 +100,15 @@ public class Loading : MonoBehaviour
         
         if (pcvr.bIsHardWare)
         {
-			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == "oper")
+			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == ReadGameInfo.GameMode.Oper.ToString())
             {
 				m_InserNum = GlobalData.GetInstance().CoinCur - 1;
 				OnClickInsertBt();
 			}
-
-            //test
-            //if (Input.GetKeyDown(KeyCode.T) && GameMode == "oper")
-            //{
-            //    OnClickInsertBt();
-            //}
-            //test
         }
 		else
         {
-			if(Input.GetKeyDown(KeyCode.T) && GameMode == "oper")
+			if(Input.GetKeyDown(KeyCode.T) && GameMode == ReadGameInfo.GameMode.Oper.ToString())
 			{
 				OnClickInsertBt();
 			}
@@ -179,7 +172,7 @@ public class Loading : MonoBehaviour
 
 	void UpdateTex()
 	{
-		if(GameMode == "FREE" || m_InserNum >= Convert.ToInt32(CoinNumSet))
+		if(GameMode == ReadGameInfo.GameMode.Free.ToString() || m_InserNum >= Convert.ToInt32(CoinNumSet))
 		{
 			m_InserTimmer = 0.0f;
 			m_IsBeginOk = true;
@@ -257,7 +250,7 @@ public class Loading : MonoBehaviour
 		{
 			m_BeginSource.Play();
 			m_IsStartGame = true;
-			if(GameMode == "oper")
+			if(GameMode == ReadGameInfo.GameMode.Oper.ToString())
 			{
 				m_InserNum -= Convert.ToInt32(CoinNumSet);
 				UpdateInsertCoin();

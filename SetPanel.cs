@@ -65,11 +65,11 @@ public class SetPanel : MonoBehaviour
 		string GameMode = ReadGameInfo.GetInstance().ReadGameStarMode();
 		if (GameMode == "" || GameMode == null)
         {
-			GameMode = "oper";
+			GameMode = ReadGameInfo.GameMode.Oper.ToString();
 		}
 
 		m_CoinForStar.text = ReadGameInfo.GetInstance().ReadStarCoinNumSet();
-		if(GameMode == "oper")
+		if(GameMode == ReadGameInfo.GameMode.Oper.ToString())
 		{
 			m_GameModeDuigou1.enabled = true;
 			m_GameModeDuigou2.enabled = false;
@@ -304,14 +304,14 @@ public class SetPanel : MonoBehaviour
                 {
                     m_GameModeDuigou1.enabled = true;
                     m_GameModeDuigou2.enabled = false;
-                    ReadGameInfo.GetInstance().WriteGameStarMode("oper");
+                    ReadGameInfo.GetInstance().WriteGameStarMode(ReadGameInfo.GameMode.Oper.ToString());
                     break;
                 }
             case SetEnum.FreeMode:
                 {
                     m_GameModeDuigou1.enabled = false;
                     m_GameModeDuigou2.enabled = true;
-                    ReadGameInfo.GetInstance().WriteGameStarMode("FREE");
+                    ReadGameInfo.GetInstance().WriteGameStarMode(ReadGameInfo.GameMode.Free.ToString());
                     break;
                 }
             case SetEnum.CaiPiao:

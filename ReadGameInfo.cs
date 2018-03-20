@@ -4,10 +4,16 @@ using System;
 public class ReadGameInfo : MonoBehaviour 
 {
 	static private ReadGameInfo Instance = null;
+    public enum GameMode
+    {
+        Oper, //运营模式.
+        Free, //免费模式.
+    }
+
 	private HandleJson handleJsonObj;
-	public string m_pStarCoinNum = "";
-	public string m_pGameMode = "";
-	public string m_pInsertCoinNum = "0";
+	string m_pStarCoinNum = "";
+	string m_pGameMode = "";
+	string m_pInsertCoinNum = "0";
     /// <summary>
     /// 游戏最高记录.
     /// </summary>
@@ -16,22 +22,22 @@ public class ReadGameInfo : MonoBehaviour
     /// 游戏难度.
     /// </summary>
     int mGrade = 1;
-    /**
-	 * 游戏音量(0-10).
-	 */
+    /// <summary>
+    /// 游戏音量(0-10).
+    /// </summary>
     int GameAudioVolume;
     /// <summary>
     /// 是否出彩票.
     /// </summary>
-    public bool IsPrintCaiPiao = false;
+    bool IsPrintCaiPiao = false;
     /// <summary>
     /// 彩票数量(1局游戏可以出多少彩票) CaiPiaoNum = [1, 10].
     /// </summary>
-    public int CaiPiaoNum = 1;
+    int CaiPiaoNum = 1;
     /// <summary>
     /// 出票率.
     /// </summary>
-    public int ChuPiaoLv = 100;
+    int ChuPiaoLv = 100;
     HandleJson mHandleJson;
 	string mFileName = "SSGameConfig.xml";
 	static public ReadGameInfo GetInstance()
@@ -144,7 +150,7 @@ public class ReadGameInfo : MonoBehaviour
             value = 1; //0->运营模式, 1->免费模式.
             mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", value.ToString());
         }
-        m_pGameMode = value == 0 ? "oper" : "FREE";
+        m_pGameMode = value == 0 ? GameMode.Oper.ToString() : GameMode.Free.ToString();
 
         //游戏启动币数.
         readInfo = mHandleJson.ReadFromFileXml(mFileName, "START_COIN");
@@ -182,7 +188,7 @@ public class ReadGameInfo : MonoBehaviour
     public void FactoryReset()
 	{
 		WriteStarCoinNumSet("1");
-		WriteGameStarMode("FREE");
+		WriteGameStarMode(GameMode.Free.ToString());
 		WriteInsertCoinNum("0");
 		WriteGameRecord(180);
 		WriteGameAudioVolume(7);
@@ -222,11 +228,10 @@ public class ReadGameInfo : MonoBehaviour
     /// <summary>
     /// 修改游戏一币可以出多少彩票.
     /// </summary>
-    public void WriteGamePrintCaiPiaoNum(int num)
+    public void WriteGamePrintCaiPiaoNum(int val)
     {
-        int value = num;
-        CaiPiaoNum = value;
-        mHandleJson.WriteToFileXml(mFileName, "CaiPiaoNum", value.ToString());
+        CaiPiaoNum = val;
+        mHandleJson.WriteToFileXml(mFileName, "CaiPiaoNum", val.ToString());
     }
 
     /// <summary>
@@ -297,7 +302,7 @@ public class ReadGameInfo : MonoBehaviour
 	}
 	public void WriteGameStarMode(string value)
 	{
-        mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", value == "oper" ? "0" : "1");
+        mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", value == GameMode.Oper.ToString() ? "0" : "1");
         m_pGameMode = value;
 	}
 	public void WriteInsertCoinNum(string value)

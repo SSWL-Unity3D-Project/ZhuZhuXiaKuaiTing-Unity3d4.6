@@ -128,11 +128,8 @@ public class UIController : MonoBehaviour
 	public AudioSource m_BeginDaojishiAudio;
 	private bool m_HasPlay = false;
 
-	void Start () 
-	{
-        //m_pGameTime = 120.0f;   //gzknu
-        m_pMiaoshiwei.spriteName = "2"; //gzknu
-
+	void Start ()
+    {
         chile = 0;
 		m_pScale.enabled = false;
 
@@ -295,9 +292,12 @@ public class UIController : MonoBehaviour
                 JieSuanJiFenObj.SetActive(true);
                 mRankListUI.ShowRankListUI();
 
-                if (ReadGameInfo.GetInstance().ReadGameIsPrintCaiPiao())
+                if (ReadGameInfo.GetInstance().ReadGameIsPrintCaiPiao() && ReadGameInfo.GetInstance().ReadGameStarMode() == "")
                 {
+                    //打印彩票.
                     int caiPiaoNum = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
+                    int chuPiaoLv = ReadGameInfo.GetInstance().ReadChuPiaoLv();
+                    caiPiaoNum = (int)(caiPiaoNum * (chuPiaoLv / 100f));
                     GlobalData.GetInstance().CaiPiaoCur = caiPiaoNum;
                     pcvr.GetInstance().mPcvrTXManage.SetCaiPiaoPrintCmd(pcvrTXManage.CaiPiaoPrintCmd.QuanPiaoPrint, pcvrTXManage.CaiPiaoJi.Num01, caiPiaoNum);
                 }
