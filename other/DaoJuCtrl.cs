@@ -66,6 +66,14 @@ public class DaoJuCtrl : MonoBehaviour
     /// 道具的子集.
     /// </summary>
     public GameObject DaoJuChild;
+	void Start()
+	{
+		if (transform.childCount > 0)
+		{
+			DaoJuChild = transform.GetChild(0).gameObject;
+		}
+	}
+
     void Update()
     {
 		if (Application.loadedLevel == 0)
@@ -78,7 +86,7 @@ public class DaoJuCtrl : MonoBehaviour
             if (Time.time - TimeLastUpdate >= 0.5f)
             {
                 TimeLastUpdate = Time.time;
-                if (Vector3.Distance(transform.position, PlayerController.GetInstance().transform.position) >= 200f)
+                if (Vector3.Distance(transform.position, PlayerController.GetInstance().transform.position) >= 150f)
                 {
                     if (DaoJuChild.activeInHierarchy)
                     {
