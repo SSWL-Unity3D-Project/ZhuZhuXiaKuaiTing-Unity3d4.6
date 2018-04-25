@@ -149,7 +149,8 @@ public class DaoJuCtrl : MonoBehaviour
 
         if (LiZiPrefab != null)
         {
-            Instantiate(LiZiPrefab, transform.position, transform.rotation);
+			Instantiate(LiZiPrefab, PlayerController.GetInstance().DaoJuLiZiSpawnTr.position,
+			            PlayerController.GetInstance().DaoJuLiZiSpawnTr.rotation);
         }
 
         if (PlayerController.GetInstance() != null)

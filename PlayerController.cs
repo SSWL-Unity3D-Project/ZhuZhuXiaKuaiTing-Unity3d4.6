@@ -231,6 +231,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [HideInInspector]
     public int PlayerJiFen = 0;
+	/// <summary>
+	/// 道具粒子产生点.
+	/// </summary>
+	public Transform DaoJuLiZiSpawnTr;
     /// <summary>
     /// 积分产生点.
     /// </summary>
