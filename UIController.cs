@@ -452,12 +452,20 @@ public class UIController : MonoBehaviour
 
 	void UpdateJinduTiao()
 	{
+		if (m_pGameTime <= 11f)
+		{
+			if (m_JinduTiao.spriteName != "jindu2")
+			{
+				m_JinduTiao.spriteName = "jindu2";
+			}
+		}
+
 		m_JinduTiao.fillAmount = (m_Player.m_distance)/Distance;
 		if(m_JinduTiao.fillAmount > 1.0f)
 		{
 			m_JinduTiao.fillAmount = 1.0f;
 		}
-		m_ChuanTuBiao.localPosition = new Vector3(m_JinduTiao.fillAmount *(355+375.0f)-375.0f ,-25.0f,0.0f);
+		//m_ChuanTuBiao.localPosition = new Vector3(m_JinduTiao.fillAmount *(355+375.0f)-375.0f ,-25.0f,0.0f);
 	}
 
 	void UpdateBeginDaojishi()
@@ -471,12 +479,12 @@ public class UIController : MonoBehaviour
             m_BeginDaojishiAudio.Play();
         }
 
-		int index = (int)(6.0f - PlayerController.GetInstance().timmerstar);
-		if(index>=6)
-		{
-			index = 5;
-		}
-		m_BeginDaojishi.mainTexture = m_BeginDaojishiTexture[index-1];
+//		int index = (int)(6.0f - PlayerController.GetInstance().timmerstar);
+//		if(index>=6)
+//		{
+//			index = 5;
+//		}
+		m_BeginDaojishi.mainTexture = m_BeginDaojishiTexture[0];
 	}
 
 	void UpdateYoumenTishi()
@@ -522,6 +530,19 @@ public class UIController : MonoBehaviour
 		m_Scale.enabled = true;
 		m_Position.enabled = true;
 		m_JiashiTexture.SetActive (false);
+
+		if (m_DaoJiShiTr != null)
+		{
+			m_DaoJiShiTr.localScale = DaoJiShiMaxScale;
+			Invoke("ResetDaoJiShiScale", 0.2f);
+		}
+	}
+
+	public Transform m_DaoJiShiTr;
+	public Vector3 DaoJiShiMaxScale = new Vector3(2f, 2f, 1f);
+	void ResetDaoJiShiScale()
+	{
+		m_DaoJiShiTr.localScale = new Vector3(1f, 1f, 1f);
 	}
 
     /// <summary>
