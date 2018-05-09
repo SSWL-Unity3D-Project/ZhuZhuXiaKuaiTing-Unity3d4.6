@@ -317,10 +317,10 @@ public class SetPanel : MonoBehaviour
             case SetEnum.CaiPiao:
                 {
                     int caiPiaoNum = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
-                    caiPiaoNum++;
-                    if (caiPiaoNum > 10)
+                    caiPiaoNum += 5;
+                    if (caiPiaoNum > 50)
                     {
-                        caiPiaoNum = 1;
+                        caiPiaoNum = 5;
                     }
                     CaiPiaoInfoLb.text = caiPiaoNum.ToString();
                     ReadGameInfo.GetInstance().WriteGamePrintCaiPiaoNum(caiPiaoNum);

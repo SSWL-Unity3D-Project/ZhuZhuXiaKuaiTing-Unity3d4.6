@@ -133,6 +133,17 @@ public class UIController : MonoBehaviour
         chile = 0;
 		m_pScale.enabled = false;
 
+        if (SSGameDataCtrl.GetInstance() != null)
+        {
+            Debug.Log("fix game ui data...");
+            m_pGameTime = SSGameDataCtrl.GetInstance().m_UIData.m_pGameTime;
+            Distance = SSGameDataCtrl.GetInstance().m_UIData.Distance;
+        }
+        else
+        {
+            Debug.LogWarning("not find SSGameDataCtrl...");
+        }
+
         int gradeVal = ReadGameInfo.GetInstance().ReadGrade();
         switch (gradeVal)
         {
