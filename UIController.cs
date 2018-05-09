@@ -2,8 +2,20 @@
 using System.Collections;
 using System;
 
-public class UIController : MonoBehaviour
+public class UIController : SSGameMono
 {
+    /// <summary>
+    /// 打印彩票UI预制.
+    /// </summary>
+    public GameObject m_PrintCardUIPrefab;
+    /// <summary>
+    /// UI摄像机.
+    /// </summary>
+    public Camera m_UICamera;
+    /// <summary>
+    /// 通过声音控制led.
+    /// </summary>
+    [HideInInspector]
     public SSLedByAudioCtrl mLedAudioScript;
     /// <summary>
     /// 积分动画控制.
@@ -185,12 +197,20 @@ public class UIController : MonoBehaviour
     void OnCaiPiaJiWuPiaoEvent(pcvrTXManage.CaiPiaoJi val)
     {
         Debug.Log(val + ":: CaiPiaoJi wuPiao!");
+        if (m_PrintCardCom != null)
+        {
+            m_PrintCardCom.ShowCardEmpty();
+        }
     }
 
     void OnCaiPiaJiChuPiaoEvent(pcvrTXManage.CaiPiaoJi val)
     {
         GlobalData.GetInstance().CaiPiaoCur--;
         Debug.Log(val + ":: CaiPiaoCur == " + GlobalData.GetInstance().CaiPiaoCur);
+        if (m_PrintCardCom != null)
+        {
+            m_PrintCardCom.ShowGameCardInfo(GlobalData.GetInstance().CaiPiaoCur);
+        }
     }
 
     bool IsCloseYouMenTiShi;
@@ -303,14 +323,38 @@ public class UIController : MonoBehaviour
                 JieSuanJiFenObj.SetActive(true);
                 mRankListUI.ShowRankListUI();
 
-                if (ReadGameInfo.GetInstance().ReadGameIsPrintCaiPiao() && ReadGameInfo.GetInstance().ReadGameStarMode() == "")
+                GlobalData.GetInstance().CaiPiaoCur = 0;
+                if (ReadGameInfo.GetInstance().ReadGameIsPrintCaiPiao() && ReadGameInfo.GetInstance().ReadGameStarMode() == ReadGameInfo.GameMode.Oper.ToString())
                 {
                     //打印彩票.
-                    int caiPiaoNum = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
+                    int coinToCard = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
+                    int maxScore = SSGameDataCtrl.GetInstance().m_UIData.MaxScore;
+                    int scoreToCard = maxScore / coinToCard;
+                    int caiPiaoNum = m_Score / scoreToCard;
                     int chuPiaoLv = ReadGameInfo.GetInstance().ReadChuPiaoLv();
                     caiPiaoNum = (int)(caiPiaoNum * (chuPiaoLv / 100f));
+                    if (caiPiaoNum <= 0)
+                    {
+                        caiPiaoNum = 1;
+                    }
                     GlobalData.GetInstance().CaiPiaoCur = caiPiaoNum;
-                    pcvr.GetInstance().mPcvrTXManage.SetCaiPiaoPrintCmd(pcvrTXManage.CaiPiaoPrintCmd.QuanPiaoPrint, pcvrTXManage.CaiPiaoJi.Num01, caiPiaoNum);
+                    Debug.Log("should print " + caiPiaoNum + " cards!");
+                    if (pcvr.bIsHardWare)
+                    {
+                        pcvr.GetInstance().mPcvrTXManage.SetCaiPiaoPrintCmd(pcvrTXManage.CaiPiaoPrintCmd.BanPiaoPrint, pcvrTXManage.CaiPiaoJi.Num01, caiPiaoNum);
+                    }
+                    else
+                    {
+                        //软件版本不用出彩票.
+                        GlobalData.GetInstance().CaiPiaoCur = 0;
+                    }
+                }
+
+                if (GlobalData.GetInstance().CaiPiaoCur > 0 && !IsCreatPrintCardUI)
+                {
+                    //产生出彩票UI界面.
+                    IsCreatPrintCardUI = true;
+                    SpawnPrintCardUI();
                 }
 
                 //开启芯片加密校验.
@@ -321,10 +365,12 @@ public class UIController : MonoBehaviour
                     pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close);
                 }
             }
+
 			if(m_IsCongratulate)
 			{
 				m_CongratulateTimmer+=Time.deltaTime;
 			}
+
 			if(m_CongratulateTimmer > 1.0f)
 			{
 				if(m_Player.m_IsFinished)
@@ -349,19 +395,59 @@ public class UIController : MonoBehaviour
 					m_OverZitiObj.SetActive(true);
 				}
 			}
+
 			if(m_Player.m_IsFinished && m_CongratulateTimmer>1.2f && !m_HasShake)
 			{
 				m_HasShake = true;
 				m_CameraShake.setCameraShakeImpulseValue();
 			}
-			if(m_CongratulateTimmer>5.0f)
+
+			if(m_CongratulateTimmer > 5.0f && !IsCheckLoadingMovieLevel)
 			{
-				//MyCOMDevice.GetInstance().ForceRestartComPort();
-				XkGameCtrl.IsLoadingLevel = true;
-				LoadMovieLevel();
+                IsCheckLoadingMovieLevel = true;
+                StartCoroutine(CheckLoadingMovieLevel());
 			}
 		}
 	}
+
+    bool IsCreatPrintCardUI = false;
+    SSPrintCardCtrl m_PrintCardCom = null;
+    /// <summary>
+    /// 产生打印彩票UI界面.
+    /// </summary>
+    void SpawnPrintCardUI()
+    {
+        Debug.Log("SpawnPrintCardUI...");
+        GameObject obj = (GameObject)Instantiate(m_PrintCardUIPrefab, m_UICamera.transform);
+        m_PrintCardCom = obj.GetComponent<SSPrintCardCtrl>();
+        m_PrintCardCom.Init(GlobalData.GetInstance().CaiPiaoCur);
+    }
+
+    public void HiddenCardPrintUI()
+    {
+        if (m_PrintCardCom != null)
+        {
+            Debug.Log("HiddenCardPrintUI...");
+            GlobalData.GetInstance().CaiPiaoCur = 0;
+            m_PrintCardCom.HiddenCardPrintUI();
+        }
+    }
+
+    bool IsCheckLoadingMovieLevel = false;
+    IEnumerator CheckLoadingMovieLevel()
+    {
+        do
+        {
+            yield return new WaitForSeconds(0.5f);
+        } while (GlobalData.GetInstance().CaiPiaoCur > 0);
+
+        //MyCOMDevice.GetInstance().ForceRestartComPort();
+        if (!XkGameCtrl.IsLoadingLevel)
+        {
+            XkGameCtrl.IsLoadingLevel = true;
+            LoadMovieLevel();
+        }
+    }
 
 	bool IsLoadMovie;
 	void LoadMovieLevel()

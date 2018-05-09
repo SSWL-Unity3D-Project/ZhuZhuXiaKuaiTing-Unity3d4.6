@@ -41,11 +41,23 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		}
 		
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
-		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
+		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetMoveBtEvent += ClickSetMoveBtEvent;
+        InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
 	}
-	
-	// Update is called once per frame
-	void Update()
+
+    private void ClickSetMoveBtEvent(InputEventCtrl.ButtonState val)
+    {
+        if (val == InputEventCtrl.ButtonState.DOWN)
+        {
+            if (PlayerController.GetInstance() != null && PlayerController.GetInstance().m_UIController != null)
+            {
+                PlayerController.GetInstance().m_UIController.HiddenCardPrintUI();
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         if (pcvr.bIsHardWare) {
 			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == ReadGameInfo.GameMode.Oper.ToString())
@@ -66,6 +78,11 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		if (val == InputEventCtrl.ButtonState.DOWN) {
 			return;
 		}
+
+        if (PlayerController.GetInstance() != null)
+        {
+            PlayerController.GetInstance().m_UIController.HiddenCardPrintUI();
+        }
 		XkGameCtrl.IsLoadingLevel = true;
 		Resources.UnloadUnusedAssets();
 		GC.Collect();

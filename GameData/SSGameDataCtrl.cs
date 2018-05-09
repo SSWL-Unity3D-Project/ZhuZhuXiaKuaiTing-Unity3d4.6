@@ -13,6 +13,10 @@ public class SSGameDataCtrl : MonoBehaviour
         /// 路径总长.
         /// </summary>
         public float Distance = 6400;
+        /// <summary>
+        /// 关卡最大分数.
+        /// </summary>
+        public int MaxScore = 16000;
     }
     public UIData m_UIData;
 
