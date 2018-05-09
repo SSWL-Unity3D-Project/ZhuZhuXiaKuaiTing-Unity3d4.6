@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿#define USE_JING_RUI4_JIA_MI
+
+using UnityEngine;
 
 public class pcvr : MonoBehaviour
 {
     /// <summary>
     /// 是否是硬件版.
     /// </summary>
-    static public bool bIsHardWare = false;
+	static public bool bIsHardWare = false;
     /// <summary>
     /// 是否校验hid.
     /// </summary>
@@ -18,7 +20,12 @@ public class pcvr : MonoBehaviour
     static private pcvr Instance = null;
 	static public pcvr GetInstance()
 	{
-		if (Instance == null) {
+		if (Instance == null)
+		{
+#if USE_JING_RUI4_JIA_MI
+			Debug.Log("Start JingRui JiaMi test...");
+			//GameRoot.StartInitialization();
+#endif
 			GameObject obj = new GameObject("_PCVR");
 			DontDestroyOnLoad(obj);
 			Instance = obj.AddComponent<pcvr>();

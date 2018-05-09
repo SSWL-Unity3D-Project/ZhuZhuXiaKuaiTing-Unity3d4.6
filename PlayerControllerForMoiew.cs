@@ -147,7 +147,7 @@ public class PlayerControllerForMoiew : MonoBehaviour
 		m_HuiEffect.saturation = HuiEffectSaturation;
 		m_EndTexture.SetActive(false);
 		ITweenEventCom.Start();
-		Invoke("DelayOpenPlayerCamera", 0.5f);
+		Invoke("DelayOpenPlayerCamera", 0f);
 	}
 
 	void Update () 

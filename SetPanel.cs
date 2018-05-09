@@ -48,7 +48,7 @@ public class SetPanel : MonoBehaviour
 	int GameAudioVolume;
 	void Start ()
     {
-        mGameVersionLb.text = "Version: V1.0-20180320";
+        mGameVersionLb.text = "Version: V1.0-20180321";
         XkGameCtrl.IsLoadingLevel = false;
         if (pcvr.bIsHardWare)
         {
@@ -428,8 +428,8 @@ public class SetPanel : MonoBehaviour
 		ReadGameInfo.GetInstance().FactoryReset();
 		m_CoinForStar.text = "1";
 
-		m_GameModeDuigou1.enabled = false;
-		m_GameModeDuigou2.enabled = true;
+		m_GameModeDuigou1.enabled = true;
+		m_GameModeDuigou2.enabled = false;
 
 		GameAudioVolume = 7;
 		GameAudioVolumeLB.text = GameAudioVolume.ToString();
@@ -447,8 +447,8 @@ public class SetPanel : MonoBehaviour
         ChuPiaoLvDuiGou[1].enabled = true;
         ChuPiaoLvDuiGou[2].enabled = false;
 
-        ChuPiaoDuiGou[0].enabled = false;
-        ChuPiaoDuiGou[1].enabled = true;
+        ChuPiaoDuiGou[0].enabled = true;
+        ChuPiaoDuiGou[1].enabled = false;
 
         GameGradeDuiGou[0].enabled = false;
         GameGradeDuiGou[1].enabled = true;

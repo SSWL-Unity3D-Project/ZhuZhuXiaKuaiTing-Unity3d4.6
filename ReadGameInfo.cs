@@ -147,7 +147,7 @@ public class ReadGameInfo : MonoBehaviour
         value = Convert.ToInt32(readInfo);
         if (value != 0 && value != 1)
         {
-            value = 1; //0->运营模式, 1->免费模式.
+            value = 0; //0->运营模式, 1->免费模式.
             mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", value.ToString());
         }
         m_pGameMode = value == 0 ? GameMode.Oper.ToString() : GameMode.Free.ToString();
@@ -188,12 +188,12 @@ public class ReadGameInfo : MonoBehaviour
     public void FactoryReset()
 	{
 		WriteStarCoinNumSet("1");
-		WriteGameStarMode(GameMode.Free.ToString());
+		WriteGameStarMode(GameMode.Oper.ToString());
 		WriteInsertCoinNum("0");
 		WriteGameRecord(180);
 		WriteGameAudioVolume(7);
 
-        WriteGameIsPrintCaiPiao(false);
+        WriteGameIsPrintCaiPiao(true);
         WriteGamePrintCaiPiaoNum(5);
         WriteChuPiaoLv(100);
 
