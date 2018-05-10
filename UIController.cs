@@ -346,7 +346,7 @@ public class UIController : SSGameMono
                     else
                     {
                         //软件版本不用出彩票.
-                        GlobalData.GetInstance().CaiPiaoCur = 0;
+                        //GlobalData.GetInstance().CaiPiaoCur = 12;
                     }
                 }
 
@@ -436,8 +436,14 @@ public class UIController : SSGameMono
     bool IsCheckLoadingMovieLevel = false;
     IEnumerator CheckLoadingMovieLevel()
     {
+		int count = 0;
         do
         {
+			count++;
+			if (!pcvr.bIsHardWare && count >= 10)
+			{
+				GlobalData.GetInstance().CaiPiaoCur = 0;
+			}
             yield return new WaitForSeconds(0.5f);
         } while (GlobalData.GetInstance().CaiPiaoCur > 0);
 
