@@ -37,7 +37,8 @@ public class SSPrintCardCtrl : MonoBehaviour
             }
             else
             {
-                m_CardNumSpArray[i].enabled = false;
+				m_CardNumSpArray[i].enabled = true;
+				m_CardNumSpArray[i].spriteName = "0";
             }
         }
     }
