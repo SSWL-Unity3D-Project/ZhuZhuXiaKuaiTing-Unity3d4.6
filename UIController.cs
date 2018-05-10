@@ -286,7 +286,6 @@ public class UIController : SSGameMono
 			}
 			if(m_Player.m_timmerFinished>2.0f && !m_IsCongratulate)
 			{
-				m_Score =  (int)(m_totalTime + chile * addChiLe - m_pGameTime);
 				if(m_Player.m_IsFinished)
 				{
 					m_Score =  (int)(m_totalTime + chile * addChiLe - m_pGameTime);
@@ -331,7 +330,7 @@ public class UIController : SSGameMono
                     int coinToCard = ReadGameInfo.GetInstance().ReadGamePrintCaiPiaoNum();
                     int maxScore = SSGameDataCtrl.GetInstance().m_UIData.MaxScore;
                     int scoreToCard = maxScore / coinToCard;
-                    int caiPiaoNum = m_Score / scoreToCard;
+					int caiPiaoNum = m_JiFenPlayer / scoreToCard;
                     int chuPiaoLv = ReadGameInfo.GetInstance().ReadChuPiaoLv();
                     caiPiaoNum = (int)(caiPiaoNum * (chuPiaoLv / 100f));
                     if (caiPiaoNum <= 0)
@@ -339,7 +338,7 @@ public class UIController : SSGameMono
                         caiPiaoNum = 1;
                     }
                     GlobalData.GetInstance().CaiPiaoCur = caiPiaoNum;
-					Debug.Log("should print " + caiPiaoNum + " cards, Score == " + m_Score);
+					Debug.Log("should print " + caiPiaoNum + " cards, JiFenPlayer == " + m_JiFenPlayer);
                     if (pcvr.bIsHardWare)
                     {
                         pcvr.GetInstance().mPcvrTXManage.SetCaiPiaoPrintCmd(pcvrTXManage.CaiPiaoPrintCmd.BanPiaoPrint, pcvrTXManage.CaiPiaoJi.Num01, caiPiaoNum);
@@ -649,11 +648,13 @@ public class UIController : SSGameMono
 		m_DaoJiShiTr.localScale = new Vector3(1f, 1f, 1f);
 	}
 
+	int m_JiFenPlayer = 0;
     /// <summary>
     /// 显示玩家积分.
     /// </summary>
     public void ShowJiFenInfo(int jiFen)
     {
+		m_JiFenPlayer = jiFen;
         if (jiFen != 0)
         {
             JiFenAni.SetTrigger("IsTrigger");
