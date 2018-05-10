@@ -286,12 +286,13 @@ public class UIController : SSGameMono
 			}
 			if(m_Player.m_timmerFinished>2.0f && !m_IsCongratulate)
 			{
+				m_Score =  (int)(m_totalTime + chile * addChiLe - m_pGameTime);
 				if(m_Player.m_IsFinished)
 				{
 					m_Score =  (int)(m_totalTime + chile * addChiLe - m_pGameTime);
-                    Debug.Log("UIController -> PlayerTimeUsed " + m_Score);
+					Debug.Log("UIController -> m_Score " + m_Score);
 					m_JiluRecord = ReadGameInfo.GetInstance().ReadGameRecord();
-					if(m_JiluRecord == 0 || m_Score<m_JiluRecord)
+					if(m_JiluRecord == 0 || m_Score < m_JiluRecord)
 					{
 						if(!m_NewRecordAudio.isPlaying)
 							m_NewRecordAudio.Play();
@@ -338,7 +339,7 @@ public class UIController : SSGameMono
                         caiPiaoNum = 1;
                     }
                     GlobalData.GetInstance().CaiPiaoCur = caiPiaoNum;
-                    Debug.Log("should print " + caiPiaoNum + " cards!");
+					Debug.Log("should print " + caiPiaoNum + " cards, Score == " + m_Score);
                     if (pcvr.bIsHardWare)
                     {
                         pcvr.GetInstance().mPcvrTXManage.SetCaiPiaoPrintCmd(pcvrTXManage.CaiPiaoPrintCmd.BanPiaoPrint, pcvrTXManage.CaiPiaoJi.Num01, caiPiaoNum);
