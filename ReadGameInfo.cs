@@ -140,7 +140,7 @@ public class ReadGameInfo : MonoBehaviour
         readInfo = mHandleJson.ReadFromFileXml(mFileName, "GAME_MODE");
         if (readInfo == null || readInfo == "")
         {
-            readInfo = "1";
+            readInfo = "0";
             mHandleJson.WriteToFileXml(mFileName, "GAME_MODE", readInfo);
         }
 
