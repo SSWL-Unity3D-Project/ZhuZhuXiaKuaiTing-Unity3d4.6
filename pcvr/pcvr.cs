@@ -7,7 +7,7 @@ public class pcvr : MonoBehaviour
     /// <summary>
     /// 是否是硬件版.
     /// </summary>
-	static public bool bIsHardWare = false;
+	static public bool bIsHardWare = true;
     /// <summary>
     /// 是否校验hid.
     /// </summary>
@@ -22,18 +22,19 @@ public class pcvr : MonoBehaviour
 	{
 		if (Instance == null)
 		{
-#if USE_JING_RUI4_JIA_MI
-			Debug.Log("Start JingRui JiaMi test...");
-			//GameRoot.StartInitialization();
-#endif
 			GameObject obj = new GameObject("_PCVR");
 			DontDestroyOnLoad(obj);
 			Instance = obj.AddComponent<pcvr>();
             Instance.mPcvrTXManage = obj.AddComponent<pcvrTXManage>();
             ScreenLog.init();
-			if (bIsHardWare) {
+			if (bIsHardWare)
+			{
 				MyCOMDevice.GetInstance();
 			}
+
+			#if USE_JING_RUI4_JIA_MI
+			Instance.StartJingRuiJiaMi();
+			#endif
 		}
 		return Instance;
 	}
@@ -54,7 +55,35 @@ public class pcvr : MonoBehaviour
         {
             UpdatePcvrSteerVal(0);
         }
+
+//		if (Input.GetKeyUp(KeyCode.P))
+//		{
+//			OnGameOverCheckJingRuiJiaMi(); //test
+//		}
     }
+
+	/// <summary>
+	/// 完整的精锐加密校验,只需要一次成功就行,后面校验时会认为是成功的.
+	/// </summary>
+	public void StartJingRuiJiaMi()
+	{
+		#if USE_JING_RUI4_JIA_MI
+		Debug.Log("Start JingRui JiaMi test...");
+		GameRoot.StartInitialization();
+		StandbyProcess sp = new StandbyProcess();
+		sp.Initialization();
+		#endif
+	}
+
+	public void OnGameOverCheckJingRuiJiaMi()
+	{
+		#if USE_JING_RUI4_JIA_MI
+		//进入待机画面做一次完全安全验证
+		//如果验证失败了游戏就会被挂起
+		//做校验
+		GameRoot.CheckCipherText(StandbyProcess.VerifyEnvironmentKey_LogoVideo);
+		#endif//_IgnoreVerify
+	}
 
     /// <summary>
     /// 更新玩家币值信息.
