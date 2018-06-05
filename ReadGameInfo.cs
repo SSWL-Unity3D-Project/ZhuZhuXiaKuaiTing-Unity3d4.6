@@ -75,7 +75,7 @@ public class ReadGameInfo : MonoBehaviour
         readInfo = mHandleJson.ReadFromFileXml(mFileName, "IsPrintCaiPiao");
         if (readInfo == null || readInfo == "")
         {
-            readInfo = "1";
+            readInfo = "0";
             mHandleJson.WriteToFileXml(mFileName, "IsPrintCaiPiao", readInfo);
         }
 
@@ -92,14 +92,14 @@ public class ReadGameInfo : MonoBehaviour
         readInfo = mHandleJson.ReadFromFileXml(mFileName, "CaiPiaoNum");
         if (readInfo == null || readInfo == "")
         {
-            readInfo = "5";
+            readInfo = "30";
             mHandleJson.WriteToFileXml(mFileName, "CaiPiaoNum", readInfo);
         }
 
         value = Convert.ToInt32(readInfo);
         if (value < 0)
         {
-            value = 5;
+            value = 30;
             mHandleJson.WriteToFileXml(mFileName, "CaiPiaoNum", value.ToString());
         }
         CaiPiaoNum = value;
@@ -156,14 +156,14 @@ public class ReadGameInfo : MonoBehaviour
         readInfo = mHandleJson.ReadFromFileXml(mFileName, "START_COIN");
         if (readInfo == null || readInfo == "")
         {
-            readInfo = "1";
+            readInfo = "2";
             mHandleJson.WriteToFileXml(mFileName, "START_COIN", readInfo);
         }
 
         value = Convert.ToInt32(readInfo);
         if (value < 0 || value > 10)
         {
-            value = 1;
+            value = 2;
             mHandleJson.WriteToFileXml(mFileName, "START_COIN", value.ToString());
         }
         m_pStarCoinNum = value.ToString();
@@ -187,14 +187,14 @@ public class ReadGameInfo : MonoBehaviour
 
     public void FactoryReset()
 	{
-		WriteStarCoinNumSet("1");
+		WriteStarCoinNumSet("2");
 		WriteGameStarMode(GameMode.Oper.ToString());
 		WriteInsertCoinNum("0");
 		WriteGameRecord(180);
 		WriteGameAudioVolume(7);
 
-        WriteGameIsPrintCaiPiao(true);
-        WriteGamePrintCaiPiaoNum(5);
+        WriteGameIsPrintCaiPiao(false);
+        WriteGamePrintCaiPiaoNum(30);
         WriteChuPiaoLv(100);
 
         WriteGrade(2);
