@@ -463,6 +463,7 @@ public class UIController : SSGameMono
 		}
 		IsLoadMovie = true;
 
+		pcvr.GetInstance().OnGameOverCheckJingRuiJiaMi();
 		StartCoroutine(CheckUnloadUnusedAssets());
 	}
 
@@ -472,8 +473,17 @@ public class UIController : SSGameMono
 		GC.Collect();
 		AsyncOperation asyncVal = Resources.UnloadUnusedAssets();
 		float timeLast = Time.realtimeSinceStartup;
+		yield return new WaitForSeconds(2.5f);
 
-		do {
+		do
+		{
+			if (GameRoot.m_VerifyEnvironmentObj != null)
+			{
+				//精锐加密校验未结束.
+				yield return new WaitForSeconds(0.5f);
+				continue;
+			}
+
 			yield return new WaitForSeconds(0.5f);
 			if (Time.realtimeSinceStartup - timeLast > 5f) {
 				isLoop = false;
