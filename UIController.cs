@@ -51,6 +51,7 @@ public class UIController : SSGameMono
     /// GameOverImgDtArray[x] -> 0 猪猪侠, 1 波比, 2 超人强, 3 菲菲.
     /// </summary>
     public GameOverImgData[] GameOverImgDtArray;
+    public GameOverImgData[] GameOverImgDtArray_En;
 
     /// <summary>
     /// 游戏结束图片.
@@ -85,7 +86,8 @@ public class UIController : SSGameMono
     /// 积分图集列表.
     /// </summary>
     public UISprite[] JiFenSpriteArray;
-	public float m_pGameTime = 300.0f;
+    [HideInInspector]
+    public float m_pGameTime = 300.0f;
 	public UISprite m_pMiaoBaiwei;
 	public UISprite m_pMiaoshiwei;
 	public UISprite m_pMiaogewei;
@@ -120,13 +122,13 @@ public class UIController : SSGameMono
 	public UISprite m_RecordFenGewei;
 	public UISprite m_RecordMiaoShiwei;
 	public UISprite m_RecordMiaoGewei;
-
+    [HideInInspector]
 	public float Distance = 6400;
 	public UISprite m_JinduTiao;
 	public Transform m_ChuanTuBiao;
 
 	public UITexture m_BeginDaojishi;
-	public Texture[] m_BeginDaojishiTexture;
+	//public Texture[] m_BeginDaojishiTexture;
 
 	//youmentishi
 	public UITexture m_YoumenTishi;
@@ -597,7 +599,7 @@ public class UIController : SSGameMono
 //		{
 //			index = 5;
 //		}
-		m_BeginDaojishi.mainTexture = m_BeginDaojishiTexture[0];
+		//m_BeginDaojishi.mainTexture = m_BeginDaojishiTexture[0];
 	}
 
 	void UpdateYoumenTishi()
@@ -715,9 +717,18 @@ public class UIController : SSGameMono
     {
         Debug.Log("SetGameOverUIDt -> indexRank " + indexRank);
         int indexVal = (int)indexRank;
-        GameOverBkUI.mainTexture = GameOverImgDtArray[indexVal].GameOverImg;
-        FinishBkUI.mainTexture = GameOverImgDtArray[indexVal].FinishImg;
-        CongratulationBkUI.mainTexture = GameOverImgDtArray[indexVal].CongratulationImg;
+        if (GlobalData.GetInstance().GetGameTextMode() == GameTextType.English)
+        {
+            GameOverBkUI.mainTexture = GameOverImgDtArray_En[indexVal].GameOverImg;
+            FinishBkUI.mainTexture = GameOverImgDtArray_En[indexVal].FinishImg;
+            CongratulationBkUI.mainTexture = GameOverImgDtArray_En[indexVal].CongratulationImg;
+        }
+        else
+        {
+            GameOverBkUI.mainTexture = GameOverImgDtArray[indexVal].GameOverImg;
+            FinishBkUI.mainTexture = GameOverImgDtArray[indexVal].FinishImg;
+            CongratulationBkUI.mainTexture = GameOverImgDtArray[indexVal].CongratulationImg;
+        }
     }
 
     /// <summary>

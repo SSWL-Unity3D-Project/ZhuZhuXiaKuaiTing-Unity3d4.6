@@ -20,7 +20,9 @@ public class SetPanel : MonoBehaviour
         Grade2,     //难度中.
         Grade3,     //难度高.
         Reset,      //恢复出厂设置.
-        Exit,       //退出.
+        LanguageCH,   //中文语言设置.
+        LanguageEN,   //英文语言设置.
+        Exit,         //退出.
     }
 
 	public GameObject m_ZhujiemianObject;
@@ -37,6 +39,7 @@ public class SetPanel : MonoBehaviour
 	public UITexture[] GameGradeDuiGou;
 	public UITexture[] ChuPiaoLvDuiGou;
 	public UITexture[] ChuPiaoDuiGou;
+	public UITexture[] LanguageDuiGou;
     public UILabel InsertCoinNumLabel;
 	public UILabel BtInfoLabel;
 	public UILabel FangXiangInfoLabel;
@@ -48,7 +51,7 @@ public class SetPanel : MonoBehaviour
 	int GameAudioVolume;
 	void Start ()
     {
-        mGameVersionLb.text = "Version: V1.0-20180605";
+        mGameVersionLb.text = "Version: 20180608";
         XkGameCtrl.IsLoadingLevel = false;
         if (pcvr.bIsHardWare)
         {
@@ -96,8 +99,9 @@ public class SetPanel : MonoBehaviour
         GameGradeDuiGou[0].enabled = grade == 1 ? true : false;
         GameGradeDuiGou[1].enabled = grade == 2 ? true : false;
         GameGradeDuiGou[2].enabled = grade == 3 ? true : false;
+        InitGameLanguage();
 
-		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
+        InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetEnterBtEvent += ClickSetEnterBtEvent;
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickSetMoveBtEvent += ClickSetMoveBtEvent;
 		InputEventCtrl.GetInstance().mListenPcInputEvent.ClickCloseDongGanBtEvent += ClickCloseDongGanBtEvent;
     }
@@ -275,9 +279,19 @@ public class SetPanel : MonoBehaviour
                     m_ZhujiemianXingXing.localPosition = new Vector3(135f, -155f, 0f);
                     break;
                 }
-            case SetEnum.Exit:
+            case SetEnum.LanguageCH:
 				{
-					m_ZhujiemianXingXing.localPosition = new Vector3(135f, -220f, 0f);
+					m_ZhujiemianXingXing.localPosition = new Vector3(150f, -225f, 0f);
+                    break;
+                }
+            case SetEnum.LanguageEN:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(380f, -225f, 0f);
+                    break;
+                }
+            case SetEnum.Exit:
+                {
+                    m_ZhujiemianXingXing.localPosition = new Vector3(-175f, -295f, 0f);
                     break;
                 }
         }
@@ -411,6 +425,12 @@ public class SetPanel : MonoBehaviour
                     ResetFactory();
                     break;
                 }
+            case SetEnum.LanguageCH:
+            case SetEnum.LanguageEN:
+                {
+                    SetGameLanguage(enumSet);
+                    break;
+                }
             case SetEnum.Exit:
                 {
                     XkGameCtrl.IsLoadingLevel = true;
@@ -420,6 +440,38 @@ public class SetPanel : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    void InitGameLanguage()
+    {
+        GameTextType type = GlobalData.GetInstance().GetGameTextMode();
+        LanguageDuiGou[0].enabled = type == GameTextType.Chinese ? true : false;
+        LanguageDuiGou[1].enabled = !LanguageDuiGou[0].enabled;
+    }
+    
+    void SetGameLanguage(SetEnum val)
+    {
+        switch (val)
+        {
+            case SetEnum.LanguageCH:
+                {
+                    ReadGameInfo.GetInstance().WriteGameLanguage((int)GameTextType.Chinese);
+                    break;
+                }
+            case SetEnum.LanguageEN:
+                {
+                    ReadGameInfo.GetInstance().WriteGameLanguage((int)GameTextType.English);
+                    break;
+                }
+        }
+        LanguageDuiGou[0].enabled = val == SetEnum.LanguageCH ? true : false;
+        LanguageDuiGou[1].enabled = !LanguageDuiGou[0].enabled;
+    }
+
+    void ResetGameLanguage()
+    {
+        LanguageDuiGou[0].enabled = true;
+        LanguageDuiGou[1].enabled = !LanguageDuiGou[0].enabled;
     }
 
 	public UILabel GameAudioVolumeLB;
@@ -453,5 +505,6 @@ public class SetPanel : MonoBehaviour
         GameGradeDuiGou[0].enabled = false;
         GameGradeDuiGou[1].enabled = true;
         GameGradeDuiGou[2].enabled = false;
+        ResetGameLanguage();
     }
 }

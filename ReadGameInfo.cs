@@ -15,6 +15,12 @@ public class ReadGameInfo : MonoBehaviour
 	string m_pGameMode = "";
 	string m_pInsertCoinNum = "0";
     /// <summary>
+    /// 游戏语言信息.
+    /// GameLanguageVal == 0 -> 中文.
+    /// GameLanguageVal == 1 -> 英文.
+    /// </summary>
+    int GameLanguageVal;
+    /// <summary>
     /// 游戏最高记录.
     /// </summary>
     int GameRecordVal;
@@ -183,6 +189,22 @@ public class ReadGameInfo : MonoBehaviour
             mHandleJson.WriteToFileXml(mFileName, "GAME_RECORD", value.ToString());
         }
         GameRecordVal = value;
+
+        //游戏语言信息.
+        readInfo = mHandleJson.ReadFromFileXml(mFileName, "GAME_LANGUAGE");
+        if (readInfo == null || readInfo == "")
+        {
+            readInfo = "0";
+            mHandleJson.WriteToFileXml(mFileName, "GAME_LANGUAGE", readInfo);
+        }
+
+        value = Convert.ToInt32(readInfo);
+        if (value < 0 || value > 1)
+        {
+            value = 0;
+            mHandleJson.WriteToFileXml(mFileName, "GAME_LANGUAGE", value.ToString());
+        }
+        GameLanguageVal = value;
     }
 
     public void FactoryReset()
@@ -198,6 +220,7 @@ public class ReadGameInfo : MonoBehaviour
         WriteChuPiaoLv(100);
 
         WriteGrade(2);
+        WriteGameLanguage((int)GameTextType.Chinese);
     }
 
     /// <summary>
@@ -294,8 +317,12 @@ public class ReadGameInfo : MonoBehaviour
 	public int ReadGameRecord()
 	{
 		return GameRecordVal;
-	}
-	public void WriteStarCoinNumSet(string value)
+    }
+    public int ReadGameLanguage()
+    {
+        return GameLanguageVal;
+    }
+    public void WriteStarCoinNumSet(string value)
 	{
         mHandleJson.WriteToFileXml(mFileName, "START_COIN", value);
         m_pStarCoinNum = value;
@@ -313,5 +340,10 @@ public class ReadGameInfo : MonoBehaviour
 	{
         mHandleJson.WriteToFileXml(mFileName, "GAME_RECORD", value.ToString());
         GameRecordVal = value;
-	}
+    }
+    public void WriteGameLanguage(int value)
+    {
+        mHandleJson.WriteToFileXml(mFileName, "GAME_LANGUAGE", value.ToString());
+        GameLanguageVal = value;
+    }
 }

@@ -26,7 +26,7 @@ public class PlayerControllerForMoiew : MonoBehaviour
 	public GameObject m_TeXiao4Audio;
 
 	private bool m_Isdapubu = false;
-	public GameObject[] m_Texture;
+	//public GameObject[] m_Texture;
 
 	//zhiwujiansu
 	public Animator m_PlayerAnimator;
@@ -49,8 +49,8 @@ public class PlayerControllerForMoiew : MonoBehaviour
 	public float m_BaozhaUp = 0.0f;
 	public GameObject[] m_particalEffect;
 	public CameraCtForMoivew m_Ctrlcamera;
-	public ORNavigation m_otherCamerCtrl;
-	public GameObject m_niao;
+	//public ORNavigation m_otherCamerCtrl;
+	//public GameObject m_niao;
 	public ColorCorrectionCurves m_HuiEffect;
 	/**
 	 * 主角引擎音效.
@@ -74,12 +74,12 @@ public class PlayerControllerForMoiew : MonoBehaviour
 		Screen.showCursor = false;
 		if (IsThreeScreen) {
 			//Screen.SetResolution(1360*3, 768, true);
-            Screen.SetResolution(1280 * 3, 720, true);
-            //Screen.SetResolution((int)(1360*0.5), (int)(768*0.5), false);
+            //Screen.SetResolution(1280 * 3, 720, true);
+            Screen.SetResolution((int)(1360*0.5), (int)(768*0.5), false);
         }
 		else {
-			//Screen.SetResolution(1360, 768, true);
-            Screen.SetResolution(1280, 720, true);
+			Screen.SetResolution(1360, 768, true);
+            //Screen.SetResolution(1280, 720, true);
         }
 
 		m_BeijingAudio.Play();
@@ -158,10 +158,10 @@ public class PlayerControllerForMoiew : MonoBehaviour
 		}
 	}
 
-	void FixedUpdate()
-	{
-		m_Wuya.speed = 1.0f / Time.timeScale;
-	}
+	//void FixedUpdate()
+	//{
+	//	m_Wuya.speed = 1.0f / Time.timeScale;
+	//}
 
 //	private bool m_hasplay = false;
 	void OnTriggerEnter(Collider other)
@@ -307,26 +307,26 @@ public class PlayerControllerForMoiew : MonoBehaviour
 			m_EatJiashiAudio.Play();
 			m_JiashiAudio.Play();
 		}
-		if(other.tag == "paizhao0")
-		{
-			m_Texture[0].SetActive(true);
-		}
-		if(other.tag == "paizhao1")
-		{
-			m_Texture[1].SetActive(true);
-		}
-		if(other.tag == "paizhao2")
-		{
-			m_Texture[2].SetActive(true);
-		}
-		if(other.tag == "paizhao3")
-		{
-			m_Texture[3].SetActive(true);
-		}
-		if(other.tag == "paizhao4")
-		{
-			m_Texture[4].SetActive(true);
-		}
+		//if(other.tag == "paizhao0")
+		//{
+		//	m_Texture[0].SetActive(true);
+		//}
+		//if(other.tag == "paizhao1")
+		//{
+		//	m_Texture[1].SetActive(true);
+		//}
+		//if(other.tag == "paizhao2")
+		//{
+		//	m_Texture[2].SetActive(true);
+		//}
+		//if(other.tag == "paizhao3")
+		//{
+		//	m_Texture[3].SetActive(true);
+		//}
+		//if(other.tag == "paizhao4")
+		//{
+		//	m_Texture[4].SetActive(true);
+		//}
 		if(other.tag == "dianshan1")
 		{
 			m_PlayerAnimator.SetTrigger("IsDianshan1");
@@ -357,19 +357,19 @@ public class PlayerControllerForMoiew : MonoBehaviour
 		}
 		if(other.tag == "opencamera")
 		{
-			m_otherCamerCtrl.enabled = false;
+			//m_otherCamerCtrl.enabled = false;
 			m_Ctrlcamera.enabled = true;
 		}
-		if(other.tag == "showniao")
-		{
-			m_niao.SetActive(true);
-			iTweenEvent iTweenEventCom = m_niao.GetComponent<iTweenEvent>();
-			iTweenEventCom.Start();
-		}
-		if(other.tag == "hideniao")
-		{
-			m_niao.SetActive(false);
-		}
+		//if(other.tag == "showniao")
+		//{
+		//	m_niao.SetActive(true);
+		//	iTweenEvent iTweenEventCom = m_niao.GetComponent<iTweenEvent>();
+		//	iTweenEventCom.Start();
+		//}
+		//if(other.tag == "hideniao")
+		//{
+		//	m_niao.SetActive(false);
+		//}
 		if(other.tag == "hui")
 		{
 			m_HuiEffect.saturation = 0.0f;
@@ -521,5 +521,5 @@ public class PlayerControllerForMoiew : MonoBehaviour
 	public GameObject m_LiangTitle;
 	public float m_LiangTimmerSet = 0.5f;
 	private float m_LiangTimmer = 0.0f;
-	public Animator m_Wuya;
+	//public Animator m_Wuya;
 }

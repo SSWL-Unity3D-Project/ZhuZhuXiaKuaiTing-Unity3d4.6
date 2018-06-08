@@ -16,30 +16,22 @@ public class GlobalData
 	private static  GlobalData _Instance;
 	public static GlobalData GetInstance()
 	{
-		if (_Instance == null) {
+		if (_Instance == null)
+        {
 			_Instance = new GlobalData();
-			bool isChineseGame = true;
-			if (!isChineseGame) {
-                _Instance.GameTextMode = GameTextType.English;
-			}
-			else {
-                _Instance.GameTextMode = GameTextType.Chinese;
-			}
 		}
 		return _Instance;
 	}
 
-	public static GameTextType GetGameTextMode()
+	public GameTextType GetGameTextMode()
 	{
-		if (_Instance == null) {
-			GetInstance();
-		}
-		return _Instance.GameTextMode;
+        return (GameTextType)ReadGameInfo.GetInstance().ReadGameLanguage();
 	}
 }
 
 public enum GameTextType
 {
-	Chinese,
-	English,
+    Null = -1,
+	Chinese = 0,
+	English = 1,
 }

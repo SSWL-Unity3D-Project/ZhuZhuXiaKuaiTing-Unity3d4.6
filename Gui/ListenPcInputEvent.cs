@@ -55,12 +55,18 @@ public class ListenPcInputEvent : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.P)
+            || Input.GetKeyUp(KeyCode.G)
+            || Input.GetKeyUp(KeyCode.K)
+            || Input.GetKeyUp(KeyCode.Return))
         {
             ClickCloseDongGanBt(InputEventCtrl.ButtonState.UP);
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P)
+            || Input.GetKeyDown(KeyCode.G)
+            || Input.GetKeyDown(KeyCode.K)
+            || Input.GetKeyDown(KeyCode.Return))
         {
             ClickCloseDongGanBt(InputEventCtrl.ButtonState.DOWN);
         }

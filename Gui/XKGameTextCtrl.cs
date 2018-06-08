@@ -1,35 +1,80 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class XKGameTextCtrl : MonoBehaviour {
+public class XKGameTextCtrl : MonoBehaviour
+{
+    /// <summary>
+    /// UI贴图变换.
+    /// </summary>
 	public Texture TextureCH;
 	public Texture TextureEN;
 	public bool IsFixTexture;
 	public Vector2 TextureVecCh;
 	public Vector2 TextureVecEn;
-	public UISpriteAnimation UISpAniCom;
+    /// <summary>
+    /// UI动画精灵.
+    /// </summary>
+    public UISpriteAnimation UISpAniCom;
 	public string ChSpAni; //中文前缀.
 	public string EnSpAni; //英文前缀.
-	public UISprite UISpCom;
+    /// <summary>
+    /// UI图集.
+    /// </summary>
+    public UISprite UISpCom;
 	public string ChSpName; //中文图名称.
 	public string EnSpName; //英文图名称.
+    /// <summary>
+    /// 材质变换.
+    /// </summary>
 	public MeshRenderer MeshRenderCom;
 	public Material Material_Ch;
 	public Material Material_En;
-	GameTextType GameTextVal = GlobalData.GetInstance().GameTextMode;
+    /// <summary>
+    /// 声音变换.
+    /// </summary>
+    public AudioSource m_AudioSource;
+    public AudioClip Audio_Ch;
+    public AudioClip Audio_En;
+    GameTextType GameTextVal = GameTextType.Null;
 	// Use this for initialization
 	void Start()
 	{
-		GameTextVal = GlobalData.GetGameTextMode();
+        if (GameTextVal != GameTextType.Null)
+        {
+            return;
+        }
+
+		GameTextVal = GlobalData.GetInstance().GetGameTextMode();
 		//GameTextVal = GameTextType.English; //test.
-		//Debug.Log("GameTextVal "+GameTextVal);
+		//Debug.Log("GameTextVal ================== "+GameTextVal);
 		CheckGameUITexture();
 		CheckUISpAniCom();
 		CheckGameUISpCom();
 		CheckMeshRenderCom();
-	}
+        CheckGameAudioClip();
+        Destroy(this);
+    }
 
-	void CheckGameUITexture()
+    void CheckGameAudioClip()
+    {
+        if (m_AudioSource != null)
+        {
+            switch (GameTextVal)
+            {
+                case GameTextType.Chinese:
+                    {
+                        m_AudioSource.clip = Audio_Ch;
+                        break;
+                    }
+                case GameTextType.English:
+                    {
+                        m_AudioSource.clip = Audio_En;
+                        break;
+                    }
+            }
+        }
+    }
+
+    void CheckGameUITexture()
 	{
 		if (TextureCH != null && TextureEN != null) {
 			//改变UITexture的图片.

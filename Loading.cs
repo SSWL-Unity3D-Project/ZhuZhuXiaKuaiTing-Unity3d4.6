@@ -10,7 +10,7 @@ public class Loading : MonoBehaviour
 	private string InsertCoinNum = "";
 
 	public UITexture m_BeginTex;
-	public Texture   m_LoadingTex;
+	//public Texture   m_LoadingTex;
 	public UITexture m_InsertTex;
 	public UISprite CoinNumSetTex;
 	public UISprite m_InsertNumS;
