@@ -1,6 +1,7 @@
 ﻿#define USE_JING_RUI4_JIA_MI
 
 using UnityEngine;
+using System.Collections;
 
 public class pcvr : MonoBehaviour
 {
@@ -68,11 +69,22 @@ public class pcvr : MonoBehaviour
 	public void StartJingRuiJiaMi()
 	{
 		#if USE_JING_RUI4_JIA_MI
+		StartCoroutine(DelayJingRuiJiaMiJiaoYan());
+		#endif
+	}
+
+	IEnumerator DelayJingRuiJiaMiJiaoYan()
+	{
+		if (PlayerControllerForMoiew.GetInstance() != null)
+		{
+			//显示校验中.
+			PlayerControllerForMoiew.GetInstance().mLoading.SetActiveJiaMiJiaoYan(true);
+		}
+		yield return new WaitForSeconds(5f);
 		Debug.Log("Start JingRui JiaMi test...");
 		GameRoot.StartInitialization();
 		StandbyProcess sp = new StandbyProcess();
 		sp.Initialization();
-		#endif
 	}
 
 	public void OnGameOverCheckJingRuiJiaMi()
