@@ -4,6 +4,11 @@ using System;
 
 public class Loading : MonoBehaviour
 {
+	/// <summary>
+	/// 加密校验中.
+	/// </summary>
+	public GameObject m_JiaMiJiaoYanZhong;
+	[HideInInspector]
     public SSLedByAudioCtrl mLedAudioScript;
     public LogoAnimation mLogoAni;
     private string CoinNumSet = "1";
@@ -92,8 +97,19 @@ public class Loading : MonoBehaviour
         Debug.Log("CaiPiaoCur == " + GlobalData.GetInstance().CaiPiaoCur);
     }
 
+	float m_LastJiaoYanTime = 0f;
     void Update ()
 	{
+		if (m_JiaMiJiaoYanZhong.activeSelf)
+		{
+			if (VerifyEnvironmentObj.VerifyIsSucceedShowImg
+			    || (Time.time - m_LastJiaoYanTime > 8f && GameRoot.m_VerifyEnvironmentObj == null))
+			{
+				//隐藏校验中.
+				SetActiveJiaMiJiaoYan(false);
+			}
+		}
+
 		if (!m_IsStartGame) {
 			UpdateTex();
 		}
@@ -279,5 +295,11 @@ public class Loading : MonoBehaviour
                 LoadSceneCount++;
             }
 		}
+	}
+
+	public void SetActiveJiaMiJiaoYan(bool isActive)
+	{
+		m_LastJiaoYanTime = Time.time;
+		m_JiaMiJiaoYanZhong.SetActive(isActive);
 	}
 }
