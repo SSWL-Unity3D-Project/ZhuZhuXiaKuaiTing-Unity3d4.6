@@ -95,16 +95,23 @@ public class TouBiInfoCtrl : MonoBehaviour {
         {
 			return;
 		}
-
-		if (DongGanCtrl.GetInstance() == null) {
+		
+		if (PlayerController.GetInstance().m_IsFinished
+		    || PlayerController.GetInstance().m_UIController.m_IsGameOver)
+		{
 			return;
 		}
 
-        if (IsCloseDongGan)
-        {
-            //动感已经关闭,不允许再次打开.
-            return;
-        }
+		if (DongGanCtrl.GetInstance() == null)
+		{
+			return;
+		}
+
+//        if (IsCloseDongGan)
+//        {
+//            //动感已经关闭,不允许再次打开.
+//            return;
+//        }
 		IsCloseDongGan = !IsCloseDongGan;
 		HandleDongGanUI();
 
