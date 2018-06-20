@@ -186,12 +186,6 @@ public class UIController : SSGameMono
 		XkGameCtrl.IsLoadingLevel = false;
         ShowJiFenInfo(0);
 		UpdateGameTime();
-
-        if (pcvr.bIsHardWare)
-        {
-            pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Open);
-            //pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close); //test 为了安全暂时不打开继电器(即摇摇机).
-        }
         InputEventCtrl.GetInstance().OnCaiPiaJiChuPiaoEvent += OnCaiPiaJiChuPiaoEvent;
         InputEventCtrl.GetInstance().OnCaiPiaJiWuPiaoEvent += OnCaiPiaJiWuPiaoEvent;
     }
@@ -236,6 +230,12 @@ public class UIController : SSGameMono
 			{
 				m_BeginDaojishi.enabled = false;
 				m_BeginDaojishiAudio.Stop();
+				
+				if (pcvr.bIsHardWare)
+				{
+					pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Open);
+					//pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close); //test 为了安全暂时不打开继电器(即摇摇机).
+				}
 			}
 
             if (Mathf.Abs(pcvr.GetInstance().mGetSteer) > 0f && !IsCloseYouMenTiShi)
