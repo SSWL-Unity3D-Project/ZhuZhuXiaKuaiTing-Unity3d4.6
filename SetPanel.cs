@@ -51,7 +51,7 @@ public class SetPanel : MonoBehaviour
 	int GameAudioVolume;
 	void Start ()
     {
-        mGameVersionLb.text = "Version: 20180620";
+        mGameVersionLb.text = "Version: 20180621";
         XkGameCtrl.IsLoadingLevel = false;
         if (pcvr.bIsHardWare)
         {
