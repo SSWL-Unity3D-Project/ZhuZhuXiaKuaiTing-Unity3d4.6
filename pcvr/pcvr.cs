@@ -46,6 +46,7 @@ public class pcvr : MonoBehaviour
         if (bIsHardWare)
         {
             UpdatePcvrSteerVal(readBuf[30]);
+			ChangDongGanBtLedState();
         }
         UpdatePlayerCoinDt();
     }
@@ -234,6 +235,33 @@ public class pcvr : MonoBehaviour
             mPcvrTXManage.LedState[i] = false;
         }
     }
+
+	/// <summary>
+	/// 动感按键Led灯的时间记录信息.
+	/// </summary>
+	float m_TimeDongGanBtLed = 0f;
+	/// <summary>
+	/// 改变动感控制按键闪烁状态.
+	/// </summary>
+	void ChangDongGanBtLedState()
+	{
+		if (PlayerController.GetInstance() != null)
+		{
+			//游戏场景中.
+			if (pcvr.GetInstance().mPcvrTXManage.JiDianQiCmdArray[0] == pcvrTXManage.JiDianQiCmd.Close)
+			{
+				//动感关闭状态下关闭提示灯.
+				mPcvrTXManage.LedState[0] = false;
+				return;
+			}
+		}
+
+		if (Time.time - m_TimeDongGanBtLed > 0.25f)
+		{
+			m_TimeDongGanBtLed = Time.time;
+			mPcvrTXManage.LedState[0] = !mPcvrTXManage.LedState[0];
+		}
+	}
 
     //void OnGUI()
     //{
