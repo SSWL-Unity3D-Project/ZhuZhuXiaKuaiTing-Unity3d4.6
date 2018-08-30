@@ -459,12 +459,22 @@ public class PlayerControllerForMoiew : MonoBehaviour
 			if(m_EndTextureTimmer > 5*m_EndTextureTimmerSet && !m_EndTextrues[4].activeSelf)
 			{
 				PlayTweenScale(m_EndTextrues[4]);
-				m_BeijingAudio.Stop();
                 if (mLoading.mLedAudioScript != null)
                 {
                     mLoading.mLedAudioScript.CloseChangeLedState();
                 }
-			}
+            }
+
+            if (m_EndTextureTimmer > 6 * m_EndTextureTimmerSet && m_BeijingAudio.isPlaying)
+            {
+                m_BeijingAudio.Stop();
+                if (AudioListener.volume != 0f)
+                {
+                    AudioVolume = AudioListener.volume;
+                    AudioListener.volume = 0f;
+                }
+            }
+
 			m_LiangTimmer+=Time.deltaTime;
 			if(m_LiangTimmer<m_LiangTimmerSet)
 			{
@@ -504,8 +514,11 @@ public class PlayerControllerForMoiew : MonoBehaviour
 				yield return new WaitForSeconds(0.5f);
 			}
 			else {
-				AudioVolume = AudioListener.volume;
-				AudioListener.volume = 0f;
+                if (AudioListener.volume != 0f)
+                {
+                    AudioVolume = AudioListener.volume;
+                    AudioListener.volume = 0f;
+                }
                 mLoading.mLogoAni.OpenLogoAnimation();
                 //ReplayStartCartoon();
 				yield break;

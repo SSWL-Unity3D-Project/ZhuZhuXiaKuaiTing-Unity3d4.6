@@ -6,11 +6,11 @@ public class pcvr : MonoBehaviour
 	/// <summary>
 	/// 是否开启精锐加密校验.
 	/// </summary>
-	public static bool IsOpenJingRuiJiaMi = false;
+	public static bool IsOpenJingRuiJiaMi = true;
     /// <summary>
     /// 是否是硬件版.
     /// </summary>
-	static public bool bIsHardWare = false;
+	static public bool bIsHardWare = true;
 	/// <summary>
 	/// 测试去掉输入.
 	/// </summary>
