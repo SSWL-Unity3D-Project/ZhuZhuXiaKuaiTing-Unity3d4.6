@@ -446,7 +446,8 @@ public class PlayerController : MonoBehaviour
     }
 
 	void Start()
-    {
+	{
+		AudioListener.volume = (float)ReadGameInfo.GetInstance().ReadGameAudioVolume() / 10f;
         m_PlayerAnimator = m_pChuan.GetComponent<Animator>();
         npc1Pos = npc1.transform;
         npc2Pos = npc2.transform;

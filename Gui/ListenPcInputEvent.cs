@@ -50,6 +50,11 @@ public class ListenPcInputEvent : MonoBehaviour
 
     void Update()
     {
+		if (pcvr.IsTestNoInput)
+		{
+			return;
+		}
+
         if (pcvr.bIsHardWare)
         {
             return;

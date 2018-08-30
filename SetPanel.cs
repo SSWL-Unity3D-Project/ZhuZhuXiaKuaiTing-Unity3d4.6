@@ -31,7 +31,7 @@ public class SetPanel : MonoBehaviour
     /// <summary>
     /// 游戏版本.
     /// </summary>
-    public UILabel mGameVersionLb;
+    //public UILabel mGameVersionLb;
 	public UILabel m_CoinForStar;
     public UILabel PlayerMinSpeed;
 	public UITexture m_GameModeDuigou1;
@@ -51,8 +51,9 @@ public class SetPanel : MonoBehaviour
 	int GameAudioVolume;
 	void Start ()
     {
-        mGameVersionLb.text = "Version: 20180621";
-        XkGameCtrl.IsLoadingLevel = false;
+        //mGameVersionLb.text = "Version: 20180628";
+		XkGameCtrl.IsLoadingLevel = false;
+		AudioListener.volume = (float)ReadGameInfo.GetInstance().ReadGameAudioVolume() / 10f;
         if (pcvr.bIsHardWare)
         {
             pcvr.GetInstance().mPcvrTXManage.SetJiDianQiCmd(0, pcvrTXManage.JiDianQiCmd.Close);
@@ -436,7 +437,7 @@ public class SetPanel : MonoBehaviour
                     XkGameCtrl.IsLoadingLevel = true;
                     Resources.UnloadUnusedAssets();
                     GC.Collect();
-                    Application.LoadLevel(0);
+                    Application.LoadLevel(1);
                     break;
                 }
         }

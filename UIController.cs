@@ -491,7 +491,7 @@ public class UIController : SSGameMono
 				isLoop = false;
 				XkGameCtrl.IsLoadingLevel = true;
 				//Debug.Log("CheckUnloadUnusedAssets -> loading movie level, asyncVal.isDone "+asyncVal.isDone);
-				Application.LoadLevel(0);
+				Application.LoadLevel(1);
 				yield break;
 			}
 
@@ -501,7 +501,7 @@ public class UIController : SSGameMono
 			else {
 				isLoop = false;
 				XkGameCtrl.IsLoadingLevel = true;
-				Application.LoadLevel(0);
+				Application.LoadLevel(1);
 				yield break;
 			}
 		} while (isLoop);

@@ -7,7 +7,7 @@ public class Loading : MonoBehaviour
 	/// <summary>
 	/// 加密校验中.
 	/// </summary>
-	public GameObject m_JiaMiJiaoYanZhong;
+	//public GameObject m_JiaMiJiaoYanZhong;
 	[HideInInspector]
     public SSLedByAudioCtrl mLedAudioScript;
     public LogoAnimation mLogoAni;
@@ -97,10 +97,10 @@ public class Loading : MonoBehaviour
         Debug.Log("CaiPiaoCur == " + GlobalData.GetInstance().CaiPiaoCur);
     }
 
-	float m_LastJiaoYanTime = 0f;
+	//float m_LastJiaoYanTime = 0f;
     void Update ()
 	{
-		if (m_JiaMiJiaoYanZhong.activeSelf)
+		/*if (m_JiaMiJiaoYanZhong.activeSelf)
 		{
 			if (VerifyEnvironmentObj.VerifyIsSucceedShowImg
 			    || (Time.time - m_LastJiaoYanTime > 8f && GameRoot.m_VerifyEnvironmentObj == null))
@@ -108,7 +108,7 @@ public class Loading : MonoBehaviour
 				//隐藏校验中.
 				SetActiveJiaMiJiaoYan(false);
 			}
-		}
+		}*/
 
 		if (!m_IsStartGame) {
 			UpdateTex();
@@ -123,7 +123,12 @@ public class Loading : MonoBehaviour
 			}
         }
 		else
-        {
+		{
+			if (pcvr.IsTestNoInput)
+			{
+				return;
+			}
+
 			if(Input.GetKeyDown(KeyCode.T) && GameMode == ReadGameInfo.GameMode.Oper.ToString())
 			{
 				OnClickInsertBt();
@@ -154,7 +159,7 @@ public class Loading : MonoBehaviour
 		XkGameCtrl.IsLoadingLevel = true;
 		Resources.UnloadUnusedAssets();
 		GC.Collect();
-		Application.LoadLevel(5);
+		Application.LoadLevel(6);
 	}
 
 	void UpdateInsertCoin()
@@ -290,16 +295,16 @@ public class Loading : MonoBehaviour
 			timmerforstar += Time.deltaTime;
 			if(timmerforstar > 1.5f)
 			{
-                StartCoroutine (loadScene((LoadSceneCount % (Application.levelCount - 2)) + 1));
+                StartCoroutine (loadScene((LoadSceneCount % (Application.levelCount - 3)) + 2));
 				timmerstar = false;
                 LoadSceneCount++;
             }
 		}
 	}
 
-	public void SetActiveJiaMiJiaoYan(bool isActive)
+	/*public void SetActiveJiaMiJiaoYan(bool isActive)
 	{
 		m_LastJiaoYanTime = Time.time;
 		m_JiaMiJiaoYanZhong.SetActive(isActive);
-	}
+	}*/
 }

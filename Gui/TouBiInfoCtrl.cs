@@ -58,16 +58,24 @@ public class TouBiInfoCtrl : MonoBehaviour {
 
     // Update is called once per frame
     void Update()
-    {
-        if (pcvr.bIsHardWare) {
+	{
+		if (pcvr.IsTestNoInput)
+		{
+			return;
+		}
+
+        if (pcvr.bIsHardWare)
+		{
 			if (GlobalData.GetInstance().CoinCur != m_InserNum && GameMode == ReadGameInfo.GameMode.Oper.ToString())
             {
 				m_InserNum = GlobalData.GetInstance().CoinCur - 1;
 				OnClickInsertBt();
 			}
 		}
-		else {
-			if (Input.GetKeyDown(KeyCode.T) && GameMode == ReadGameInfo.GameMode.Oper.ToString()) {
+		else
+		{
+			if (Input.GetKeyDown(KeyCode.T) && GameMode == ReadGameInfo.GameMode.Oper.ToString())
+			{
 				OnClickInsertBt();
 			}
 		}
@@ -86,7 +94,7 @@ public class TouBiInfoCtrl : MonoBehaviour {
 		XkGameCtrl.IsLoadingLevel = true;
 		Resources.UnloadUnusedAssets();
 		GC.Collect();
-		Application.LoadLevel(5);
+		Application.LoadLevel(6);
 	}
     
 	void ClickCloseDongGanBtEvent(InputEventCtrl.ButtonState val)

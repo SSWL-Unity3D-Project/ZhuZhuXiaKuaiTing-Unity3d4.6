@@ -1,14 +1,20 @@
-﻿#define USE_JING_RUI4_JIA_MI
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class pcvr : MonoBehaviour
 {
+	/// <summary>
+	/// 是否开启精锐加密校验.
+	/// </summary>
+	public static bool IsOpenJingRuiJiaMi = false;
     /// <summary>
     /// 是否是硬件版.
     /// </summary>
-	static public bool bIsHardWare = true;
+	static public bool bIsHardWare = false;
+	/// <summary>
+	/// 测试去掉输入.
+	/// </summary>
+	public static bool IsTestNoInput = false;
     /// <summary>
     /// 是否校验hid.
     /// </summary>
@@ -32,10 +38,6 @@ public class pcvr : MonoBehaviour
 			{
 				MyCOMDevice.GetInstance();
 			}
-
-			#if USE_JING_RUI4_JIA_MI
-			Instance.StartJingRuiJiaMi();
-			#endif
 		}
 		return Instance;
 	}
@@ -64,38 +66,17 @@ public class pcvr : MonoBehaviour
 //		}
     }
 
-	/// <summary>
-	/// 完整的精锐加密校验,只需要一次成功就行,后面校验时会认为是成功的.
-	/// </summary>
-	public void StartJingRuiJiaMi()
-	{
-		#if USE_JING_RUI4_JIA_MI
-		StartCoroutine(DelayJingRuiJiaMiJiaoYan());
-		#endif
-	}
-
-	IEnumerator DelayJingRuiJiaMiJiaoYan()
-	{
-		if (PlayerControllerForMoiew.GetInstance() != null)
-		{
-			//显示校验中.
-			PlayerControllerForMoiew.GetInstance().mLoading.SetActiveJiaMiJiaoYan(true);
-		}
-		yield return new WaitForSeconds(5f);
-		Debug.Log("Start JingRui JiaMi test...");
-		GameRoot.StartInitialization();
-		StandbyProcess sp = new StandbyProcess();
-		sp.Initialization();
-	}
-
 	public void OnGameOverCheckJingRuiJiaMi()
 	{
-		#if USE_JING_RUI4_JIA_MI
+		if (!IsOpenJingRuiJiaMi)
+		{
+			return;
+		}
+
 		//进入待机画面做一次完全安全验证
 		//如果验证失败了游戏就会被挂起
 		//做校验
 		GameRoot.CheckCipherText(StandbyProcess.VerifyEnvironmentKey_LogoVideo);
-		#endif//_IgnoreVerify
 	}
 
     /// <summary>
@@ -256,9 +237,9 @@ public class pcvr : MonoBehaviour
 			}
 		}
 
-		if (Time.time - m_TimeDongGanBtLed > 0.25f)
+		if (Time.realtimeSinceStartup - m_TimeDongGanBtLed > 0.25f)
 		{
-			m_TimeDongGanBtLed = Time.time;
+			m_TimeDongGanBtLed = Time.realtimeSinceStartup;
 			mPcvrTXManage.LedState[0] = !mPcvrTXManage.LedState[0];
 		}
 	}

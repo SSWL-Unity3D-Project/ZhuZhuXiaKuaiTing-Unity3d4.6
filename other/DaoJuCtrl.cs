@@ -76,7 +76,7 @@ public class DaoJuCtrl : MonoBehaviour
 
     void Update()
     {
-		if (Application.loadedLevel == 0)
+		if (Application.loadedLevel == 1)
 		{
 			return;
 		}

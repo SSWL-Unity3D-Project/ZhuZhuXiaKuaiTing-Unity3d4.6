@@ -34,10 +34,10 @@ public class LoadingTest : MonoBehaviour {
 				//Debug.Log("loadedLevel === "+Application.loadedLevel);
 				if (!XkGameCtrl.IsLoadingLevel) {
 					if (Application.loadedLevel < 4) {
-						Application.LoadLevel(4);
+						Application.LoadLevel(5);
 					}
 					else {
-						Application.LoadLevel(0);
+						Application.LoadLevel(1);
 					}
 				}
 				yield break;
